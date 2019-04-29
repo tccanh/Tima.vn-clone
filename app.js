@@ -7,9 +7,13 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const cloudinary = require('cloudinary');
+const formData = require('express-form-data');
 
 const indexRouter = require('./routes/index');
+const uploadRouter = require('./routes/common/imageUpload');
 const usersRouter = require('./routes/user.route');
+const profilesRouter = require('./routes/api/profile.route');
 
 // Database config
 const SecretKey = require('./configs/server.config');
@@ -21,12 +25,18 @@ mongoose
 
 const app = express();
 
+// Passport middleware
+app.use(passport.initialize());
+// Passport Config
+require('./configs/passport')(passport);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(formData.parse());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,8 +45,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Config cloudinary
+cloudinary.config(SecretKey.CLODINARY_CONFIG);
+
 app.use('/', indexRouter);
+app.use('/', uploadRouter);
 app.use('/users', usersRouter);
+app.use('/api/profile', profilesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
