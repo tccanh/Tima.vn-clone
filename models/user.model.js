@@ -12,19 +12,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+
   password: {
     type: String,
     required: true
-  },
-  address: {
-    province: {
-      type: String,
-      required: true
-    },
-    district: {
-      type: String,
-      required: true
-    }
   },
   typeOfAcc: {
     type: String,

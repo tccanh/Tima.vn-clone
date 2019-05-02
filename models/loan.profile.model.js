@@ -1,12 +1,32 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-
-const ProfileSchema = new Schema({
+// Tài khoản dành cho người cho vay
+const LoanProfileSchema = new Schema({
   // Thông tin chung
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
+  },
+  avatar: {
+    type: String
+  },
+  // Số dư trong tài khoản
+  balance: { type: String, default: '0' },
+  // Thông tin liên quan đến vay nợ
+
+  typeOfCredit: {
+    type: String,
+    enum: ['bank', 'personal'],
+    default: 'personal',
+    required: true
+  },
+  CMND: {
+    type: String
+  },
+  DateOfBirth: {
+    type: Date,
+    default: Date.now()
   },
   gender: {
     type: String,
@@ -14,29 +34,15 @@ const ProfileSchema = new Schema({
     enum: ['Male', 'Female', 'Other'],
     default: 'Other'
   },
-  DateOfBirth: {
-    type: Date
-    // required: true
-  },
-  avatar: {
+  email: {
     type: String
   },
-  censorship: {
-    // Chứng minh thư nhân dân ID
-    identification: { type: String },
-    // Ảnh chân dung
-    portrait: { type: String }
-  },
-
-  // Details address
   address: {
     province: { type: String }, // Tỉnh
     district: { type: String }, // Huyện
     ward: { type: String }, // Phường
     details: { type: String } // Mô tả thêm
   },
-  // Thông tin liên quan đến vay nợ
-
   // CÁC GÓI SẢN PHẨM BẠN NHẬN ĐƠN VAY
   //   Vay tín chấp theo lương
   //   Vay theo đăng ký xe máy
@@ -47,15 +53,21 @@ const ProfileSchema = new Schema({
   //   Vay theo hóa đơn điện nước
   packages: {
     type: Array,
-    required: true
+    required: true,
+    default: []
   },
-  // Số dư trong tài khoản
-  balance: { type: String, default: '0' },
+  // chỉ lưu ảnh
+  censorship: {
+    // Chứng minh thư nhân dân ID
+    identification: { type: Array },
+    // Ảnh chân dung
+    portrait: { type: Array }
+  },
   // Trạng thái tài khoản đã xác thực
   authenticated: {
     type: Boolean,
     default: false
   }
 });
-const Profile = mongoose.model('profiles', ProfileSchema);
+const Profile = mongoose.model('loanprofiles', LoanProfileSchema);
 module.exports = Profile;

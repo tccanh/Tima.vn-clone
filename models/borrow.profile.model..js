@@ -8,6 +8,9 @@ const BorrowProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  avatar: {
+    type: String
+  },
   CMND: {
     type: String
   },

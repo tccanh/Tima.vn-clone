@@ -6,20 +6,25 @@ const isEmpty = require('./is-empty');
 module.exports = data => {
   const errors = {};
 
-  data.gender = !isEmpty(data.gender) ? data.gender : '';
-  data.DateOfBirth = !isEmpty(data.DateOfBirth) ? data.DateOfBirth : '';
   data.avatar = !isEmpty(data.avatar) ? data.avatar : '';
-  data.identification = !isEmpty(data.identification)
-    ? data.identification
-    : '';
-  data.portrait = !isEmpty(data.portrait) ? data.portrait : '';
+  data.typeOfCredit = !isEmpty(data.typeOfCredit) ? data.typeOfCredit : '';
+  data.CMND = !isEmpty(data.CMND) ? data.CMND : '';
+  data.DateOfBirth = !isEmpty(data.DateOfBirth) ? data.DateOfBirth : '';
+  data.gender = !isEmpty(data.gender) ? data.gender : '';
+  data.email = !isEmpty(data.email) ? data.email : '';
+  //
   data.province = !isEmpty(data.province) ? data.province : '';
   data.district = !isEmpty(data.district) ? data.district : '';
   data.ward = !isEmpty(data.ward) ? data.ward : '';
   data.details = !isEmpty(data.details) ? data.details : '';
   //
   data.packages = !isEmpty(data.packages) ? data.packages : [];
-  data.balance = !isEmpty(data.balance) ? data.balance : '';
+  //
+  data.identification = !isEmpty(data.identification)
+    ? data.identification
+    : '';
+  data.portrait = !isEmpty(data.portrait) ? data.portrait : '';
+  //
   data.authenticated = !isEmpty(data.authenticated)
     ? data.authenticated
     : false;
@@ -40,14 +45,17 @@ module.exports = data => {
   if (!Validator.isURL(data.avatar) && !Validator.isEmpty(data.avatar)) {
     errors.avatar = 'Avatar is invalid';
   }
-  if (
-    !Validator.isURL(data.identification) &&
-    !Validator.isEmpty(data.identification)
-  ) {
-    errors.identification = 'Identification photo is invalid';
-  }
-  if (!Validator.isURL(data.portrait) && !Validator.isEmpty(data.portrait)) {
-    errors.identification = 'Portrait photo is invalid';
+  // if (
+  //   !Validator.isURL(data.identification) &&
+  //   !Validator.isEmpty(data.identification)
+  // ) {
+  //   errors.identification = 'Identification photo is invalid';
+  // }
+  // if (!Validator.isURL(data.portrait) && !Validator.isEmpty(data.portrait)) {
+  //   errors.identification = 'Portrait photo is invalid';
+  // }
+  if (!Validator.isEmail(data.email) && !Validator.isEmpty(data.email)) {
+    errors.identification = 'Email is invalid';
   }
   return {
     errors,

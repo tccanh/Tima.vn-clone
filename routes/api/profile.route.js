@@ -1,19 +1,22 @@
+/* eslint-disable consistent-return */
 const express = require('express');
 
 const passport = require('passport');
 
-const validateProfileInput = require('../../validation/profile');
+const validateLoanProfileInput = require('../../validation/loan.profile');
+const validateBorrowProfileInput = require('../../validation/borrow.profile');
 
 const router = express.Router();
-const Profile = require('../../models/profile.model');
+const LoanProfile = require('../../models/loan.profile.model');
+const BorrowProfile = require('../../models/borrow.profile.model.');
 const User = require('../../models/user.model');
 
-// Tạo hoặc sửa profile
+// Tạo hoặc sửa profile người cho vay tiền
 router.post(
-  '/',
+  '/loan',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { errors, isValid } = validateProfileInput(req.body);
+    const { errors, isValid } = validateLoanProfileInput(req.body);
 
     // Check Validation
     if (!isValid) {
@@ -24,37 +27,43 @@ router.post(
     const profileFields = {};
 
     const {
-      gender,
-      DateOfBirth,
       avatar,
-      identification,
-      portrait,
+      typeOfCredit,
+      CMND,
+      DateOfBirth,
+      gender,
+      email,
       province,
       district,
       ward,
       details,
-      packages
-    } = req.body;
-    profileFields.user = req.user.id;
-    profileFields.gender = gender;
-    profileFields.DateOfBirth = DateOfBirth;
-    profileFields.avatar = avatar;
-    profileFields.censorship = {
+      packages,
       identification,
       portrait
-    };
+    } = req.body;
+    profileFields.user = req.user.id;
+    profileFields.avatar = avatar;
+    profileFields.typeOfCredit = typeOfCredit;
+    profileFields.CMND = CMND;
+    profileFields.DateOfBirth = DateOfBirth;
+    profileFields.gender = gender;
+    profileFields.email = email;
     profileFields.address = {
       province,
       district,
       ward,
       details
     };
+    profileFields.censorship = {
+      identification,
+      portrait
+    };
     profileFields.packages = packages;
     try {
-      const oldProfile = await Profile.findOne({ user: req.user.id });
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
       if (oldProfile) {
         // Update
-        const oldProfileUpdate = await Profile.findOneAndUpdate(
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
           { new: true }
@@ -62,7 +71,80 @@ router.post(
         return res.json(oldProfileUpdate);
       }
       // Create
-      const newProfile = await new Profile(profileFields).save();
+      const newProfile = await new LoanProfile(profileFields).save();
+      return res.json(newProfile);
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+// Tạo hoặc sửa profile người vay tiền
+router.post(
+  '/borrow',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { errors, isValid } = validateBorrowProfileInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    // Get fields
+    const profileFields = {};
+
+    const {
+      avatar,
+      CMND,
+      DateOfBirth,
+      gender,
+      email,
+      province,
+      district,
+      ward,
+      details,
+      comName,
+      comAddress,
+      comPhone,
+      identification,
+      portrait,
+      income
+    } = req.body;
+    profileFields.user = req.user.id;
+    profileFields.avatar = avatar;
+    profileFields.CMND = CMND;
+    profileFields.DateOfBirth = DateOfBirth;
+    profileFields.gender = gender;
+    profileFields.email = email;
+    profileFields.address = {
+      province,
+      district,
+      ward,
+      details
+    };
+    profileFields.company = {
+      comName,
+      comAddress,
+      comPhone
+    };
+    profileFields.censorship = {
+      identification,
+      portrait,
+      income
+    };
+    try {
+      const oldProfile = await BorrowProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        // Update
+        const oldProfileUpdate = await BorrowProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+      // Create
+      const newProfile = await new BorrowProfile(profileFields).save();
       return res.json(newProfile);
     } catch (error) {
       return res.status(500).json('Unknown server error');
@@ -77,11 +159,21 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const user = req.user.id;
-    try {
-      const thisProfile = await Profile.find({ user }).populate('user');
-      return res.json(thisProfile);
-    } catch (error) {
-      return res.status(500).json('Unknown server error');
+    const { typeOfAcc } = req.user;
+    if (typeOfAcc === 'loan') {
+      try {
+        const thisProfile = await LoanProfile.find({ user }).populate('user');
+        return res.json(thisProfile);
+      } catch (error) {
+        return res.status(500).json('Unknown server error');
+      }
+    } else if (typeOfAcc === 'borrow') {
+      try {
+        const thisProfile = await BorrowProfile.find({ user }).populate('user');
+        return res.json(thisProfile);
+      } catch (error) {
+        return res.status(500).json('Unknown server error');
+      }
     }
   }
 );
@@ -91,19 +183,37 @@ router.delete(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const user = req.user.id;
-    try {
-      const thisProfile = await Profile.findOneAndRemove({ user });
-      const thisUser = await User.findByIdAndRemove(user);
+    const { typeOfAcc } = req.user;
+    if (typeOfAcc === 'loan') {
+      try {
+        const thisProfile = await LoanProfile.findOneAndRemove({ user });
+        const thisUser = await User.findByIdAndRemove(user);
 
-      if (!thisProfile) {
-        return res.status(404).json('Not Found Profile Error');
+        if (!thisProfile) {
+          return res.status(404).json('Not Found Profile Error');
+        }
+        if (!thisUser) {
+          return res.status(404).json('Not Found User Error');
+        }
+        return res.status(204).json({ success: true }); // Status 204 is nocontent
+      } catch (err) {
+        return res.status(500).json('Unknown server error');
       }
-      if (!thisUser) {
-        return res.status(404).json('Not Found User Error');
+    } else if (typeOfAcc === 'borrow') {
+      try {
+        const thisProfile = await BorrowProfile.findOneAndRemove({ user });
+        const thisUser = await User.findByIdAndRemove(user);
+
+        if (!thisProfile) {
+          return res.status(404).json('Not Found Profile Error');
+        }
+        if (!thisUser) {
+          return res.status(404).json('Not Found User Error');
+        }
+        return res.status(204).json({ success: true }); // Status 204 is nocontent
+      } catch (err) {
+        return res.status(500).json('Unknown server error');
       }
-      return res.status(204).json({ success: true }); // Status 204 is nocontent
-    } catch (err) {
-      return res.status(500).json('Unknown server error');
     }
   }
 );
