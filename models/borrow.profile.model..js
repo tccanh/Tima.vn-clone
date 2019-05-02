@@ -14,6 +14,8 @@ const BorrowProfileSchema = new Schema({
   CMND: {
     type: String
   },
+  income: String,
+
   DateOfBirth: {
     type: Date,
     default: Date.now()
@@ -41,14 +43,19 @@ const BorrowProfileSchema = new Schema({
     comAddress: String,
     comPhone: String
   },
+  relatives: {
+    relName: String,
+    whatRels: String,
+    relPhone: String
+  },
   // chỉ lưu ảnh
   censorship: {
     // Chứng minh thư nhân dân ID
-    identification: { type: Array },
+    cmndPhoto: { type: Array },
     // Ảnh chân dung
-    portrait: { type: Array },
+    portraitPhoto: { type: Array },
     // thu nhập
-    income: { type: Array }
+    incomePhoto: { type: Array }
   },
   // Trạng thái tài khoản đã xác thực
   authenticated: {

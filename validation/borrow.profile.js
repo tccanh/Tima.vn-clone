@@ -8,6 +8,7 @@ module.exports = data => {
 
   data.avatar = !isEmpty(data.avatar) ? data.avatar : '';
   data.CMND = !isEmpty(data.CMND) ? data.CMND : '';
+  data.income = !isEmpty(data.income) ? data.income : '';
   data.DateOfBirth = !isEmpty(data.DateOfBirth) ? data.DateOfBirth : '';
   data.gender = !isEmpty(data.gender) ? data.gender : '';
   data.email = !isEmpty(data.email) ? data.email : '';
@@ -22,11 +23,14 @@ module.exports = data => {
   data.comAddress = !isEmpty(data.comAddress) ? data.comAddress : '';
   data.comPhone = !isEmpty(data.comPhone) ? data.comPhone : '';
 
-  data.identification = !isEmpty(data.identification)
-    ? data.identification
-    : '';
-  data.portrait = !isEmpty(data.portrait) ? data.portrait : '';
-  data.income = !isEmpty(data.income) ? data.income : '';
+  data.relName = !isEmpty(data.relName) ? data.relName : '';
+  data.whatRels = !isEmpty(data.whatRels) ? data.whatRels : '';
+  data.relPhone = !isEmpty(data.relPhone) ? data.relPhone : '';
+
+  data.cmndPhoto = !isEmpty(data.cmndPhoto) ? data.cmndPhoto : '';
+  data.portraitPhoto = !isEmpty(data.portraitPhoto) ? data.portraitPhoto : '';
+  data.incomePhoto = !isEmpty(data.incomePhoto) ? data.incomePhoto : '';
+
   data.authenticated = !isEmpty(data.authenticated)
     ? data.authenticated
     : false;
@@ -60,6 +64,9 @@ module.exports = data => {
   // if (!Validator.isURL(data.income) && !Validator.isEmpty(data.income)) {
   //   errors.identification = 'Portrait photo is invalid';
   // }
+  if (!Validator.isEmail(data.email) && !Validator.isEmpty(data.email)) {
+    errors.email = 'Email is invalid';
+  }
   return {
     errors,
     isValid: isEmpty(errors)

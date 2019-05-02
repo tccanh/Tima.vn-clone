@@ -96,6 +96,7 @@ router.post(
     const {
       avatar,
       CMND,
+      income,
       DateOfBirth,
       gender,
       email,
@@ -103,16 +104,21 @@ router.post(
       district,
       ward,
       details,
+      career,
       comName,
       comAddress,
       comPhone,
-      identification,
-      portrait,
-      income
+      relName,
+      whatRels,
+      relPhone,
+      cmndPhoto,
+      portraitPhoto,
+      incomePhoto
     } = req.body;
     profileFields.user = req.user.id;
     profileFields.avatar = avatar;
     profileFields.CMND = CMND;
+    profileFields.income = income;
     profileFields.DateOfBirth = DateOfBirth;
     profileFields.gender = gender;
     profileFields.email = email;
@@ -122,15 +128,21 @@ router.post(
       ward,
       details
     };
+    profileFields.career = career;
     profileFields.company = {
       comName,
       comAddress,
       comPhone
     };
+    profileFields.relatives = {
+      relName,
+      whatRels,
+      relPhone
+    };
     profileFields.censorship = {
-      identification,
-      portrait,
-      income
+      cmndPhoto,
+      portraitPhoto,
+      incomePhoto
     };
     try {
       const oldProfile = await BorrowProfile.findOne({ user: req.user.id });

@@ -14,6 +14,8 @@ const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/common/imageUpload');
 const usersRouter = require('./routes/user.route');
 const profilesRouter = require('./routes/api/profile.route');
+const borrowRouter = require('./routes/api/borrow.route');
+const loanRouter = require('./routes/api/loan.route');
 
 // Database config
 const SecretKey = require('./configs/server.config');
@@ -52,6 +54,8 @@ app.use('/', indexRouter);
 app.use('/', uploadRouter);
 app.use('/users', usersRouter);
 app.use('/api/profile', profilesRouter);
+app.use('/api/borrow', borrowRouter);
+app.use('/api/loan', loanRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -59,7 +63,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
