@@ -69,5 +69,5 @@ const LoanProfileSchema = new Schema({
     default: false
   }
 });
-const Profile = mongoose.model('loanprofiles', LoanProfileSchema);
+const Profile = mongoose.model('loanProfiles', LoanProfileSchema);
 module.exports = Profile;

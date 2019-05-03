@@ -63,5 +63,5 @@ const BorrowProfileSchema = new Schema({
     default: false
   }
 });
-const Profile = mongoose.model('borrowprofiles', BorrowProfileSchema);
+const Profile = mongoose.model('borrowProfiles', BorrowProfileSchema);
 module.exports = Profile;
