@@ -8,12 +8,34 @@ const validatePersonalLoanInput = require('../../validation/personal.loan');
 
 const router = express.Router();
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Express' });
+//  Lấy danh sách các đơn hiện tại của bản thân
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    const user = req.user.id;
+
+    const mortgagePost = await MortgageModel.findOne({ user });
+    const personalPost = await PersonalModel.findOne({ user });
+    Promise.all([mortgagePost, personalPost])
+      .then(val => res.json(val))
+      .catch(err => console.log(err));
+  }
+);
+// get đơn vay thế chấp
+router.get('/mortgage', async (req, res, next) => {
+  MortgageModel.find()
+    .then(val => res.json(val))
+    .catch(err => console.log(err));
+});
+// get đơn vay cá nhân
+router.get('/personal', async (req, res, next) => {
+  PersonalModel.find()
+    .then(val => res.json(val))
+    .catch(err => console.log(err));
 });
 
-//
+// đăng bài vay thế chấp
 router.post(
   '/mortgage',
   passport.authenticate('jwt', { session: false }),
@@ -106,6 +128,7 @@ router.post(
   }
 );
 
+// Đăng bài vay cá nhân
 router.post(
   '/personal',
   passport.authenticate('jwt', { session: false }),
@@ -195,8 +218,47 @@ router.post(
       const newProfile = await new PersonalModel(personalFields).save();
       return res.json(newProfile);
     } catch (error) {
-      return res.status(500).json('Unknown server error');
+      return res.status(500).json('Unknown server error', error);
     }
   }
 );
+
+// Update state cho bài đăng
+router.post(
+  '/:type/:id/:state',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { type, state, id } = req.params;
+    try {
+      if (type === 'persional') {
+        const perUpdate = await PersonalModel.findOneAndUpdate(
+          { _id: id },
+          { state },
+          { new: true }
+        );
+        if (!perUpdate) {
+          return res.status(404).json('PersonalModel not found for this ID');
+        }
+        return res.status(200).json(perUpdate);
+      }
+      if (type === 'mortgage') {
+        const mortUpdate = await MortgageModel.findOneAndUpdate(
+          { _id: id },
+          { state },
+          { new: true }
+        );
+        if (!mortUpdate) {
+          return res.status(404).json('MortgageModel not found for this ID');
+        }
+        return res.status(200).json(mortUpdate);
+      }
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send('Duplicate key', err);
+      }
+      res.status(500).send(err);
+    }
+  }
+);
+
 module.exports = router;

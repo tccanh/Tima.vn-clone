@@ -8,6 +8,12 @@ const PersonalLoanSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  state: {
+    type: String,
+    required: true,
+    // enum: [],
+    default: 'Chưa duyệt'
+  },
   // Loại vay cá nhân
   typeOf: {
     type: String,

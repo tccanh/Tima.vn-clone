@@ -8,6 +8,13 @@ const MortgageLoanSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  // Trạng thái hiện tại của đơn vay
+  state: {
+    type: String,
+    required: true,
+    // enum: [],
+    default: 'Chưa duyệt'
+  },
   // Loaị thế chấp
   typeOf: {
     type: String,
