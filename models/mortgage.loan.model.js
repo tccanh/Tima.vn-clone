@@ -8,6 +8,11 @@ const MortgageLoanSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  // Loaị thế chấp
+  typeOf: {
+    type: String,
+    required: true
+  },
   // Số tiền vay
   loan: {
     type: Number,
@@ -25,15 +30,19 @@ const MortgageLoanSchema = new Schema({
     }
   },
   address: {
-    province: { type: String }, // Tỉnh
-    district: { type: String } // Huyện
+    province: {
+      type: String,
+      required: true
+    }, // Tỉnh
+    district: {
+      type: String,
+      required: true
+    } // Huyện
   },
   personalInfo: {
     gender: {
       type: String,
-      required: true,
-      enum: ['Male', 'Female', 'Other'],
-      default: 'Other'
+      enum: ['Male', 'Female', 'Other']
     },
     CMND: {
       type: String

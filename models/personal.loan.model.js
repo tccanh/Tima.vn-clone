@@ -8,6 +8,11 @@ const PersonalLoanSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  // Loại vay cá nhân
+  typeOf: {
+    type: String,
+    required: true
+  },
   // Số tiền vay
   loan: {
     type: Number,
@@ -25,15 +30,19 @@ const PersonalLoanSchema = new Schema({
     }
   },
   address: {
-    province: { type: String }, // Tỉnh
-    district: { type: String } // Huyện
+    province: {
+      type: String,
+      required: true
+    }, // Tỉnh
+    district: {
+      type: String,
+      required: true
+    } // Huyện
   },
   personalInfo: {
     gender: {
       type: String,
-      required: true,
-      enum: ['Male', 'Female', 'Other'],
-      default: 'Other'
+      enum: ['Male', 'Female', 'Other']
     },
     CMND: {
       type: String
@@ -76,7 +85,7 @@ const PersonalLoanSchema = new Schema({
     field5: String,
 
     // có đang vay ở nơi khác hay không
-    areBorrowing: Boolean
+    areBorrowing: String
   },
   relatives: {
     relName: String,
