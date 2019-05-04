@@ -8,7 +8,7 @@ const validateBorrowProfileInput = require('../../validation/borrow.profile');
 
 const router = express.Router();
 const LoanProfile = require('../../models/loan.profile.model');
-const BorrowProfile = require('../../models/borrow.profile.model.');
+const BorrowProfile = require('../../models/borrow.profile.model');
 const User = require('../../models/user.model');
 
 // Tạo hoặc sửa profile người cho vay tiền
@@ -140,9 +140,9 @@ router.post(
       relPhone
     };
     profileFields.censorship = {
-      cmndPhoto,
-      portraitPhoto,
-      incomePhoto
+      cmndPhoto: [...cmndPhoto],
+      portraitPhoto: [...portraitPhoto],
+      incomePhoto: [...incomePhoto]
     };
     try {
       const oldProfile = await BorrowProfile.findOne({ user: req.user.id });

@@ -12,7 +12,11 @@ const LoanProfileSchema = new Schema({
     type: String
   },
   // Số dư trong tài khoản
-  balance: { type: String, default: '0' },
+  balance: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   // Thông tin liên quan đến vay nợ
 
   typeOfCredit: {

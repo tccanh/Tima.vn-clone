@@ -56,6 +56,10 @@ module.exports = data => {
   }
   if (Validator.isEmpty(data.CMND)) {
     errors.CMND = 'CMND field is required';
+  } else if (!Validator.isNumeric(data.CMND)) {
+    errors.CMND = 'CMND field must be numeric';
+  } else if (!Validator.isLength(data.CMND, { min: 9, max: 9 })) {
+    errors.CMND = 'CMND field is invalid';
   }
   if (!Validator.isEmpty(data.email) && Validator.isEmail(data.email)) {
     errors.email = 'email field is invalid';

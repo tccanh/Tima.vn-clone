@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 const User = require('../models/user.model');
-const BorrowProfile = require('../models/borrow.profile.model.');
+const BorrowProfile = require('../models/borrow.profile.model');
 const LoanProfile = require('../models/loan.profile.model');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');

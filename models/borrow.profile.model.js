@@ -51,11 +51,20 @@ const BorrowProfileSchema = new Schema({
   // chỉ lưu ảnh
   censorship: {
     // Chứng minh thư nhân dân ID
-    cmndPhoto: { type: Array },
+    cmndPhoto: {
+      type: Array,
+      default: []
+    },
     // Ảnh chân dung
-    portraitPhoto: { type: Array },
+    portraitPhoto: {
+      type: Array,
+      default: []
+    },
     // thu nhập
-    incomePhoto: { type: Array }
+    incomePhoto: {
+      type: Array,
+      default: []
+    }
   },
   // Trạng thái tài khoản đã xác thực
   authenticated: {

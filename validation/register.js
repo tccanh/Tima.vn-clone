@@ -27,6 +27,10 @@ module.exports = data => {
   }
   if (Validator.isEmpty(data.phone)) {
     errors.phone = 'Phone field is required';
+  } else if (!Validator.isNumeric(data.phone)) {
+    errors.phone = 'Phone field must be numeric';
+  } else if (!Validator.isLength(data.phone, { min: 10, max: 10 })) {
+    errors.phone = 'Phone field is invalid';
   }
   if (Validator.isEmpty(data.province)) {
     errors.province = 'Province field is required';

@@ -257,12 +257,13 @@ router.post(
 
 // Update state cho bài đăng
 router.post(
-  '/:type/:id/:state',
+  '/:type/:id',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { type, state, id } = req.params;
+    const { type, id } = req.params;
+    const { state } = req.body;
     try {
-      if (type === 'persional') {
+      if (type === 'personal') {
         const perUpdate = await PersonalModel.findOneAndUpdate(
           { _id: id },
           { state },
