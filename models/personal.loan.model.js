@@ -31,7 +31,7 @@ const PersonalLoanSchema = new Schema({
       default: Date.now()
     },
     duration: {
-      type: Number,
+      type: String,
       required: true
     }
   },
@@ -100,13 +100,25 @@ const PersonalLoanSchema = new Schema({
   },
   censorship: {
     // Chứng minh thư nhân dân ID
-    cmndPhoto: { type: Array },
+    cmndPhoto: {
+      type: Array,
+      default: []
+    },
     // ảnh hộ khẩu, cư trú
-    householdPhoto: Array,
+    householdPhoto: {
+      type: Array,
+      default: []
+    },
     // ảnh tài sản
-    propertyPhoto: Array,
+    propertyPhoto: {
+      type: Array,
+      default: []
+    },
     // thu nhập
-    incomePhoto: { type: Array }
+    incomePhoto: {
+      type: Array,
+      default: []
+    }
   }
 });
 const PersonalLoan = mongoose.model('personalLoans', PersonalLoanSchema);

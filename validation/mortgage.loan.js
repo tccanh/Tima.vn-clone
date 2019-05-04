@@ -7,7 +7,7 @@ module.exports = data => {
   data.typeOf = !isEmpty(data.typeOf) ? data.typeOf : '';
   data.loan = !isEmpty(data.loan) ? data.loan : '';
   // data.fromDate = !isEmpty(data.fromDate) ? data.fromDate : '';
-  data.duration = !isEmpty(data.duration) ? data.duration : 0;
+  data.duration = !isEmpty(data.duration) ? data.duration : '';
   data.province = !isEmpty(data.province) ? data.province : '';
   data.district = !isEmpty(data.district) ? data.district : '';
   data.gender = !isEmpty(data.gender) ? data.gender : '';
@@ -57,8 +57,8 @@ module.exports = data => {
   if (Validator.isEmpty(data.CMND)) {
     errors.CMND = 'CMND field is required';
   }
-  if (Validator.isEmpty(data.email)) {
-    errors.email = 'email field is required';
+  if (!Validator.isEmpty(data.email) && Validator.isEmail(data.email)) {
+    errors.email = 'email field is invalid';
   }
   if (Validator.isEmpty(data.career)) {
     errors.career = 'career field is required';

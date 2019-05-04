@@ -12,7 +12,7 @@ const router = express.Router();
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
+  async (req, res) => {
     const user = req.user.id;
 
     const mortgagePost = await MortgageModel.findOne({ user });
@@ -23,13 +23,13 @@ router.get(
   }
 );
 // get đơn vay thế chấp
-router.get('/mortgage', async (req, res, next) => {
+router.get('/mortgage', async (req, res) => {
   MortgageModel.find()
     .then(val => res.json(val))
     .catch(err => console.log(err));
 });
 // get đơn vay cá nhân
-router.get('/personal', async (req, res, next) => {
+router.get('/personal', async (req, res) => {
   PersonalModel.find()
     .then(val => res.json(val))
     .catch(err => console.log(err));
@@ -82,48 +82,66 @@ router.post(
       incomePhoto
     } = req.body;
     mortgageFields.user = req.user.id;
-    mortgageFields.typeOf = typeOf;
-    mortgageFields.loan = loan;
-    mortgageFields.date.fromDate = fromDate;
-    mortgageFields.date.duration = duration;
-    mortgageFields.address.province = province;
-    mortgageFields.address.district = district;
+    if (typeOf) mortgageFields.typeOf = typeOf;
+    if (loan) mortgageFields.loan = parseInt(loan, 10);
 
-    mortgageFields.personalInfo.gender = gender;
-    mortgageFields.personalInfo.CMND = CMND;
-    mortgageFields.personalInfo.DateOfBirth = DateOfBirth;
-    mortgageFields.personalInfo.email = email;
+    mortgageFields.date = {
+      duration,
+      fromDate
+    };
+    mortgageFields.address = {
+      province,
+      district
+    };
 
-    mortgageFields.careerInfo.career = career;
-    mortgageFields.careerInfo.income = income;
-    mortgageFields.careerInfo.comName = comName;
-    mortgageFields.careerInfo.comAddress = comAddress;
-    mortgageFields.careerInfo.comPhone = comPhone;
+    mortgageFields.personalInfo = {
+      gender,
+      CMND,
+      DateOfBirth,
+      email
+    };
 
-    mortgageFields.bank.bankName = bankName;
-    mortgageFields.bank.bankID = bankID;
+    mortgageFields.careerInfo = {
+      career,
+      income,
+      comName,
+      comAddress,
+      comPhone
+    };
 
-    mortgageFields.property.namePro = namePro;
-    mortgageFields.property.brandPro = brandPro;
-    mortgageFields.property.yearPro = yearPro;
-    mortgageFields.property.MadeInPro = MadeInPro;
-    mortgageFields.property.describePro = describePro;
+    mortgageFields.bank = {
+      bankName,
+      bankID
+    };
 
-    mortgageFields.relatives.relName = relName;
-    mortgageFields.relatives.whatRels = whatRels;
-    mortgageFields.relatives.relPhone = relPhone;
+    mortgageFields.property = {
+      namePro,
+      brandPro,
+      yearPro,
+      MadeInPro,
+      describePro
+    };
 
-    mortgageFields.censorship.cmndPhoto = cmndPhoto;
-    mortgageFields.censorship.householdPhoto = householdPhoto;
-    mortgageFields.censorship.propertyPhoto = propertyPhoto;
-    mortgageFields.censorship.incomePhoto = incomePhoto;
+    mortgageFields.relatives = {
+      relName,
+      whatRels,
+      relPhone
+    };
+    mortgageFields.censorship = {
+      cmndPhoto: [...cmndPhoto],
+      householdPhoto: [...householdPhoto],
+      propertyPhoto: [...propertyPhoto],
+      incomePhoto: [...incomePhoto]
+    };
 
     try {
       // Create
       const newProfile = await new MortgageModel(mortgageFields).save();
       return res.json(newProfile);
     } catch (error) {
-      return res.status(500).json('Unknown server error');
+      console.log(error);
+
+      return res.json('Unknown server error');
     }
   }
 );
@@ -176,42 +194,56 @@ router.post(
       incomePhoto
     } = req.body;
     personalFields.user = req.user.id;
-    personalFields.typeOf = typeOf;
-    personalFields.loan = loan;
-    personalFields.date.fromDate = fromDate;
-    personalFields.date.duration = duration;
-    personalFields.address.province = province;
-    personalFields.address.district = district;
+    if (typeOf) personalFields.typeOf = typeOf;
+    if (loan) personalFields.loan = parseInt(loan, 10);
+    personalFields.date = {
+      fromDate,
+      duration
+    };
+    personalFields.address = {
+      province,
+      district
+    };
 
-    personalFields.personalInfo.gender = gender;
-    personalFields.personalInfo.CMND = CMND;
-    personalFields.personalInfo.DateOfBirth = DateOfBirth;
-    personalFields.personalInfo.email = email;
+    personalFields.personalInfo = {
+      gender,
+      CMND,
+      DateOfBirth,
+      email
+    };
 
-    personalFields.careerInfo.career = career;
-    personalFields.careerInfo.income = income;
-    personalFields.careerInfo.comName = comName;
-    personalFields.careerInfo.comAddress = comAddress;
-    personalFields.careerInfo.comPhone = comPhone;
+    personalFields.careerInfo = {
+      career,
+      income,
+      comName,
+      comAddress,
+      comPhone
+    };
 
-    personalFields.bank.bankName = bankName;
-    personalFields.bank.bankID = bankID;
+    personalFields.bank = {
+      bankName,
+      bankID
+    };
 
-    personalFields.property.field1 = field1;
-    personalFields.property.field2 = field2;
-    personalFields.property.field3 = field3;
-    personalFields.property.field4 = field4;
-    personalFields.property.field5 = field5;
-    personalFields.property.areBorrowing = areBorrowing;
-
-    personalFields.relatives.relName = relName;
-    personalFields.relatives.whatRels = whatRels;
-    personalFields.relatives.relPhone = relPhone;
-
-    personalFields.censorship.cmndPhoto = cmndPhoto;
-    personalFields.censorship.householdPhoto = householdPhoto;
-    personalFields.censorship.propertyPhoto = propertyPhoto;
-    personalFields.censorship.incomePhoto = incomePhoto;
+    personalFields.property = {
+      field1,
+      field2,
+      field3,
+      field4,
+      field5,
+      areBorrowing
+    };
+    personalFields.relatives = {
+      relName,
+      whatRels,
+      relPhone
+    };
+    personalFields.censorship = {
+      cmndPhoto: [...cmndPhoto],
+      householdPhoto: [...householdPhoto],
+      propertyPhoto: [...propertyPhoto],
+      incomePhoto: [...incomePhoto]
+    };
 
     try {
       // Create
