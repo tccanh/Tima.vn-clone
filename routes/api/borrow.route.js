@@ -84,7 +84,7 @@ router.post(
     mortgageFields.user = req.user.id;
     if (typeOf) mortgageFields.typeOf = typeOf;
     if (loan) mortgageFields.loan = parseInt(loan, 10);
-
+    mortgageFields.state = 'PENDING';
     mortgageFields.date = {
       duration,
       fromDate
@@ -196,6 +196,7 @@ router.post(
     personalFields.user = req.user.id;
     if (typeOf) personalFields.typeOf = typeOf;
     if (loan) personalFields.loan = parseInt(loan, 10);
+    personalFields.state = 'PENDING';
     personalFields.date = {
       fromDate,
       duration

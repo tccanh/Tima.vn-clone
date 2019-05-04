@@ -9,11 +9,29 @@ const MortgageLoanSchema = new Schema({
     ref: 'users'
   },
   // Trạng thái hiện tại của đơn vay
+  // chờ xét duyệt, đã mua, đã giải ngân, đã huỷ
   state: {
     type: String,
     required: true,
-    // enum: [],
-    default: 'Chưa duyệt'
+    enum: ['PENDING', 'PURCHASED', 'DISBURSED', 'CANCELED'],
+    default: 'PENDING'
+  },
+  purchaser: {
+    type: Schema.Types.ObjectId,
+    ref: 'users'
+  },
+  // Giá một bài đăng
+  price: {
+    initial: {
+      type: Number,
+      default: 25000,
+      required: true
+    },
+    discount: {
+      type: Number,
+      default: 1,
+      required: true
+    }
   },
   // Loaị thế chấp
   typeOf: {

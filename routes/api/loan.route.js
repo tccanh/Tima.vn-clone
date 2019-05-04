@@ -11,8 +11,14 @@ const router = express.Router();
 
 // Tìm tất cả các bài viết và cho xem tổng quan
 router.get('/', async (req, res) => {
-  const mortgagePost = await MortgageModel.find().populate('user');
-  const personalPost = await PersonalModel.find().populate('user');
+  const mortgagePost = await MortgageModel.find()
+    .where('state')
+    .equals('PENDING')
+    .populate('user');
+  const personalPost = await PersonalModel.find()
+    .where('state')
+    .equals('PENDING')
+    .populate('user');
   Promise.all([mortgagePost, personalPost])
     .then(val => {
       const overviewMor = val[0].map(mor => ({
@@ -45,7 +51,7 @@ router.get('/', async (req, res) => {
         },
         careerInfo: { ...per.careerInfo }
       }));
-      res.json({
+      return res.json({
         mortgage: overviewMor,
         personal: overviewPer
       });
@@ -84,10 +90,148 @@ router.get(
 );
 
 // get list những bài đã mua
+router.get('/purchased', async (req, res) => {
+  const purchaser = req.user.id;
+  const mortgagePost = await MortgageModel.findOne({ purchaser });
+  const personalPost = await PersonalModel.findOne({ purchaser });
+  Promise.all([mortgagePost, personalPost])
+    .then(val => res.json(val))
+    .catch(err => console.log(err));
+});
 
-// mua bài đăng này
-
-// Update state cho bài đăng
+// mua một bài đăng
+router.post(
+  '/purchase/:type/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { type, id } = req.params;
+    const purchaser = req.user.id;
+    try {
+      if (type === 'personal') {
+        const perUpdate = await PersonalModel.findOneAndUpdate(
+          { _id: id },
+          {
+            purchaser,
+            state: 'PURCHASED'
+          },
+          { new: true }
+        );
+        if (!perUpdate) {
+          return res.status(404).json('PersonalModel not found for this ID');
+        }
+        return res.status(200).json(perUpdate);
+      }
+      if (type === 'mortgage') {
+        const mortUpdate = await MortgageModel.findOneAndUpdate(
+          { _id: id },
+          {
+            purchaser,
+            state: 'PURCHASED'
+          },
+          { new: true }
+        );
+        if (!mortUpdate) {
+          return res.status(404).json('MortgageModel not found for this ID');
+        }
+        return res.status(200).json(mortUpdate);
+      }
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send('Duplicate key', err);
+      }
+      res.status(500).send(err);
+    }
+  }
+);
+// Giải ngân ( chỉ có người đã mua mới có quyền đc giải ngân bài đăng)
+router.post(
+  '/disburse/:type/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { type, id } = req.params;
+    const purchaser = req.user.id;
+    try {
+      if (type === 'personal') {
+        const perUpdate = await PersonalModel.findOneAndUpdate(
+          { _id: id, purchaser },
+          {
+            state: 'DISBURSED'
+          },
+          { new: true }
+        );
+        if (!perUpdate) {
+          return res.status(404).json('PersonalModel not found for this ID');
+        }
+        return res.status(200).json(perUpdate);
+      }
+      if (type === 'mortgage') {
+        const mortUpdate = await MortgageModel.findOneAndUpdate(
+          { _id: id, purchaser },
+          {
+            state: 'DISBURSED'
+          },
+          { new: true }
+        );
+        if (!mortUpdate) {
+          return res.status(404).json('MortgageModel not found for this ID');
+        }
+        return res.status(200).json(mortUpdate);
+      }
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send('Duplicate key', err);
+      }
+      res.status(500).send(err);
+    }
+  }
+);
+// huỷ đơn đã mua => chuyển thành pending và giá giảm còn 80%.
+// (Chú ý: khác với người tạo huỷ đơn do họ tạo => state => canceled)
+router.post(
+  '/cancel/:type/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { type, id } = req.params;
+    const purchaser = req.user.id;
+    try {
+      if (type === 'personal') {
+        const perUpdate = await PersonalModel.findOneAndUpdate(
+          { _id: id, purchaser },
+          {
+            state: 'PENDING',
+            purchaser: null,
+            'price.discount': 0.8
+          },
+          { new: true }
+        );
+        if (!perUpdate) {
+          return res.status(404).json('PersonalModel not found for this ID');
+        }
+        return res.status(200).json(perUpdate);
+      }
+      if (type === 'mortgage') {
+        const mortUpdate = await MortgageModel.findOneAndUpdate(
+          { _id: id, purchaser },
+          {
+            state: 'PENDING',
+            purchaser: null,
+            'price.discount': 0.8
+          },
+          { new: true }
+        );
+        if (!mortUpdate) {
+          return res.status(404).json('MortgageModel not found for this ID');
+        }
+        return res.status(200).json(mortUpdate);
+      }
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send('Duplicate key', err);
+      }
+      res.status(500).send(err);
+    }
+  }
+);
 
 // fake chuyển tiền
 
@@ -115,8 +259,6 @@ router.post(
     }
   }
 );
-// giải ngân
-
 // filter bài viết
 
 // tra cứu người cần thuê dựa trên số điện thoại hoặc số CMND
