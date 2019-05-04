@@ -56,9 +56,14 @@ const LoanProfileSchema = new Schema({
   //   Cầm sổ đỏ nhà đất
   //   Vay theo hóa đơn điện nước
   packages: {
-    type: Array,
-    required: true,
-    default: []
+    personal: {
+      type: Array,
+      default: []
+    },
+    mortgage: {
+      type: Array,
+      default: []
+    }
   },
   // chỉ lưu ảnh
   censorship: {

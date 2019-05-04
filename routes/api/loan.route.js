@@ -8,17 +8,95 @@ const PersonalModel = require('../../models/personal.loan.model');
 const LoanProfileModel = require('../../models/loan.profile.model');
 
 const router = express.Router();
+// lọc những đơn khả thi trong những đơn của bản thân
+// tiêu chí :Thành phố, quận huyện, thộc trong page đơn
+router.get(
+  '/foryou',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const user = req.user.id;
+    const Profile = LoanProfileModel.findOne({ user }).then(userProfile => {
+      if (!userProfile) {
+        return null;
+      }
+      return userProfile;
+    });
+    Profile.then(async value => {
+      if (!value) return res.status(404).json('This user not found');
+      const { packages } = value;
+      const { province, district } = value.address;
+
+      console.log({ packages, province, district });
+
+      const mortgagePost = await MortgageModel.find({
+        typeOf: { $in: [...packages.mortgage] },
+        state: 'PENDING',
+        'address.province': province,
+        'address.district': district
+      }).populate('user');
+
+      const personalPost = await PersonalModel.find({
+        typeOf: { $in: [...packages.personal] },
+        state: 'PENDING',
+        'address.province': province,
+        'address.district': district
+      }).populate('user');
+      Promise.all([mortgagePost, personalPost])
+        .then(val => {
+          const overviewMor = val[0].map(mor => ({
+            info: {
+              fullname: mor.user.fullname,
+              phone: mor.user.phone,
+              loan: mor.loan,
+              duration: mor.date.duration,
+              address: mor.address,
+              typeOf: mor.typeOf,
+              CMND: mor.personalInfo.CMND
+            },
+            price: {
+              ...mor.price
+            },
+            property: {
+              ...mor.property
+            },
+            careerInfo: { ...mor.careerInfo }
+          }));
+          const overviewPer = val[1].map(per => ({
+            info: {
+              fullname: per.user.fullname,
+              phone: per.user.phone,
+              loan: per.loan,
+              duration: per.date.duration,
+              address: per.address,
+              typeOf: per.typeOf,
+              CMND: per.personalInfo.CMND
+            },
+            price: {
+              ...per.price
+            },
+            property: {
+              ...per.property
+            },
+            careerInfo: { ...per.careerInfo }
+          }));
+          return res.json({
+            mortgage: overviewMor,
+            personal: overviewPer
+          });
+        })
+        .catch(err => console.log(err));
+    });
+  }
+);
 
 // Tìm tất cả các bài viết và cho xem tổng quan
 router.get('/', async (req, res) => {
-  const mortgagePost = await MortgageModel.find()
-    .where('state')
-    .equals('PENDING')
-    .populate('user');
-  const personalPost = await PersonalModel.find()
-    .where('state')
-    .equals('PENDING')
-    .populate('user');
+  const mortgagePost = await MortgageModel.find({ state: 'PENDING' }).populate(
+    'user'
+  );
+  const personalPost = await PersonalModel.find({ state: 'PENDING' }).populate(
+    'user'
+  );
   Promise.all([mortgagePost, personalPost])
     .then(val => {
       const overviewMor = val[0].map(mor => ({

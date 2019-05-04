@@ -11,8 +11,7 @@ router.post('/upload/:name/:size', (req, res) => {
   const promises = values.map(image =>
     cloudinary.uploader.upload(image.path, {
       folder: `images/${where}`,
-      // eslint-disable-next-line radix
-      width: size ? parseInt(size) : 500,
+      width: size ? parseInt(size, 10) : 500,
       aspect_ratio: 1.1,
       gravity: 'face',
       crop: 'lfill'
