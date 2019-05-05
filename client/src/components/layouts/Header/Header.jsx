@@ -1,24 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Header.scss';
-import Logo from '../../../image/core-img/logo.png';
 import Placeholder from '../../../image/core-img/placeholder.png';
 import Message from '../../../image/core-img/message.png';
 import Call2 from '../../../image/core-img/call2.png';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { logoutUser } from '../../../actions/auth.action';
 
 export class Header extends Component {
+  onLogoutClick(e) {
+    e.preventDefault();
+    // this.props.clearCurrentProfile();
+    this.props.logoutUser();
+  }
   render() {
+    const { isAuthenticated } = this.props.auth;
+    const AuthButton = !isAuthenticated ? (
+      <Link to="/login">ĐĂNG NHẬP</Link>
+    ) : (
+      <a onClick={e => this.onLogoutClick(e)}>ĐĂNG XUẤT</a>
+    );
     return (
       <header className="header-area">
         <div className="top-header-area">
           <div className="container h-100">
             <div className="row h-100 align-items-center">
               <div className="col-12 d-flex justify-content-between">
-                <div className="logo">
-                  <a href="index.html" />
-                </div>
+                <div className="logo" />
 
                 <div className="top-contact-info d-flex align-items-center">
                   <a
@@ -71,7 +80,7 @@ export class Header extends Component {
                   <div className="classynav">
                     <ul>
                       <li>
-                        <a href="index.html">TRANG CHỦ</a>
+                        <Link to="/">TRANG CHỦ</Link>
                       </li>
                       <li>
                         <a href="about.html">VỀ CHÚNG TÔI</a>
@@ -85,9 +94,7 @@ export class Header extends Component {
                       <li>
                         <a href="contact.html">LIÊN HỆ</a>
                       </li>
-                      <li>
-                        <a href="">ĐĂNG NHẬP</a>
-                      </li>
+                      <li>{AuthButton}</li>
                     </ul>
                   </div>
                 </div>
@@ -111,7 +118,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { logoutUser };
 
 export default connect(
   mapStateToProps,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import TextInputAuth from '../../../HOC/TextInputAuth';
 import { loginUser } from '../../../actions/auth.action';
 import './Login.scss';
@@ -39,6 +40,8 @@ class Login extends Component {
       phone: this.state.phone,
       password: this.state.password
     };
+    console.log(userData);
+
     this.props.loginUser(userData);
   }
 
@@ -47,7 +50,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log('CURRENT PPOP: ', this.props.auth);
     const { phone, password, errors } = this.state;
     return (
       <div className="tm-reg">
@@ -66,9 +68,9 @@ class Login extends Component {
               <div className="fs-13" id="formLogin">
                 <div className="tm-regform__header d-flex justify-content-between align-items-center p-3">
                   <h2>Đăng Nhập</h2>
-                  <a className="text-primary fs-13" href="/User/Register">
+                  <Link className="text-primary fs-13" to="/register">
                     <ins>Đăng ký tài khoản</ins>
-                  </a>
+                  </Link>
                 </div>
 
                 <form
@@ -135,12 +137,14 @@ class Login extends Component {
                 <hr className="border-gray my-0" />
 
                 <div className="text-center fs-13 p-3">
-                  Bạn chưa có tài khoản?
+                  Bạn chưa có tài khoản?{' '}
                   <div className="d-inline-block">
-                    Hãy
-                    <a className="text-primary" href="/User/Register">
-                      <ins>đăng kí ngay bây giờ</ins>
-                    </a>
+                    Hãy{' '}
+                    <Link className="text-primary" to="/register">
+                      <ins style={{ color: '#ffc107', fontSize: '13px' }}>
+                        đăng kí ngay bây giờ
+                      </ins>
+                    </Link>
                   </div>
                 </div>
               </div>

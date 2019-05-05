@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import './Register.scss';
 import { registerUser } from '../../../actions/auth.action';
 import TextInputAuth from '../../../HOC/TextInputAuth';
+import { getCities, getDistricts } from '../../../utils/getVNdata';
+const Cities = getCities();
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -13,9 +16,9 @@ class Register extends Component {
       phone: '',
       password: '',
       password2: '',
-      province: '',
-      district: '',
-      typeOfAcc: '',
+      province: 'HANOI',
+      district: 'QUANBADINH',
+      typeOfAcc: 'borrow',
       errors: {}
     };
   }
@@ -26,11 +29,9 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.auth);
-
-    // if (this.props.auth.isAuthenticated) {
-    //   this.props.history.push('/');
-    // }
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
   }
 
   onChange(e) {
@@ -39,12 +40,23 @@ class Register extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    const {
+      fullname,
+      phone,
+      password2,
+      password,
+      province,
+      district,
+      typeOfAcc
+    } = this.state;
     const newUser = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
+      fullname,
+      phone,
+      password2,
+      password,
+      province,
+      district,
+      typeOfAcc
     };
     this.props.registerUser(newUser, this.props.history);
   }
@@ -84,9 +96,9 @@ class Register extends Component {
                     <h2 className="text-uppercase fs-16 fw-4 mb-0">
                       Đăng ký tài khoản
                     </h2>
-                    <a className="text-primary fs-13" href="login.html">
+                    <Link className="text-primary fs-13" to="/login">
                       <ins>Đăng nhập</ins>
-                    </a>
+                    </Link>
                   </div>
 
                   <hr className="border-gray my-0" />
@@ -136,7 +148,7 @@ class Register extends Component {
                       className="form-control form-control-lg fs-13 px-3 rounded"
                       placeholder="Nhập lại mật khẩu"
                       title="Nhập lại mật khẩu"
-                      type="password2"
+                      type="password"
                       onChange={e => this.onChange(e)}
                       value={password2}
                       error={errors.password2}
@@ -144,84 +156,36 @@ class Register extends Component {
                     <div className="form-group">
                       <select
                         className="form-control form-control-lg fs-13 px-3 rounded"
-                        id="cbCity"
-                        name="city"
+                        id="province"
+                        name="province"
+                        onChange={e => this.onChange(e)}
+                        value={province}
                       >
-                        <option value="" defaultValue hidden>
-                          Chọn thành phố
-                        </option>
-
-                        <option value="1">H&#224; Nội</option>
-                        <option value="2">H&#224; Giang</option>
-                        <option value="4">Cao Bằng</option>
-                        <option value="6">Bắc Kạn</option>
-                        <option value="8">Tuy&#234;n Quang</option>
-                        <option value="10">L&#224;o Cai</option>
-                        <option value="11">Điện Bi&#234;n</option>
-                        <option value="12">Lai Ch&#226;u</option>
-                        <option value="14">Sơn La</option>
-                        <option value="15">Y&#234;n B&#225;i</option>
-                        <option value="17">H&#242;a B&#236;nh</option>
-                        <option value="19">Th&#225;i Nguy&#234;n</option>
-                        <option value="20">Lạng Sơn</option>
-                        <option value="22">Quảng Ninh</option>
-                        <option value="24">Bắc Giang</option>
-                        <option value="25">Ph&#250; Thọ</option>
-                        <option value="26">Vĩnh Ph&#250;c</option>
-                        <option value="27">Bắc Ninh</option>
-                        <option value="30">Hải Dương</option>
-                        <option value="31">Hải Ph&#242;ng</option>
-                        <option value="33">Hưng Y&#234;n</option>
-                        <option value="34">Th&#225;i B&#236;nh</option>
-                        <option value="35">H&#224; Nam</option>
-                        <option value="36">Nam Định</option>
-                        <option value="37">Ninh B&#236;nh</option>
-                        <option value="38">Thanh H&#243;a</option>
-                        <option value="40">Nghệ An</option>
-                        <option value="42">H&#224; Tĩnh</option>
-                        <option value="44">Quảng B&#236;nh</option>
-                        <option value="45">Quảng Trị</option>
-                        <option value="46">Thừa Thi&#234;n Huế</option>
-                        <option value="48">Đ&#224; Nẵng</option>
-                        <option value="49">Quảng Nam</option>
-                        <option value="51">Quảng Ng&#227;i</option>
-                        <option value="52">B&#236;nh Định</option>
-                        <option value="54">Ph&#250; Y&#234;n</option>
-                        <option value="56">Kh&#225;nh H&#242;a</option>
-                        <option value="58">Ninh Thuận</option>
-                        <option value="60">B&#236;nh Thuận</option>
-                        <option value="62">Kon Tum</option>
-                        <option value="64">Gia Lai</option>
-                        <option value="66">Đắk Lắk</option>
-                        <option value="67">Đắk N&#244;ng</option>
-                        <option value="68">L&#226;m Đồng</option>
-                        <option value="70">B&#236;nh Phước</option>
-                        <option value="72">T&#226;y Ninh</option>
-                        <option value="74">B&#236;nh Dương</option>
-                        <option value="75">Đồng Nai</option>
-                        <option value="77">B&#224; Rịa - Vũng T&#224;u</option>
-                        <option value="79">Hồ Ch&#237; Minh</option>
-                        <option value="80">Long An</option>
-                        <option value="82">Tiền Giang</option>
-                        <option value="83">Bến Tre</option>
-                        <option value="84">Tr&#224; Vinh</option>
-                        <option value="86">Vĩnh Long</option>
-                        <option value="87">Đồng Th&#225;p</option>
-                        <option value="89">An Giang</option>
-                        <option value="91">Ki&#234;n Giang</option>
-                        <option value="92">Cần Thơ</option>
-                        <option value="93">Hậu Giang</option>
-                        <option value="94">S&#243;c Trăng</option>
-                        <option value="95">Bạc Li&#234;u</option>
-                        <option value="96">C&#224; Mau</option>
+                        {Cities.map((city, index) => {
+                          return (
+                            <option key={index} value={city[0]}>
+                              {city[1]}
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
                     <div className="form-group">
                       <select
                         className="select optional form-control input-lg fs-14"
-                        id="cbDistrict"
+                        id="district"
                         name="district"
-                      />
+                        onChange={e => this.onChange(e)}
+                        value={district}
+                      >
+                        {getDistricts(province).map((dis, index) => {
+                          return (
+                            <option key={index} value={dis[0]} defaultValue>
+                              {dis[1]}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                     <div className="form-group form-inline">
                       <label className="mb-0 mr-3" htmlFor="fc-radio-1">
@@ -229,12 +193,24 @@ class Register extends Component {
                       </label>
 
                       <label style={{ marginRight: '30px' }}>
-                        <input name="agree" type="radio" />
+                        <input
+                          name="typeOfAcc"
+                          type="radio"
+                          value="borrow"
+                          checked={typeOfAcc === 'borrow'}
+                          onChange={e => this.onChange(e)}
+                        />
                         Vay
                       </label>
 
                       <label>
-                        <input name="agree" type="radio" />
+                        <input
+                          name="typeOfAcc"
+                          type="radio"
+                          checked={typeOfAcc === 'loan'}
+                          value="loan"
+                          onChange={e => this.onChange(e)}
+                        />
                         Cho vay
                       </label>
                     </div>
@@ -271,14 +247,14 @@ class Register extends Component {
                 <hr className="border-gray my-0" />
 
                 <div className="text-center fs-13 p-3">
-                  Bạn đã có tài khoản?
+                  Bạn đã có tài khoản?{' '}
                   <div className="d-inline-block">
-                    Hãy
-                    <a className="text-primary" href="/User/Login">
+                    Hãy{' '}
+                    <Link className="text-primary" to="/login">
                       <ins style={{ color: '#ffc107', fontSize: '13px' }}>
                         click vào đây để đăng nhập
                       </ins>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

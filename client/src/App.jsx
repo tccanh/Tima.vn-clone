@@ -9,6 +9,7 @@ import { setCurrentUser, logoutUser } from './actions/auth.action';
 import Header from './components/layouts/Header/Header';
 import Login from './components/Auth/Login/Login';
 import Register from './components/Auth/Register/Register';
+import { Footer } from './components/layouts/Footer/Footer';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -36,6 +37,7 @@ function App() {
               <Route exact path="/register" component={Register} />
             </div>
           </div>
+          <Footer />
         </div>
       </BrowserRouter>
     </Provider>
