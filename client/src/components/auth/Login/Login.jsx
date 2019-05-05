@@ -1,174 +1,146 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import TextInputAuth from '../../../HOC/TextInputAuth';
+import { loginUser } from '../../../actions/auth.action';
 import './Login.scss';
-export default class Login extends Component {
+class Login extends Component {
+  static propTypes = {
+    prop: PropTypes
+  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      phone: '',
+      password: '',
+      errors: {}
+    };
+  }
+  componentWillReceiveProps(nextPops) {
+    if (nextPops.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+    if (nextPops.errors) {
+      this.setState({ errors: nextPops.errors });
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    const userData = {
+      phone: this.state.phone,
+      password: this.state.password
+    };
+    this.props.loginUser(userData);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
+    console.log('CURRENT PPOP: ', this.props.auth);
+    const { phone, password, errors } = this.state;
     return (
-      <div class="main-page">
-        <div class="container py-5">
-          <div class="tm-reg">
-            <div class="row gutter-10px flex-column-reverse flex-md-row">
-              <div class="col-main col-md-6 d-flex">
-                <div
-                  class="tm-reg__banner w-100"
-                  style={{
-                    backgroundImage:
-                      "url('https://tima.vn/Template1/images/bg-login.jpg')"
-                  }}
-                />
-              </div>
-              <div class="col-aside col-md-6 d-flex mb-5 mb-md-0">
-                <div class="tm-regform d-flex flex-column justify-content-between w-100 border border-gray bg-white">
-                  <div class="fs-13" id="formLogin">
-                    <div class="tm-regform__header d-flex justify-content-between align-items-center p-3">
-                      <h2>Đăng Nhập</h2>
-                      <a class="text-primary fs-13" href="/User/Register">
-                        <ins>Đăng ký tài khoản</ins>
+      <div className="tm-reg">
+        <div className="row gutter-10px flex-column-reverse flex-md-row">
+          <div className="col-main col-md-6 d-flex">
+            <div
+              className="tm-reg__banner w-100"
+              style={{
+                backgroundImage:
+                  'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557046972/statics/bg-login_ayzs2e.jpg)'
+              }}
+            />
+          </div>
+          <div className="col-aside col-md-6 d-flex mb-5 mb-md-0">
+            <div className="tm-regform d-flex flex-column justify-content-between w-100 border border-gray bg-white">
+              <div className="fs-13" id="formLogin">
+                <div className="tm-regform__header d-flex justify-content-between align-items-center p-3">
+                  <h2>Đăng Nhập</h2>
+                  <a className="text-primary fs-13" href="/User/Register">
+                    <ins>Đăng ký tài khoản</ins>
+                  </a>
+                </div>
+
+                <form
+                  id="loginForm"
+                  noValidate
+                  onSubmit={e => this.onSubmit(e)}
+                >
+                  <hr className="border-gray my-0" />
+                  <div className="px-5 py-3">
+                    <p className="text-center">
+                      Chào bạn <br />
+                      đăng nhập để xem và quản lý khoản vay
+                      <br />
+                      <span id="sp-message-login" />
+                    </p>
+
+                    <TextInputAuth
+                      id="phone"
+                      name="phone"
+                      className="form-control form-control-lg rounded"
+                      placeholder="Nhập số điện thoại"
+                      title="Nhập số điện thoại"
+                      type="input"
+                      onChange={e => this.onChange(e)}
+                      value={phone}
+                      error={errors.phone}
+                    />
+                    <TextInputAuth
+                      id="password"
+                      name="password"
+                      className="form-control form-control-lg fs-13 px-3 rounded"
+                      placeholder="Nhập mật khẩu"
+                      title="Nhập mật khẩu"
+                      type="password"
+                      onChange={e => this.onChange(e)}
+                      value={password}
+                      error={errors.password}
+                    />
+
+                    <div className="form-group d-flex justify-content-between align-items-center">
+                      <label className="custom-control custom-checkbox fs-13 mb-0">
+                        <input
+                          name="agree"
+                          type="checkbox"
+                          className="custom-control-input"
+                        />
+                        <span className="custom-control-indicator" />
+                        <span className="custom-control-description">
+                          Nhớ tài khoản
+                        </span>
+                      </label>
+                      <a className="text-primary fs-13" href="/">
+                        Quên mật khẩu
                       </a>
                     </div>
 
-                    <form id="loginForm" method="post" novalidate="novalidate">
-                      <hr class="border-gray my-0" />
-                      <div class="px-5 py-3">
-                        <p class="text-center">
-                          Chào bạn <br />
-                          đăng nhập để xem và quản lý khoản vay
-                          <br />
-                          <span id="sp-message-login" />
-                        </p>
-
-                        <div class="form-group">
-                          <input
-                            id="username"
-                            name="username"
-                            class="form-control form-control-lg rounded"
-                            placeholder="Nhập số điện thoại"
-                            title=""
-                          />
-                        </div>
-
-                        <div class="form-group">
-                          <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            class="form-control form-control-lg fs-13 px-3 rounded"
-                            placeholder="Nhập mật khẩu"
-                            title=""
-                          />
-                        </div>
-
-                        <div class="form-group d-flex justify-content-between align-items-center">
-                          <label class="custom-control custom-checkbox fs-13 mb-0">
-                            <input
-                              name="agree"
-                              type="checkbox"
-                              class="custom-control-input"
-                            />
-                            <span class="custom-control-indicator" />
-                            <span class="custom-control-description">
-                              Nhớ tài khoản
-                            </span>
-                          </label>
-                          <a class="text-primary fs-13">Quên mật khẩu</a>
-                        </div>
-
-                        <button class="btn btn-lg btn-block btn-primary text-uppercase fs-13 rounded mt-5">
-                          Đăng nhập ngay
-                        </button>
-                      </div>
-                    </form>
+                    <button className="btn btn-lg btn-block btn-primary text-uppercase fs-13 rounded mt-5">
+                      Đăng nhập ngay
+                    </button>
                   </div>
-                  <div
-                    class="fs-13"
-                    id="formForgetPass"
-                    style={{ display: 'none' }}
-                  >
-                    <div class="tm-regform__header d-flex justify-content-between align-items-center p-3">
-                      <h2 class="text-uppercase fs-16 fw-4 mb-0">
-                        Quên mật khẩu
-                      </h2>
-                    </div>
+                </form>
+              </div>
+              <div>
+                <hr className="border-gray my-0" />
 
-                    <hr class="border-gray my-0" />
-
-                    <div class="px-5 py-3">
-                      <p class="text-center">
-                        Chào bạn <br />
-                        hãy nhập số điện thoại của bạn để lấy lại mật khẩu
-                      </p>
-
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          id="txtNumberPhoneResetPassword"
-                          class="form-control form-control-lg fs-13 px-3 rounded"
-                          placeholder="Nhập số điện thoại"
-                          title=""
-                        />
-                      </div>
-
-                      <button
-                        class="btn btn-lg btn-block btn-primary text-uppercase fs-13 rounded mt-5"
-                        onclick="GetNewPassword();"
-                      >
-                        Nhận mật khẩu mới
-                      </button>
-                    </div>
-                  </div>
-
-                  <div
-                    class="fs-13"
-                    id="formSucessNewPass"
-                    style={{ display: 'none' }}
-                  >
-                    <div class="px-5 py-3">
-                      <div
-                        class="text-center"
-                        style={{
-                          margin: '30px 0px 25px 0px',
-                          fontSize: '80px'
-                        }}
-                        id="imgSucces"
-                      >
-                        <i
-                          class="fa fa-check-circle fs-38 mr-3"
-                          aria-hidden="true"
-                          style={{ color: '#5cb85c' }}
-                        />
-                      </div>
-
-                      <h3
-                        class="mb-3 mb-md-4 fs-16 text-center"
-                        id="TitleResetPassword"
-                      >
-                        Khôi phục mật khẩu thành công
-                      </h3>
-                      <p class="text-center" id="ContentResetPassword">
-                        Bạn có thể dùng mật khẩu vừa khôi phục để đăng nhập vào
-                        hệ thống ngay bây giờ
-                      </p>
-
-                      <button
-                        class="btn btn-lg btn-block btn-primary text-uppercase fs-13 rounded mt-5"
-                        onclick="BackFormLogin();"
-                      >
-                        Quay lại màn hình đăng nhập
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <hr class="border-gray my-0" />
-
-                    <div class="text-center fs-13 p-3">
-                      Bạn chưa có tài khoản?
-                      <div class="d-inline-block">
-                        Hãy
-                        <a class="text-primary" href="/User/Register">
-                          <ins>đăng kí ngay bây giờ</ins>
-                        </a>
-                      </div>
-                    </div>
+                <div className="text-center fs-13 p-3">
+                  Bạn chưa có tài khoản?
+                  <div className="d-inline-block">
+                    Hãy
+                    <a className="text-primary" href="/User/Register">
+                      <ins>đăng kí ngay bây giờ</ins>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -179,3 +151,15 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+const mapDispatchToProps = { loginUser };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

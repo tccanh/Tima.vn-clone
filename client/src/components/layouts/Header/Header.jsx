@@ -1,30 +1,33 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import './Header.scss';
-export default class Header extends Component {
+import Logo from '../../../image/core-img/logo.png';
+import Placeholder from '../../../image/core-img/placeholder.png';
+import Message from '../../../image/core-img/message.png';
+import Call2 from '../../../image/core-img/call2.png';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+export class Header extends Component {
   render() {
     return (
-      <header class="header-area">
-        {/* <!-- Top Header Area --> */}
-        <div class="top-header-area">
-          <div class="container h-100">
-            <div class="row h-100 align-items-center">
-              <div class="col-12 d-flex justify-content-between">
-                {/* <!-- Logo Area --> */}
-                <div class="logo">
-                  <a href="index.html">
-                    <img src="img/core-img/logo.png" alt="" />
-                  </a>
+      <header className="header-area">
+        <div className="top-header-area">
+          <div className="container h-100">
+            <div className="row h-100 align-items-center">
+              <div className="col-12 d-flex justify-content-between">
+                <div className="logo">
+                  <a href="index.html" />
                 </div>
 
-                {/* <!-- Top Contact Info --> */}
-                <div class="top-contact-info d-flex align-items-center">
+                <div className="top-contact-info d-flex align-items-center">
                   <a
                     href="#"
                     data-toggle="tooltip"
                     data-placement="bottom"
                     title="25 th Street Avenue, Los Angeles, CA"
                   >
-                    <img src="img/core-img/placeholder.png" alt="" />{' '}
+                    <img src={Placeholder} alt="" />{' '}
                     <span>17th, Trần Đại Nghĩa, Hà Nội</span>
                   </a>
                   <a
@@ -33,7 +36,7 @@ export default class Header extends Component {
                     data-placement="bottom"
                     title="office@yourfirm.com"
                   >
-                    <img src="img/core-img/message.png" alt="" />{' '}
+                    <img src={Message} alt="" />{' '}
                     <span>vudat1710@gmail.com</span>
                   </a>
                 </div>
@@ -42,33 +45,30 @@ export default class Header extends Component {
           </div>
         </div>
 
-        {/* <!-- Navbar Area --> */}
-        <div class="credit-main-menu" id="sticker">
-          <div class="classy-nav-container breakpoint-off">
-            <div class="container">
-              {/* <!-- Menu --> */}
-              <nav class="classy-navbar justify-content-between" id="creditNav">
-                {/* <!-- Navbar Toggler --> */}
-                <div class="classy-navbar-toggler">
-                  <span class="navbarToggler">
+        <div className="credit-main-menu" id="sticker">
+          <div className="classy-nav-container breakpoint-off">
+            <div className="container">
+              <nav
+                className="classy-navbar justify-content-between"
+                id="creditNav"
+              >
+                <div className="classy-navbar-toggler">
+                  <span className="navbarToggler">
                     <span />
                     <span />
                     <span />
                   </span>
                 </div>
 
-                {/* <!-- Menu --> */}
-                <div class="classy-menu">
-                  {/* <!-- Close Button --> */}
-                  <div class="classycloseIcon">
-                    <div class="cross-wrap">
-                      <span class="top" />
-                      <span class="bottom" />
+                <div className="classy-menu">
+                  <div className="classycloseIcon">
+                    <div className="cross-wrap">
+                      <span className="top" />
+                      <span className="bottom" />
                     </div>
                   </div>
 
-                  {/* <!-- Nav Start --> */}
-                  <div class="classynav">
+                  <div className="classynav">
                     <ul>
                       <li>
                         <a href="index.html">TRANG CHỦ</a>
@@ -76,17 +76,6 @@ export default class Header extends Component {
                       <li>
                         <a href="about.html">VỀ CHÚNG TÔI</a>
                       </li>
-                      {/* <!-- <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="index.html">Trang chủ</a></li>
-                                            <li><a href="about.html">Về chúng tôi</a></li>
-                                            <li><a href="services.html">Các dịch vụ</a></li>
-                                            <li><a href="post.html">Tin tức</a></li>
-                                            <li><a href="single-post.html">Single Post</a></li>
-                                            <li><a href="contact.html">Liên hệ</a></li>
-                                            <li><a href="elements.html">Elements</a></li>
-                                        </ul>
-                                    </li> --> */}
                       <li>
                         <a href="services.html">DỊCH VỤ</a>
                       </li>
@@ -101,13 +90,11 @@ export default class Header extends Component {
                       </li>
                     </ul>
                   </div>
-                  {/* <!-- Nav End --> */}
                 </div>
 
-                {/* <!-- Contact --> */}
-                <div class="contact">
+                <div className="contact">
                   <a href="#">
-                    <img src="img/core-img/call2.png" alt="" /> +84 241 264 798
+                    <img src={Call2} alt="" /> +84 241 264 798
                   </a>
                 </div>
               </nav>
@@ -118,3 +105,15 @@ export default class Header extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
