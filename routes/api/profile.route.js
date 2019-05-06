@@ -174,14 +174,18 @@ router.get(
     const { typeOfAcc } = req.user;
     if (typeOfAcc === 'loan') {
       try {
-        const thisProfile = await LoanProfile.find({ user }).populate('user');
+        const thisProfile = await LoanProfile.findOne({ user }).populate(
+          'user'
+        );
         return res.json(thisProfile);
       } catch (error) {
         return res.status(500).json('Unknown server error');
       }
     } else if (typeOfAcc === 'borrow') {
       try {
-        const thisProfile = await BorrowProfile.find({ user }).populate('user');
+        const thisProfile = await BorrowProfile.findOne({ user }).populate(
+          'user'
+        );
         return res.json(thisProfile);
       } catch (error) {
         return res.status(500).json('Unknown server error');
