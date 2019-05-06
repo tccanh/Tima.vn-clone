@@ -1,223 +1,264 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
+import './BorrowerPick.scss';
+import './Hover.scss';
+import dangkyoto from '../../../image/borrower/dangkyoto.png';
+import daquy from '../../../image/borrower/daquy.png';
+import dienthoai from '../../../image/borrower/dienthoai.png';
+import dongho from '../../../image/borrower/dongho.png';
+import hoadondiennuoc from '../../../image/borrower/hoadondiennuoc.png';
+import icloud_iphone from '../../../image/borrower/icloud-iphone.png';
+import luong from '../../../image/borrower/luong.png';
+import maytinh from '../../../image/borrower/maytinh.png';
+import oto from '../../../image/borrower/oto.png';
+import sohokhau from '../../../image/borrower/sohokhau.png';
+import thechapsodo from '../../../image/borrower/thechapsodo.png';
+import theongay from '../../../image/borrower/theongay.png';
+import xemay from '../../../image/borrower/xemay.png';
+const listDataPersonal = [
+  {
+    to: '',
+    title: 'Vay tín chấp theo lương',
+    src: luong,
+    text: (
+      <h5>
+        Vay tín chấp
+        <br />
+        theo lương
+      </h5>
+    )
+  },
+  {
+    to: '',
+    title: 'Vay theo sổ hộ khẩu',
+    src: sohokhau,
+    text: (
+      <h5>
+        Vay theo
+        <br />
+        sổ hộ khẩu
+      </h5>
+    )
+  },
+  {
+    to: '',
+    title: 'Vay theo đăng kí xe máy',
+    src: xemay,
+    text: (
+      <h5>
+        Vay theo
+        <br />
+        đăng kí xe máy
+      </h5>
+    )
+  },
+  {
+    to: '',
+    title: 'Vay trả góp theo ngày',
+    src: theongay,
+    text: (
+      <h5>
+        Vay trả góp
+        <br />
+        theo ngày
+      </h5>
+    )
+  },
+  {
+    to: '',
+    title: 'Vay theo hoá đơn điện nước',
+    src: hoadondiennuoc,
+    text: (
+      <h5>
+        Vay theo
+        <br />
+        hoá đơn điện nước
+      </h5>
+    )
+  },
+  {
+    to: '',
+    title: 'Vay theo đăng kí xe ô tô',
+    src: oto,
+    text: (
+      <h5>
+        Vay theo
+        <br />
+        đăng kí ô tô
+      </h5>
+    )
+  },
+  {
+    to: '',
+    title: 'Vay theo Icloud Iphone',
+    src: icloud_iphone,
+    text: (
+      <h5>
+        Vay theo
+        <br />
+        Icloud iphone
+      </h5>
+    )
+  }
+];
+const listDataMortgage = [
+  {
+    to: '',
+    title: 'Cầm máy tính',
+    src: maytinh,
+    text: <h5>Cầm máy tính</h5>
+  },
+  {
+    to: '',
+    title: 'Cầm điện thoại',
+    src: dienthoai,
+    text: <h5>Cầm điện thoại</h5>
+  },
+  {
+    to: '',
+    title: 'Cầm ô tô',
+    src: oto,
+    text: <h5>Cầm ô tô</h5>
+  },
+  {
+    to: '',
+    title: 'Cầm xe máy',
+    src: xemay,
+    text: <h5>Cầm xe máy</h5>
+  },
+  {
+    to: '',
+    title: 'Cầm đá quý',
+    src: daquy,
+    text: <h5>Cầm đá quý</h5>
+  },
+  {
+    to: '',
+    title: 'Cầm đồng hồ',
+    src: dongho,
+    text: <h5>Cầm đồng hồ</h5>
+  },
+  {
+    to: '',
+    title: 'Vay theo thế chấp sổ đỏ',
+    src: thechapsodo,
+    text: (
+      <h5>
+        Vay theo
+        <br />
+        thế chấp sổ đỏ
+      </h5>
+    )
+  }
+];
 export default class BorrowerPick extends Component {
   render() {
     return (
-      <div class="container">
-        <h1 class="tm-card__heading text-center text-gray-dark mb-6">
-          Chọn gói sản phẩm bạn muốn vay
-        </h1>
-
-        <div class="tm-card__body">
-          <div class="cvbox mb-8">
-            <h3 class="cvbox__heading bg-gray-lightest text-uppercase">
-              Vay cá nhân
-            </h3>
-            <div class="cvbox__body p-3 p-md-4">
-              <div class="row no-gutters justify-content-center">
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/vay-tin-chap.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/luong.png"
-                      alt="Vay tín chấp theo lương"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay tín chấp <br /> theo lương
-                    </h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/vay-qua-so-ho-khau.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/sohokhau.png"
-                      alt="Vay theo  sổ hộ khẩu"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay theo <br /> sổ hộ khẩu
-                    </h5>
-                  </a>
-                </div>
-
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/cam-dang-ky-xe.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/xemay.png"
-                      alt="Vay theo đăng ký xe máy"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay theo <br /> đăng ký xe máy
-                    </h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/vay-tra-gop.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/theongay.png"
-                      alt="Vay trả góp theo ngày"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay trả góp <br /> theo ngày
-                    </h5>
-                  </a>
-                </div>
-
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-theo-hoa-don-dien-nuoc.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/hoadondiennuoc.png"
-                      alt="Vay hóa đơn điện nước"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay theo <br /> hóa đơn điện nước
-                    </h5>
-                  </a>
-                </div>
-
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/cam-dang-ky-o-to.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/dangkyoto.png"
-                      alt="Vay đăng ký xe ô tô"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay theo <br /> đăng ký xe ô tô
-                    </h5>
-                  </a>
-                </div>
-
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-tin-chap-theo-iphone.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/icloud-iphone.png"
-                      alt="Vay theo icloud iPhone"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay theo <br /> Icloud iphone
-                    </h5>
-                  </a>
-                </div>
+      <section className="services-area ">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="section-heading text-center mb-100">
+                <div className="line" />
+                <p>Giới thiệu về</p>
+                <h2>Các dịch vụ của chúng tôi</h2>
+                <p>Chọn gói sản phẩm bạn muốn vay</p>
               </div>
             </div>
           </div>
 
-          <div class="cvbox mb-8">
-            <h3 class="cvbox__heading bg-gray-lightest text-uppercase">
-              Vay cầm cố
-            </h3>
-            <div class="cvbox__body p-3 p-md-4">
-              <div class="row no-gutters justify-content-center">
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-cam-do/may-tinh-23.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/maytinh.png"
-                      alt="Cầm máy tính"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Cầm máy tính
-                    </h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-cam-do/dien-thoai-22.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/dienthoai.png"
-                      alt="Cầm điện thoại"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Cầm điện thoại
-                    </h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-cam-do/the-chap-oto-10.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/oto.png"
-                      alt="Cầm máy tính"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">Cầm ô tô</h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-cam-do/cam-xe-may-21.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/xemay.png"
-                      alt="Cầm xe máy"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">Cầm xe máy</h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/vay-cam-do/da-quy-26.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/daquy.png"
-                      alt="Cầm đá quý"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">Cầm đá quý</h5>
-                  </a>
-                </div>
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a class="cvbox__item p-3" href="/vay-cam-do/dong-ho-27.html">
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/dongho.png"
-                      alt="Cầm đồng hồ"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Cầm đồng hồ
-                    </h5>
-                  </a>
-                </div>
-
-                <div class="d-flex col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7">
-                  <a
-                    class="cvbox__item p-3"
-                    href="/vay-the-chap-so-do-nha-dat.html"
-                  >
-                    <img
-                      class="img-fluid w-100 mx-auto mb-3"
-                      src="https://tima.vn/Template1/images/canvay/v2-1/icons/thechapsodo.png"
-                      alt="Thế chấp sổ đỏ"
-                    />
-                    <h5 class="fw-4 fs-14 text-center fw-3 mb-0">
-                      Vay theo <br /> Thế chấp sổ đỏ
-                    </h5>
-                  </a>
+          <div className="row">
+            <div className="col">
+              <div className="row">
+                <div id="info-block" style={{ width: '100%' }}>
+                  <div className="file-marker">
+                    <div>
+                      <div
+                        className="box-title"
+                        style={{ fontSize: '1rem', fontWeight: '600' }}
+                      >
+                        Vay cá nhân
+                      </div>
+                      <div style={{ height: '10px' }} />
+                      <div className="box-contents">
+                        <div className="row align-content-center">
+                          {listDataPersonal.map((data, key) => {
+                            return (
+                              <div
+                                className="col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7"
+                                key={key}
+                              >
+                                <Link
+                                  to={data.to}
+                                  title={data.title}
+                                  className="button grow"
+                                  style={{ width: '115%' }}
+                                >
+                                  <img
+                                    className="img-fluid mx-auto d-block w-50"
+                                    src={data.src}
+                                    alt={data.title}
+                                  />
+                                  {data.text}
+                                </Link>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div style={{ height: '10px' }} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div style={{ height: '80px' }} />
+              <div className="row">
+                <div id="info-block" style={{ width: '100%' }}>
+                  <div className="file-marker">
+                    <div>
+                      <div
+                        className="box-title"
+                        style={{ fontSize: '1rem', fontWeight: '600' }}
+                      >
+                        Vay cầm cố
+                      </div>
+                      <div style={{ height: '10px' }} />
+                      <div className="box-contents">
+                        <div className="row align-content-center">
+                          {listDataMortgage.map((data, key) => {
+                            return (
+                              <div
+                                className="col-6 col-sm-4 col-md-3 col-lg-auto w-lg-1-7"
+                                key={key}
+                              >
+                                <Link
+                                  to={data.to}
+                                  title={data.title}
+                                  className="button grow"
+                                  style={{ width: '115%' }}
+                                >
+                                  <img
+                                    className="img-fluid mx-auto d-block w-50"
+                                    src={data.src}
+                                    alt={data.title}
+                                  />
+                                  {data.text}
+                                </Link>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div style={{ height: '10px' }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ height: '80px' }} />
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

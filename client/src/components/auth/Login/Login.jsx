@@ -127,7 +127,7 @@ class Login extends Component {
                       </a>
                     </div>
 
-                    <button className="btn btn-lg btn-block btn-primary text-uppercase fs-13 rounded mt-5">
+                    <button className="btn btn-lg btn-block btn-warning text-uppercase fs-13 rounded mt-5">
                       Đăng nhập ngay
                     </button>
                   </div>

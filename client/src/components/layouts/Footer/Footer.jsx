@@ -1,15 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import './Footer.scss';
 import Pencil from '../../../image/core-img/pencil.png';
 import Calendar from '../../../image/core-img/calendar.png';
-import Logo from '../../../image/core-img/logo.png';
 import Bg7 from '../../../image/bg-img/7.jpg';
 import Bg8 from '../../../image/bg-img/8.jpg';
 import Bg9 from '../../../image/bg-img/9.jpg';
-export class Footer extends Component {
+export default class Footer extends Component {
   render() {
     return (
       <>
@@ -44,7 +41,7 @@ export class Footer extends Component {
           </div>
         </section>
 
-        <footer className="footer-area section-padding-100-0">
+        <footer className="footer-area ">
           <div className="container">
             <div className="row">
               <div className="col-12 col-sm-6 col-lg-3">
@@ -179,33 +176,8 @@ export class Footer extends Component {
               </div>
             </div>
           </div>
-
-          <div className="copywrite-area">
-            <div className="container">
-              <div className="row">
-                <div className="col-12">
-                  <div className="copywrite-content d-flex flex-wrap justify-content-between align-items-center">
-                    <a href="index.html" className="footer-logo">
-                      <img src={Logo} alt="" />
-                    </a>
-
-                    <p className="copywrite-text">Copyright &copy; 2019</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </footer>
       </>
     );
   }
 }
-
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Footer);

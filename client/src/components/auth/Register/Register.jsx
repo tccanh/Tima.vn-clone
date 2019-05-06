@@ -221,8 +221,10 @@ class Register extends Component {
                         id="chkDieuKhoan"
                       />
                       <label htmlFor="chkDieuKhoan">
+                        {'  '}
                         Tôi đồng ý với các{' '}
                         <a
+                          className="text-primary"
                           href="/dieu-khoan.html"
                           target="_blank"
                           style={{ fontSize: '14px' }}
@@ -234,7 +236,7 @@ class Register extends Component {
                     </div>
 
                     <button
-                      className="btn btn-lg btn-block btn-primary text-uppercase"
+                      className="btn btn-lg btn-block btn-warning text-uppercase"
                       style={{ fontSize: '13px' }}
                     >
                       Đăng ký
