@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.scss';
-import Placeholder from '../../../image/core-img/placeholder.png';
-import Message from '../../../image/core-img/message.png';
 import Call2 from '../../../image/core-img/call2.png';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../../actions/auth.action';
@@ -15,12 +13,62 @@ export class Header extends Component {
     this.props.logoutUser();
   }
   render() {
-    const { isAuthenticated } = this.props.auth;
-    const AuthButton = !isAuthenticated ? (
+    const { isAuthenticated, user } = this.props.auth;
+    const AuthButtonTop = !isAuthenticated ? (
+      <div className="top-contact-info d-flex align-items-center">
+        <Link to="/login">ĐĂNG NHẬP</Link>
+      </div>
+    ) : (
+      <div className="top-contact-info d-flex align-items-center">
+        <a href="#" data-toggle="tooltip" data-placement="bottom">
+          <span>Hi, {user.fullname}</span>
+        </a>
+        <a onClick={e => this.onLogoutClick(e)}>Đăng xuất</a>
+      </div>
+    );
+    const AuthButton2 = !isAuthenticated ? (
       <Link to="/login">ĐĂNG NHẬP</Link>
     ) : (
-      <a onClick={e => this.onLogoutClick(e)}>ĐĂNG XUẤT</a>
+      <Link to="/profile">TÀI KHOẢN</Link>
     );
+    const Classynav =
+      user.typeOfAcc === 'loan' ? (
+        <div className="classynav">
+          <ul>
+            <li>
+              <Link to="/">TRANG CHỦ</Link>
+            </li>
+            <li>
+              <Link to="/borrower">CẦN MỘT KHOẢN VAY</Link>
+            </li>
+            <li>
+              <Link to="/loanhistory">LỊCH SỬ ĐƠN VAY</Link>
+            </li>
+            <li>{AuthButton2}</li>
+          </ul>
+        </div>
+      ) : (
+        <div className="classynav">
+          <ul>
+            <li>
+              <Link to="/">TRANG CHỦ</Link>
+            </li>
+            <li>
+              <Link to="/exchanges">SÀN GIAO DỊCH</Link>
+            </li>
+            <li>
+              <Link to="/loanmanagement">QUẢN LÝ ĐƠN VAY</Link>
+            </li>
+            <li>
+              <Link to="/loanlookup">TRA CỨU LỊCH SỬ VAY NỢ</Link>
+            </li>
+            <li>
+              <li>{AuthButton2}</li>
+            </li>
+          </ul>
+        </div>
+      );
+
     return (
       <header className="header-area">
         <div className="top-header-area">
@@ -28,27 +76,7 @@ export class Header extends Component {
             <div className="row h-100 align-items-center">
               <div className="col-12 d-flex justify-content-between">
                 <div className="logo" />
-
-                <div className="top-contact-info d-flex align-items-center">
-                  <a
-                    href="#"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    title="25 th Street Avenue, Los Angeles, CA"
-                  >
-                    <img src={Placeholder} alt="" />{' '}
-                    <span>17th, Trần Đại Nghĩa, Hà Nội</span>
-                  </a>
-                  <a
-                    href="#"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    title="office@yourfirm.com"
-                  >
-                    <img src={Message} alt="" />{' '}
-                    <span>vudat1710@gmail.com</span>
-                  </a>
-                </div>
+                {AuthButtonTop}
               </div>
             </div>
           </div>
@@ -76,27 +104,7 @@ export class Header extends Component {
                       <span className="bottom" />
                     </div>
                   </div>
-
-                  <div className="classynav">
-                    <ul>
-                      <li>
-                        <Link to="/">TRANG CHỦ</Link>
-                      </li>
-                      <li>
-                        <a href="about.html">VỀ CHÚNG TÔI</a>
-                      </li>
-                      <li>
-                        <a href="services.html">DỊCH VỤ</a>
-                      </li>
-                      <li>
-                        <a href="post.html">TIN TỨC</a>
-                      </li>
-                      <li>
-                        <a href="contact.html">LIÊN HỆ</a>
-                      </li>
-                      <li>{AuthButton}</li>
-                    </ul>
-                  </div>
+                  {Classynav}
                 </div>
 
                 <div className="contact">
