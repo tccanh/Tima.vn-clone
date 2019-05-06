@@ -153,7 +153,7 @@ const listDataMortgage = [
 export default class BorrowerPick extends Component {
   render() {
     return (
-      <section className="services-area ">
+      <section className="services-area bg-white">
         <div className="container">
           <div className="row">
             <div className="col-12">

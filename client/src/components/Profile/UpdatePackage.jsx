@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class UpdatePackage extends Component {
   static propTypes = {
-    prop: PropTypes
+    profile: PropTypes.object.isRequired
   };
 
   render() {
@@ -23,7 +23,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(1,0)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -39,7 +38,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(2,0)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -55,7 +53,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(4,0)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -71,7 +68,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(7,0)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -87,7 +83,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(8,1)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -103,7 +98,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(9,0)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -119,7 +113,6 @@ class UpdatePackage extends Component {
                 name="chkEditSpice"
                 type="checkbox"
                 className="custom-control-input"
-                onclick="updateProductSpice(12,0)"
               />
               <span className="custom-control-indicator" />
               <span
@@ -133,11 +126,7 @@ class UpdatePackage extends Component {
         </div>
         <div className="form-group">
           <div className="text-center">
-            <button
-              type="button"
-              className="btn btn-warning"
-              onclick="UpdateSpices()"
-            >
+            <button type="button" className="btn btn-warning">
               CẬP NHẬT GÓI SẢN PHẨM MỚI
             </button>
           </div>

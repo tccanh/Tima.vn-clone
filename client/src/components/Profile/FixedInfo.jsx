@@ -13,7 +13,6 @@ const FixedInfo = props => {
         src="https://rs.tima.vn/staticFile//img-avatar/2019/5/6038f62964e74074b91eeadb47cc9204_1_21644528.jpg"
         alt="avatar-san-tai-chinh-Thanh Lam"
         id="imgAvatar"
-        onclick="CallUploadFile()"
         title="Đổi ảnh đại diện khác"
       />
       <input
@@ -26,7 +25,7 @@ const FixedInfo = props => {
       />
 
       <div className="profilecard__body media-body align-self-center">
-        <p className="fs-13 text-gray-light mb-0">
+        <div className="fs-13 text-gray-light mb-0">
           <div className="row">
             <div className="col-3">
               <span>Thông tin tài khoản</span>
@@ -51,7 +50,7 @@ const FixedInfo = props => {
               </span>
             </div>
           </div>
-        </p>
+        </div>
 
         <hr className="mt-2 border-gray" />
         <div className="row  mb-4">

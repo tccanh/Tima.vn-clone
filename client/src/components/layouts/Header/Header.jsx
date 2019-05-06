@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './Header.scss';
 import Call2 from '../../../image/core-img/call2.png';
 import { connect } from 'react-redux';
@@ -62,9 +62,7 @@ export class Header extends Component {
             <li>
               <Link to="/loanlookup">TRA CỨU LỊCH SỬ VAY NỢ</Link>
             </li>
-            <li>
-              <li>{AuthButton2}</li>
-            </li>
+            <li>{AuthButton2}</li>
           </ul>
         </div>
       );
@@ -131,4 +129,4 @@ const mapDispatchToProps = { logoutUser };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Header);
+)(withRouter(Header));

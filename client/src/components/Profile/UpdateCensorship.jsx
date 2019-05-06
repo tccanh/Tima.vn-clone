@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class UpdateCensorship extends Component {
   static propTypes = {
-    prop: PropTypes
+    profile: PropTypes.object.isRequired
   };
 
   render() {
@@ -15,7 +15,7 @@ class UpdateCensorship extends Component {
         <hr className="border-gray mt-md-4 mt-3 mb-0" />
 
         <div className="uploadct-item">
-          <div className="uploadct-item__header" onclick="UploadImg(1)">
+          <div className="uploadct-item__header">
             <div className="upload btn-file mb-2">
               <div className="upload__icon">
                 <span className="icon-id-card">
@@ -42,7 +42,7 @@ class UpdateCensorship extends Component {
         </div>
 
         <div className="uploadct-item">
-          <div className="uploadct-item__header" onclick="UploadImg(4)">
+          <div className="uploadct-item__header">
             <div className="upload btn-file mb-2">
               <div className="upload__icon">
                 <span className="icon-accounts">

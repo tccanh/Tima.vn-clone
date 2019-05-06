@@ -7,7 +7,9 @@ import { loginUser } from '../../../actions/auth.action';
 import './Login.scss';
 class Login extends Component {
   static propTypes = {
-    prop: PropTypes
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
   };
   constructor(props) {
     super(props);

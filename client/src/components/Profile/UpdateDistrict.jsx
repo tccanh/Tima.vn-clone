@@ -28,7 +28,6 @@ class UpdateDistrict extends Component {
                       name="chkEditSpice"
                       type="checkbox"
                       className="custom-control-input"
-                      onclick="updateProductSpice(1,0)"
                     />
                     <span className="custom-control-indicator" />
                     <span
@@ -45,11 +44,7 @@ class UpdateDistrict extends Component {
         </div>
         <div className="form-group">
           <div className="text-center">
-            <button
-              type="button"
-              className="btn btn-warning"
-              onclick="UpdateDistrictSpices()"
-            >
+            <button type="button" className="btn btn-warning">
               CẬP NHẬT TỈNH THÀNH
             </button>
           </div>

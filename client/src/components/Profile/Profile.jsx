@@ -10,10 +10,6 @@ import UpdatePackage from './UpdatePackage';
 import UpdateDistrict from './UpdateDistrict';
 import UpdateCensorship from './UpdateCensorship';
 export class Profile extends Component {
-  static propTypes = {
-    profile: PropTypes.object.isRequired,
-    getCurrentProfile: PropTypes.func.isRequired
-  };
   componentDidMount() {
     this.props.getCurrentProfile();
   }
@@ -44,7 +40,10 @@ export class Profile extends Component {
     return <div className="main-page">{Content}</div>;
   }
 }
-
+Profile.propTypes = {
+  profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
+};
 const mapStateToProps = state => ({
   profile: state.profile
 });

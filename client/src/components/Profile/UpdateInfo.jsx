@@ -7,7 +7,6 @@ const Cities = getCities();
 
 class UpdateInfo extends Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
     updateProfile: PropTypes.func.isRequired
   };
   constructor(props) {
@@ -92,7 +91,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="slTypeLenderRegister"
+                    htmlFor="slTypeLenderRegister"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Bạn là:
@@ -118,7 +117,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="txtFullName"
+                    htmlFor="txtFullName"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Họ và tên:
@@ -139,7 +138,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="txtPhone"
+                    htmlFor="txtPhone"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Điện thoại:
@@ -162,7 +161,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="slGender"
+                    htmlFor="slGender"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Giới tính:
@@ -187,7 +186,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="cbCity"
+                    htmlFor="cbCity"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Thành phố:
@@ -218,7 +217,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="cbDistrict"
+                    htmlFor="cbDistrict"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Quận/Huyện:
@@ -248,7 +247,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-6">
                 <div className="form-group row">
                   <label
-                    for="txtPhone"
+                    htmlFor="txtPhone"
                     className="col-sm-4 col-form-label text-sm-right"
                   >
                     Phường/ Xã:
@@ -257,12 +256,10 @@ class UpdateInfo extends Component {
                     <input
                       type="text"
                       className="form-control"
-                      id="txtPhone"
-                      placeholder=""
-                      disabled={!isUpdate}
                       value={ward}
                       name="ward"
                       onChange={e => this.onChange(e)}
+                      disabled={!isUpdate}
                     />
                   </div>
                 </div>
@@ -273,7 +270,7 @@ class UpdateInfo extends Component {
               <div className="col-xl-12">
                 <div className="form-group row">
                   <label
-                    for="txtAddress"
+                    htmlFor="txtAddress"
                     className="col-xl-2 col-sm-4 col-form-label text-sm-right"
                   >
                     Địa chỉ:
