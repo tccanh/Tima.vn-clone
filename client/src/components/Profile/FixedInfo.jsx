@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const FixedInfo = props => {
   return (
@@ -134,7 +134,5 @@ const FixedInfo = props => {
     </div>
   );
 };
-
-FixedInfo.propTypes = {};
 
 export default FixedInfo;

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import './Section1.scss';
 import Background2 from '../../image/bg-img/2.jpg';

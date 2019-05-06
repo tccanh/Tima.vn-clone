@@ -8,6 +8,11 @@ import TextInputAuth from '../../../HOC/TextInputAuth';
 import { getCities, getDistricts } from '../../../utils/getVNdata';
 const Cities = getCities();
 class Register extends Component {
+  static propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+  };
   constructor(props) {
     super(props);
 
@@ -180,7 +185,7 @@ class Register extends Component {
                       >
                         {getDistricts(province).map((dis, index) => {
                           return (
-                            <option key={index} value={dis[0]} defaultValue>
+                            <option key={index} value={dis[0]}>
                               {dis[1]}
                             </option>
                           );

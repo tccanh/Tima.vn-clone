@@ -27,10 +27,10 @@ export const getCurrentProfile = () => dispatch => {
 };
 
 // Create Profile
-export const createProfile = (profileData, history) => dispatch => {
+export const updateProfile = (type, profileData) => dispatch => {
   axios
-    .post('/api/profile', profileData)
-    .then(res => history.push('/dashboard'))
+    .post(`/api/profile/${type}`, profileData)
+    .then()
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 

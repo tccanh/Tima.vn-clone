@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './BorrowerPick.scss';
 import './Hover.scss';
-import dangkyoto from '../../../image/borrower/dangkyoto.png';
 import daquy from '../../../image/borrower/daquy.png';
 import dienthoai from '../../../image/borrower/dienthoai.png';
 import dongho from '../../../image/borrower/dongho.png';

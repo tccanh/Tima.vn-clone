@@ -1,220 +1,328 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getCities, getDistricts } from '../../utils/getVNdata';
+import { updateProfile } from '../../actions/profile.action';
+const Cities = getCities();
 
 class UpdateInfo extends Component {
   static propTypes = {
-    prop: PropTypes
+    user: PropTypes.object.isRequired,
+    updateProfile: PropTypes.func.isRequired
   };
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      isUpdate: false,
+      typeOfAcc: '',
+      typeOfCredit: '',
+      gender: '',
+      province: '',
+      district: '',
+      ward: '',
+      details: ''
+    };
+  }
+  componentDidMount() {
+    const { typeOfCredit, gender, address, user } = this.props.profile;
+    const { province, district, ward, details } = address;
+    const { typeOfAcc } = user;
+
+    this.setState({
+      typeOfAcc,
+      typeOfCredit,
+      gender,
+      province,
+      district,
+      ward,
+      details
+    });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    const {
+      typeOfCredit,
+      gender,
+      province,
+      district,
+      ward,
+      details,
+      typeOfAcc
+    } = this.state;
+    const newInfo = {
+      typeOfCredit,
+      gender,
+      province,
+      district,
+      ward,
+      details
+    };
+    this.props.updateProfile(typeOfAcc, newInfo);
+    this.setState(old => ({ isUpdate: !old.isUpdate }));
+  }
+  onUpdate() {
+    this.setState(old => ({ isUpdate: !old.isUpdate }));
+  }
   render() {
+    const {
+      isUpdate,
+      typeOfCredit,
+      gender,
+      province,
+      district,
+      ward,
+      details
+    } = this.state;
+
     return (
       <div className="accinfo-2">
-        <div className="row mb-3">
-          <div className="row col-xl-12">
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="slTypeLenderRegister"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Bạn là:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <select
-                    className="form-control"
-                    id="slTypeLenderRegister"
-                    disabled="disabled"
+        <form noValidate onSubmit={e => this.onSubmit(e)}>
+          <div className="row mb-3">
+            <div className="row col-xl-12">
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="slTypeLenderRegister"
+                    className="col-sm-4 col-form-label text-sm-right"
                   >
-                    <option value="0" />
-                    <option value="1" selected>
-                      Tín dụng cá nhân
-                    </option>
-                    <option value="2">Nhân Viên Ngân Hàng</option>
-                  </select>
+                    Bạn là:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <select
+                      className="form-control"
+                      id="slTypeLenderRegister"
+                      disabled={!isUpdate}
+                      value={typeOfCredit}
+                      name="typeOfCredit"
+                      onChange={e => this.onChange(e)}
+                    >
+                      <option value="personal">Tín dụng cá nhân</option>
+                      <option value="teller">Nhân Viên Ngân Hàng</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row col-xl-12">
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="txtFullName"
+                    className="col-sm-4 col-form-label text-sm-right"
+                  >
+                    Họ và tên:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="txtFullName"
+                      placeholder=""
+                      disabled="disabled"
+                      value={this.props.profile.user.fullname}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="txtPhone"
+                    className="col-sm-4 col-form-label text-sm-right"
+                  >
+                    Điện thoại:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <input
+                      type="tel"
+                      className="form-control"
+                      id="txtPhone"
+                      placeholder=""
+                      disabled="disabled"
+                      value={this.props.profile.user.phone}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row col-xl-12">
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="slGender"
+                    className="col-sm-4 col-form-label text-sm-right"
+                  >
+                    Giới tính:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <select
+                      className="form-control"
+                      id="slGender"
+                      disabled={!isUpdate}
+                      value={gender}
+                      name="gender"
+                      onChange={e => this.onChange(e)}
+                    >
+                      <option value="Male">Nam</option>
+                      <option value="Female">Nữ</option>
+                      <option value="Other">Khác</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="cbCity"
+                    className="col-sm-4 col-form-label text-sm-right"
+                  >
+                    Thành phố:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <select
+                      className="form-control"
+                      id="cbCity"
+                      disabled={!isUpdate}
+                      name="province"
+                      value={province}
+                      onChange={e => this.onChange(e)}
+                    >
+                      {Cities.map((city, index) => {
+                        return (
+                          <option key={index} value={city[0]}>
+                            {city[1]}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row col-xl-12">
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="cbDistrict"
+                    className="col-sm-4 col-form-label text-sm-right"
+                  >
+                    Quận/Huyện:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <select
+                      className="form-control"
+                      id="cbDistrict"
+                      disabled={!isUpdate}
+                      name="district"
+                      value={district}
+                      onChange={e => this.onChange(e)}
+                    >
+                      {province &&
+                        getDistricts(province).map((dis, index) => {
+                          return (
+                            <option key={index} value={dis[0]}>
+                              {dis[1]}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-xl-6">
+                <div className="form-group row">
+                  <label
+                    for="txtPhone"
+                    className="col-sm-4 col-form-label text-sm-right"
+                  >
+                    Phường/ Xã:
+                  </label>
+                  <div className="col-xl-8 col-sm-7">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="txtPhone"
+                      placeholder=""
+                      disabled={!isUpdate}
+                      value={ward}
+                      name="ward"
+                      onChange={e => this.onChange(e)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row col-xl-12">
+              <div className="col-xl-12">
+                <div className="form-group row">
+                  <label
+                    for="txtAddress"
+                    className="col-xl-2 col-sm-4 col-form-label text-sm-right"
+                  >
+                    Địa chỉ:
+                  </label>
+                  <div className="col-xl-10 col-sm-7">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="txtAddress"
+                      placeholder=""
+                      disabled={!isUpdate}
+                      name="details"
+                      value={details}
+                      onChange={e => this.onChange(e)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="row col-xl-12">
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="txtFullName"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Họ & Tên:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="txtFullName"
-                    placeholder=""
-                    disabled="disabled"
-                    value="Nguyễn Huy Ho&#224;ng"
-                  />
-                </div>
-              </div>
+          {isUpdate && (
+            <div className="text-center">
+              <input
+                type="submit"
+                className="btn btn-warning mx-auto text-uppercase"
+              />
             </div>
+          )}
+        </form>
 
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="txtPhone"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Điện thoại:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <input
-                    type="tel"
-                    className="form-control"
-                    id="txtPhone"
-                    placeholder=""
-                    disabled="disabled"
-                    value="0854911798"
-                  />
-                </div>
-              </div>
-            </div>
+        {!isUpdate && (
+          <div className="text-center">
+            <input
+              type="button"
+              id="btnUpdateInfoLender"
+              className="btn btn-warning mx-auto text-uppercase"
+              value="Thay đổi thông tin"
+              onClick={() => this.onUpdate()}
+            />
           </div>
-
-          <div className="row col-xl-12">
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="slGender"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Giới tính:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <select
-                    className="form-control"
-                    id="slGender"
-                    disabled="disabled"
-                  >
-                    <option value="0" selected>
-                      Nam
-                    </option>
-                    <option value="1">Nữ</option>
-                    <option value="2">Khác</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="cbCity"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Thành phố:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <select
-                    className="form-control"
-                    id="cbCity"
-                    disabled="disabled"
-                  >
-                    <option value="2"> H&#224; Giang </option>
-                    <option value="4"> Cao Bằng </option>
-                    <option value="6"> Bắc Kạn </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row col-xl-12">
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="cbDistrict"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Quận/Huyện:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <select
-                    className="form-control"
-                    id="cbDistrict"
-                    disabled="disabled"
-                  >
-                    <option value="" />
-                    <option value="282"> Mỹ Đức </option>
-                    <option value="974"> Unknow </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-xl-6">
-              <div className="form-group row">
-                <label
-                  for="cbWard"
-                  className="col-sm-4 col-form-label text-sm-right"
-                >
-                  Phường/Xã:
-                </label>
-                <div className="col-xl-8 col-sm-7">
-                  <select
-                    className="form-control"
-                    id="cbWard"
-                    disabled="disabled"
-                  >
-                    <option value="" />
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row col-xl-12">
-            <div className="col-xl-12">
-              <div className="form-group row">
-                <label
-                  for="txtAddress"
-                  className="col-xl-2 col-sm-4 col-form-label text-sm-right"
-                >
-                  Địa chỉ:
-                </label>
-                <div className="col-xl-10 col-sm-7">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="txtAddress"
-                    placeholder=""
-                    disabled="disabled"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center">
-          <input
-            type="button"
-            id="btnUpdateInfoLender"
-            data-id="34474"
-            data-cmd="enable-form"
-            className="btn btn-warning mx-auto text-uppercase"
-            value="Thay đổi thông tin"
-          />
-        </div>
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({ user: state.user });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { updateProfile };
 
 export default connect(
   mapStateToProps,
