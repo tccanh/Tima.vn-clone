@@ -29,8 +29,12 @@ export class Profile extends Component {
           </div>
           <div className="container py-5">
             <div className="tm-account bg-white p-md-5 pt-md-4 p-3">
-              <UpdatePackage profile={profile} />
-              <UpdateDistrict profile={profile} />
+              {profile.user.typeOfAcc === 'loan' && (
+                <UpdatePackage profile={profile} />
+              )}
+              {profile.user.typeOfAcc === 'loan' && (
+                <UpdateDistrict profile={profile} />
+              )}
               <UpdateCensorship profile={profile} />
             </div>
           </div>

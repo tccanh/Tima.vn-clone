@@ -296,6 +296,7 @@ class UpdateInfo extends Component {
               <input
                 type="submit"
                 className="btn btn-warning mx-auto text-uppercase"
+                value="CẬP NHẬT"
               />
             </div>
           )}

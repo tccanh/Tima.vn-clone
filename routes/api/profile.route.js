@@ -78,6 +78,48 @@ router.post(
     }
   }
 );
+router.post(
+  '/loan/update/packages',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { packages } = req.body;
+    try {
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        // Update
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { packages } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+router.post(
+  '/loan/update/reciveDistrict',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { reciveDistrict } = req.body;
+    try {
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        // Update
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { reciveDistrict } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
 // Tạo hoặc sửa profile người vay tiền
 router.post(
   '/borrow',

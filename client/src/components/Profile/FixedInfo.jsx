@@ -67,7 +67,7 @@ const FixedInfo = props => {
                 <span style={{ marginLeft: '8px' }}>:</span>
               </label>
               <label className="col-sm-4 fs-13">
-                {props.profile.user.typeOfCredit === 'loan' ? (
+                {props.profile.user.typeOfAcc === 'loan' ? (
                   <b>Nhà đầu tư</b>
                 ) : (
                   <b>Người vay</b>
@@ -75,7 +75,7 @@ const FixedInfo = props => {
               </label>
             </div>
 
-            {props.profile.user.typeOfCredit === 'loan' ? (
+            {props.profile.user.typeOfAcc === 'loan' ? (
               <div className="row">
                 <label className="col-sm-4 fs-13">
                   Số dư<span style={{ marginLeft: '8px' }}>:</span>

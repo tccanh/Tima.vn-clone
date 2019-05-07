@@ -2,53 +2,97 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDistricts } from '../../utils/getVNdata';
+import { updateProfile } from '../../actions/profile.action';
 class UpdateDistrict extends Component {
   static propTypes = {
-    profile: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired,
+    updateProfile: PropTypes.func.isRequired
   };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      reciveDistrict: ''
+    };
+  }
+  componentDidMount() {
+    const { reciveDistrict } = this.props.profile;
+    this.setState({ reciveDistrict });
+    this.mySet = new Set(reciveDistrict);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onChange(e) {
+    if (e.target.checked) {
+      this.mySet.add(e.target.value);
+    } else {
+      this.mySet.delete(e.target.value);
+    }
+    this.setState({ reciveDistrict: [...this.mySet] });
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    const { reciveDistrict } = this.state;
+
+    this.props.updateProfile('loan/update/reciveDistrict', { reciveDistrict });
+  }
   render() {
+    const { reciveDistrict } = this.state;
     return (
       <div
         className="tm-dtcv bg-white p-3 px-md-5 pb-md-5 pt-md-4"
         id="editDistrictSpice"
       >
-        <h2 className="text-uppercase fs-16 fw-6 mb-0" id="idDistrictShowSpice">
-          Các quận huyện bạn nhận hồ sơ
-        </h2>
+        <form noValidate onSubmit={e => this.onSubmit(e)}>
+          <h2
+            className="text-uppercase fs-16 fw-6 mb-0"
+            id="idDistrictShowSpice"
+          >
+            Các quận huyện bạn nhận hồ sơ
+          </h2>
 
-        <hr className="mb-3" />
-        <div className="districtDiv form-group row">
-          <div className="row">
-            {getDistricts(this.props.profile.address.province).map(
-              (val, key) => {
-                return (
-                  <label className="custom-control col-md-5" key={key}>
-                    <input
-                      value={val[0]}
-                      name="chkEditSpice"
-                      type="checkbox"
-                      className="custom-control-input"
-                    />
-                    <span className="custom-control-indicator" />
-                    <span
-                      className="custom-control-description"
-                      style={{ fontSize: '17px' }}
-                    >
-                      {val[1]}
-                    </span>
-                  </label>
-                );
-              }
-            )}
+          <hr className="mb-3" />
+          <div className="districtDiv form-group row">
+            <div className="row">
+              {getDistricts(this.props.profile.address.province).map(
+                (val, key) => {
+                  return (
+                    <label className="custom-control col-md-5" key={key}>
+                      <input
+                        value={val[0]}
+                        name={val[0]}
+                        type="checkbox"
+                        className="custom-control-input"
+                        onChange={e => this.onChange(e)}
+                        checked={reciveDistrict.indexOf(val[0]) !== -1}
+                      />
+                      <span className="custom-control-indicator" />
+                      <span
+                        className="custom-control-description"
+                        style={{ fontSize: '17px' }}
+                      >
+                        {val[1]}
+                      </span>
+                    </label>
+                  );
+                }
+              )}
+            </div>
           </div>
-        </div>
-        <div className="form-group">
-          <div className="text-center">
-            <button type="button" className="btn btn-warning">
-              CẬP NHẬT TỈNH THÀNH
-            </button>
+          <div className="form-group">
+            <div className="text-center">
+              <input
+                type="submit"
+                className="btn btn-warning"
+                value="CẬP NHẬT TỈNH THÀNH"
+              />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     );
   }
@@ -56,7 +100,7 @@ class UpdateDistrict extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { updateProfile };
 
 export default connect(
   mapStateToProps,
