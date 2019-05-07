@@ -51,12 +51,12 @@ const BorrowProfileSchema = new Schema({
   // chỉ lưu ảnh
   censorship: {
     // Chứng minh thư nhân dân ID
-    cmndPhoto: {
+    identification: {
       type: Array,
       default: []
     },
     // Ảnh chân dung
-    portraitPhoto: {
+    portrait: {
       type: Array,
       default: []
     },

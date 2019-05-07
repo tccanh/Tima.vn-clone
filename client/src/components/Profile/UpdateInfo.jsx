@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCities, getDistricts } from '../../utils/getVNdata';
 import { updateProfile } from '../../actions/profile.action';
+// import Notification from '../../HOC/Snackbar';
+import Notifications, { notify } from 'react-notify-toast';
 const Cities = getCities();
-
 class UpdateInfo extends Component {
   static propTypes = {
     updateProfile: PropTypes.func.isRequired
   };
+  toast = notify.createShowQueue();
   constructor(props) {
     super(props);
 
@@ -68,6 +70,9 @@ class UpdateInfo extends Component {
     };
     this.props.updateProfile(typeOfAcc, newInfo);
     this.setState(old => ({ isUpdate: !old.isUpdate }));
+
+    const msg = 'Cập nhật thông tin cá nhân thành công.';
+    this.toast(msg, 'warning', 3000);
   }
   onUpdate() {
     this.setState(old => ({ isUpdate: !old.isUpdate }));
@@ -85,6 +90,7 @@ class UpdateInfo extends Component {
 
     return (
       <div className="accinfo-2">
+        <Notifications options={{ zIndex: 200, top: '10px' }} />
         <form noValidate onSubmit={e => this.onSubmit(e)}>
           <div className="row mb-3">
             <div className="row col-xl-12">

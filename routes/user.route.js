@@ -55,7 +55,9 @@ router.post('/register', (req, res, next) => {
                 user: user_.id,
                 address: {
                   province,
-                  district
+                  district,
+                  ward: '',
+                  details: ''
                 }
               });
               newProfile

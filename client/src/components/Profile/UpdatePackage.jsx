@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Package } from '../../utils/getPackage';
 import { updateProfile } from '../../actions/profile.action';
+import Notifications, { notify } from 'react-notify-toast';
+
 class UpdatePackage extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     updateProfile: PropTypes.func.isRequired
   };
+  toast = notify.createShowQueue();
   constructor(props) {
     super(props);
 
@@ -39,11 +42,14 @@ class UpdatePackage extends Component {
     const { packages } = this.state;
 
     this.props.updateProfile('loan/update/packages', { packages });
+    const msg = 'Cập nhật gói sản phẩm thành công.';
+    this.toast(msg, 'warning', 3000);
   }
   render() {
     const { packages } = this.state;
     return (
       <div className="tm-dtcv bg-white p-3 px-md-5 pb-md-5 pt-md-4">
+        <Notifications options={{ zIndex: 200, top: '10px' }} />
         <form noValidate onSubmit={e => this.onSubmit(e)}>
           <h2 className="text-uppercase fs-16 fw-6 mb-0">
             Các gói sản phẩm bạn nhận đơn vay

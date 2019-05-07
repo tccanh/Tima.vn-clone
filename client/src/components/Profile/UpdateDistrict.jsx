@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDistricts } from '../../utils/getVNdata';
 import { updateProfile } from '../../actions/profile.action';
+import Notifications, { notify } from 'react-notify-toast';
 class UpdateDistrict extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     updateProfile: PropTypes.func.isRequired
   };
+  toast = notify.createShowQueue();
   constructor(props) {
     super(props);
 
@@ -39,6 +41,8 @@ class UpdateDistrict extends Component {
     const { reciveDistrict } = this.state;
 
     this.props.updateProfile('loan/update/reciveDistrict', { reciveDistrict });
+    const msg = 'Cập nhật quận huyện nhận đơn thành công.';
+    this.toast(msg, 'warning', 3000);
   }
   render() {
     const { reciveDistrict } = this.state;
@@ -47,6 +51,7 @@ class UpdateDistrict extends Component {
         className="tm-dtcv bg-white p-3 px-md-5 pb-md-5 pt-md-4"
         id="editDistrictSpice"
       >
+        <Notifications options={{ zIndex: 200, top: '10px' }} />
         <form noValidate onSubmit={e => this.onSubmit(e)}>
           <h2
             className="text-uppercase fs-16 fw-6 mb-0"

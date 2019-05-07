@@ -8,7 +8,8 @@ import FixedInfo from './FixedInfo';
 import UpdateInfo from './UpdateInfo';
 import UpdatePackage from './UpdatePackage';
 import UpdateDistrict from './UpdateDistrict';
-import UpdateCensorship from './UpdateCensorship';
+import UpdateCensorship1 from './UpdateCensorship1';
+import UpdateCensorship2 from './UpdateCensorship2';
 export class Profile extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
@@ -35,7 +36,18 @@ export class Profile extends Component {
               {profile.user.typeOfAcc === 'loan' && (
                 <UpdateDistrict profile={profile} />
               )}
-              <UpdateCensorship profile={profile} />
+              <div
+                id="UploadIdCard"
+                className="uploadct bg-white p-md-5 pt-md-4 p-3"
+              >
+                <h2 className="text-uppercase fs-16 fw-6 mb-0">
+                  Thông tin kiểm duyệt
+                </h2>
+
+                <hr className="border-gray mt-md-4 mt-3 mb-0" />
+                <UpdateCensorship1 profile={profile} />
+                <UpdateCensorship2 profile={profile} />
+              </div>
             </div>
           </div>
         </>

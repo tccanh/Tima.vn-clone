@@ -37,9 +37,7 @@ router.post(
       district,
       ward,
       details,
-      packages,
-      identification,
-      portrait
+      packages
     } = req.body;
     profileFields.user = req.user.id;
     profileFields.avatar = avatar;
@@ -54,10 +52,7 @@ router.post(
       ward,
       details
     };
-    profileFields.censorship = {
-      identification,
-      portrait
-    };
+
     profileFields.packages = packages;
     try {
       const oldProfile = await LoanProfile.findOne({ user: req.user.id });
@@ -120,6 +115,54 @@ router.post(
     }
   }
 );
+router.post(
+  '/loan/update/censorship',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { identification, portrait } = req.body;
+    try {
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        const censorship = {
+          identification,
+          portrait
+        };
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { censorship } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+router.post(
+  '/borrow/update/censorship',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { portrait, identification } = req.body;
+    try {
+      const oldProfile = await BorrowProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        const censorship = {
+          portrait,
+          identification
+        };
+        const oldProfileUpdate = await BorrowProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { censorship } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
 // Tạo hoặc sửa profile người vay tiền
 router.post(
   '/borrow',
@@ -152,10 +195,7 @@ router.post(
       comPhone,
       relName,
       whatRels,
-      relPhone,
-      cmndPhoto,
-      portraitPhoto,
-      incomePhoto
+      relPhone
     } = req.body;
     profileFields.user = req.user.id;
     profileFields.avatar = avatar;
@@ -180,11 +220,6 @@ router.post(
       relName,
       whatRels,
       relPhone
-    };
-    profileFields.censorship = {
-      cmndPhoto: [...cmndPhoto],
-      portraitPhoto: [...portraitPhoto],
-      incomePhoto: [...incomePhoto]
     };
     try {
       const oldProfile = await BorrowProfile.findOne({ user: req.user.id });
