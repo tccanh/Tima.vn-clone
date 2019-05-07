@@ -14,6 +14,7 @@ import Profile from './components/Profile/Profile';
 import Footer from './components/layouts/Footer/Footer';
 import BorrowerPick from './components/Borrower/BorrowerPick/BorrowerPick';
 import Home from './components/Home/Home';
+import Post from './components/Borrower/Posts/Post';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -43,6 +44,7 @@ function App() {
               <PrivateRoute exact path="/profile" component={Profile} />
               {/* Khu vực dành cho bọn đoé có tiền */}
               <PrivateRoute exact path="/borrower" component={BorrowerPick} />
+              <PrivateRoute exact path="/borrower/create" component={Post} />
 
               {/* Khu vực dành cho bọn thừa tiền */}
             </div>

@@ -16,7 +16,7 @@ import theongay from '../../../image/borrower/theongay.png';
 import xemay from '../../../image/borrower/xemay.png';
 const listDataPersonal = [
   {
-    to: '',
+    to: '/borrower/create',
     title: 'Vay tín chấp theo lương',
     src: luong,
     text: (
