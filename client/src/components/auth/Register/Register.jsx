@@ -8,6 +8,11 @@ import TextInputAuth from '../../../HOC/TextInputAuth';
 import { getCities, getDistricts } from '../../../utils/getVNdata';
 const Cities = getCities();
 class Register extends Component {
+  static propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+  };
   constructor(props) {
     super(props);
 
@@ -58,6 +63,8 @@ class Register extends Component {
       district,
       typeOfAcc
     };
+    console.log(newUser);
+
     this.props.registerUser(newUser, this.props.history);
   }
 
@@ -180,7 +187,7 @@ class Register extends Component {
                       >
                         {getDistricts(province).map((dis, index) => {
                           return (
-                            <option key={index} value={dis[0]} defaultValue>
+                            <option key={index} value={dis[0]}>
                               {dis[1]}
                             </option>
                           );
@@ -191,50 +198,73 @@ class Register extends Component {
                       <label className="mb-0 mr-3" htmlFor="fc-radio-1">
                         Bạn cần:
                       </label>
-
-                      <label style={{ marginRight: '30px' }}>
+                      <label
+                        className="custom-control custom-checkbox fs-13 mb-0"
+                        style={{ minHeight: 0 }}
+                      >
                         <input
                           name="typeOfAcc"
-                          type="radio"
                           value="borrow"
                           checked={typeOfAcc === 'borrow'}
                           onChange={e => this.onChange(e)}
+                          type="checkbox"
+                          className="custom-control-input"
                         />
-                        Vay
+                        <span className="custom-control-indicator" />
+                        <span
+                          className="custom-control-description"
+                          style={{ fontWeight: 600 }}
+                        >
+                          Vay
+                        </span>
                       </label>
-
-                      <label>
+                      <label
+                        className="custom-control custom-checkbox fs-13 mb-0"
+                        style={{ minHeight: 0 }}
+                      >
                         <input
                           name="typeOfAcc"
-                          type="radio"
-                          checked={typeOfAcc === 'loan'}
                           value="loan"
+                          checked={typeOfAcc === 'loan'}
                           onChange={e => this.onChange(e)}
+                          type="checkbox"
+                          className="custom-control-input"
                         />
-                        Cho vay
+                        <span className="custom-control-indicator" />
+                        <span
+                          className="custom-control-description"
+                          style={{ fontWeight: 600 }}
+                        >
+                          Cho vay
+                        </span>
                       </label>
                     </div>
                     <div className="text-gray mb-3">
-                      <input
-                        type="checkbox"
-                        name="chkDieuKhoan"
-                        id="chkDieuKhoan"
-                      />
-                      <label htmlFor="chkDieuKhoan">
-                        Tôi đồng ý với các{' '}
-                        <a
-                          href="/dieu-khoan.html"
-                          target="_blank"
-                          style={{ fontSize: '14px' }}
-                        >
-                          Điều khoản
-                        </a>{' '}
-                        của Tima
+                      <label className="custom-control custom-checkbox fs-13 mb-0">
+                        <input
+                          name="agree"
+                          type="checkbox"
+                          className="custom-control-input"
+                        />
+                        <span className="custom-control-indicator" />
+                        <span className="custom-control-description">
+                          {'  '}
+                          Tôi đồng ý với các{' '}
+                          <a
+                            className="text-primary"
+                            href="/dieu-khoan.html"
+                            target="_blank"
+                            style={{ fontSize: '13px' }}
+                          >
+                            Điều khoản
+                          </a>{' '}
+                          của Tima
+                        </span>
                       </label>
                     </div>
 
                     <button
-                      className="btn btn-lg btn-block btn-primary text-uppercase"
+                      className="btn btn-lg btn-block btn-warning text-uppercase"
                       style={{ fontSize: '13px' }}
                     >
                       Đăng ký

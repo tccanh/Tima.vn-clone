@@ -14,7 +14,7 @@
 /* Default styles for the demo buttons */
 
 .button {
-  margin: .4em;
+  margin: 0.4em;
   padding: 1em;
   cursor: pointer;
   background: #ffffff;
@@ -394,8 +394,8 @@
 
 .hover {
   display: inline-block;
-  -webkit-transition-duration: .5s;
-  transition-duration: .5s;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
   -webkit-transition-property: -webkit-transform;
   transition-property: transform;
   -webkit-transform: translateZ(0);
@@ -452,8 +452,8 @@
 
 .hang {
   display: inline-block;
-  -webkit-transition-duration: .5s;
-  transition-duration: .5s;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
   -webkit-transition-property: -webkit-transform;
   transition-property: transform;
   -webkit-transform: translateZ(0);
@@ -1228,8 +1228,8 @@
 .buzz:hover {
   -webkit-animation-name: buzz;
   animation-name: buzz;
-  -webkit-animation-duration: .15s;
-  animation-duration: .15s;
+  -webkit-animation-duration: 0.15s;
+  animation-duration: 0.15s;
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
@@ -1363,8 +1363,8 @@
 .buzz-out:hover {
   -webkit-animation-name: buzz-out;
   animation-name: buzz-out;
-  -webkit-animation-duration: .75s;
-  animation-duration: .75s;
+  -webkit-animation-duration: 0.75s;
+  animation-duration: 0.75s;
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
   -webkit-animation-iteration-count: 1;
@@ -1461,8 +1461,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  -webkit-transition-duration: .3s;
-  transition-duration: .3s;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
   -webkit-transition-property: top, right, bottom, left;
   transition-property: top, right, bottom, left;
 }
@@ -1495,8 +1495,8 @@
   bottom: -16px;
   left: -16px;
   opacity: 0;
-  -webkit-transition-duration: .3s;
-  transition-duration: .3s;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
   -webkit-transition-property: top, right, bottom, left;
   transition-property: top, right, bottom, left;
 }
@@ -1610,8 +1610,17 @@
   height: 10px;
   width: 90%;
   opacity: 0;
-  background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+  background: -webkit-radial-gradient(
+    center,
+    ellipse,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
   /* W3C */
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
@@ -1654,7 +1663,7 @@
   0% {
     -webkit-transform: translateY(6px);
     transform: translateY(6px);
-    opacity: .4;
+    opacity: 0.4;
   }
 
   50% {
@@ -1666,7 +1675,7 @@
   100% {
     -webkit-transform: translateY(6px);
     transform: translateY(6px);
-    opacity: .4;
+    opacity: 0.4;
   }
 }
 
@@ -1675,7 +1684,7 @@
     -webkit-transform: translateY(6px);
     -ms-transform: translateY(6px);
     transform: translateY(6px);
-    opacity: .4;
+    opacity: 0.4;
   }
 
   50% {
@@ -1689,7 +1698,7 @@
     -webkit-transform: translateY(6px);
     -ms-transform: translateY(6px);
     transform: translateY(6px);
-    opacity: .4;
+    opacity: 0.4;
   }
 }
 
@@ -1716,8 +1725,17 @@
   height: 10px;
   width: 90%;
   opacity: 0;
-  background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+  background: -webkit-radial-gradient(
+    center,
+    ellipse,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
   /* W3C */
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
@@ -1744,7 +1762,7 @@
 }
 
 .hover-shadow:hover:before {
-  opacity: .4;
+  opacity: 0.4;
   -webkit-transform: translateY(6px);
   -ms-transform: translateY(6px);
   transform: translateY(6px);
@@ -1752,8 +1770,8 @@
   animation-name: hover-shadow;
   -webkit-animation-duration: 1.5s;
   animation-duration: 1.5s;
-  -webkit-animation-delay: .3s;
-  animation-delay: .3s;
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
@@ -1793,14 +1811,32 @@
 
 .shadow-radial:before {
   bottom: 100%;
-  background: -webkit-radial-gradient(50% 150%, ellipse, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 80%);
-  background: radial-gradient(ellipse at 50% 150%, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 80%);
+  background: -webkit-radial-gradient(
+    50% 150%,
+    ellipse,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  background: radial-gradient(
+    ellipse at 50% 150%,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
 }
 
 .shadow-radial:after {
   top: 100%;
-  background: -webkit-radial-gradient(50% -50%, ellipse, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 80%);
-  background: radial-gradient(ellipse at 50% -50%, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 80%);
+  background: -webkit-radial-gradient(
+    50% -50%,
+    ellipse,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  background: radial-gradient(
+    ellipse at 50% -50%,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 80%
+  );
 }
 
 .shadow-radial:hover:before,
@@ -2125,8 +2161,20 @@
   left: 0;
   background: white;
   /* IE9 */
-  background: -webkit-linear-gradient(315deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
-  background: linear-gradient(135deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
+  background: -webkit-linear-gradient(
+    315deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
+  background: linear-gradient(
+    135deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffffff', endColorstr='#000000');
   /*For IE7-8-9*/
   z-index: 1000;
@@ -2163,8 +2211,20 @@
   right: 0;
   background: white;
   /* IE9 */
-  background: -webkit-linear-gradient(225deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
-  background: linear-gradient(225deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
+  background: -webkit-linear-gradient(
+    225deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
+  background: linear-gradient(
+    225deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
   box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.4);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
@@ -2198,8 +2258,20 @@
   right: 0;
   background: white;
   /* IE9 */
-  background: -webkit-linear-gradient(135deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
-  background: linear-gradient(315deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
+  background: -webkit-linear-gradient(
+    135deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
+  background: linear-gradient(
+    315deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
   box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.4);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
@@ -2233,8 +2305,20 @@
   left: 0;
   background: white;
   /* IE9 */
-  background: -webkit-linear-gradient(45deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
-  background: linear-gradient(45deg, white 45%, #aaaaaa 50%, #cccccc 56%, white 80%);
+  background: -webkit-linear-gradient(
+    45deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
+  background: linear-gradient(
+    45deg,
+    white 45%,
+    #aaaaaa 50%,
+    #cccccc 56%,
+    white 80%
+  );
   box-shadow: 1px -1px 1px rgba(0, 0, 0, 0.4);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;

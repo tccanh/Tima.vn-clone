@@ -4,12 +4,17 @@ import setAuthToken from './utils/setAuthToken';
 import store from './store';
 import './App.scss';
 import { Provider } from 'react-redux';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import { Route, BrowserRouter } from 'react-router-dom';
 import { setCurrentUser, logoutUser } from './actions/auth.action';
+import PrivateRoute from './HOC/PrivateRoute';
 import Header from './components/layouts/Header/Header';
-import Login from './components/Auth/Login/Login';
-import Register from './components/Auth/Register/Register';
-import { Footer } from './components/layouts/Footer/Footer';
+import Login from './components/auth/Login/Login';
+import Register from './components/auth/Register/Register';
+import Profile from './components/Profile/Profile';
+import Footer from './components/layouts/Footer/Footer';
+import BorrowerPick from './components/Borrower/BorrowerPick/BorrowerPick';
+import Home from './components/Home/Home';
+import Post from './components/Borrower/Posts/Post';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -33,8 +38,15 @@ function App() {
           <Header />
           <div className="main-page">
             <div className="container py-5">
+              <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <PrivateRoute exact path="/profile" component={Profile} />
+              {/* Khu vực dành cho bọn đoé có tiền */}
+              <PrivateRoute exact path="/borrower" component={BorrowerPick} />
+              <PrivateRoute exact path="/borrower/create" component={Post} />
+
+              {/* Khu vực dành cho bọn thừa tiền */}
             </div>
           </div>
           <Footer />

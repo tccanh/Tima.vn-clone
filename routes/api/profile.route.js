@@ -37,9 +37,7 @@ router.post(
       district,
       ward,
       details,
-      packages,
-      identification,
-      portrait
+      packages
     } = req.body;
     profileFields.user = req.user.id;
     profileFields.avatar = avatar;
@@ -54,10 +52,7 @@ router.post(
       ward,
       details
     };
-    profileFields.censorship = {
-      identification,
-      portrait
-    };
+
     profileFields.packages = packages;
     try {
       const oldProfile = await LoanProfile.findOne({ user: req.user.id });
@@ -73,6 +68,96 @@ router.post(
       // Create
       const newProfile = await new LoanProfile(profileFields).save();
       return res.json(newProfile);
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+router.post(
+  '/loan/update/packages',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { packages } = req.body;
+    try {
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        // Update
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { packages } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+router.post(
+  '/loan/update/reciveDistrict',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { reciveDistrict } = req.body;
+    try {
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        // Update
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { reciveDistrict } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+router.post(
+  '/loan/update/censorship',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { identification, portrait } = req.body;
+    try {
+      const oldProfile = await LoanProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        const censorship = {
+          identification,
+          portrait
+        };
+        const oldProfileUpdate = await LoanProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { censorship } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
+    } catch (error) {
+      return res.status(500).json('Unknown server error');
+    }
+  }
+);
+router.post(
+  '/borrow/update/censorship',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { portrait, identification } = req.body;
+    try {
+      const oldProfile = await BorrowProfile.findOne({ user: req.user.id });
+      if (oldProfile) {
+        const censorship = {
+          portrait,
+          identification
+        };
+        const oldProfileUpdate = await BorrowProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: { censorship } },
+          { new: true }
+        );
+        return res.json(oldProfileUpdate);
+      }
     } catch (error) {
       return res.status(500).json('Unknown server error');
     }
@@ -110,10 +195,7 @@ router.post(
       comPhone,
       relName,
       whatRels,
-      relPhone,
-      cmndPhoto,
-      portraitPhoto,
-      incomePhoto
+      relPhone
     } = req.body;
     profileFields.user = req.user.id;
     profileFields.avatar = avatar;
@@ -138,11 +220,6 @@ router.post(
       relName,
       whatRels,
       relPhone
-    };
-    profileFields.censorship = {
-      cmndPhoto: [...cmndPhoto],
-      portraitPhoto: [...portraitPhoto],
-      incomePhoto: [...incomePhoto]
     };
     try {
       const oldProfile = await BorrowProfile.findOne({ user: req.user.id });
@@ -174,14 +251,18 @@ router.get(
     const { typeOfAcc } = req.user;
     if (typeOfAcc === 'loan') {
       try {
-        const thisProfile = await LoanProfile.find({ user }).populate('user');
+        const thisProfile = await LoanProfile.findOne({ user }).populate(
+          'user'
+        );
         return res.json(thisProfile);
       } catch (error) {
         return res.status(500).json('Unknown server error');
       }
     } else if (typeOfAcc === 'borrow') {
       try {
-        const thisProfile = await BorrowProfile.find({ user }).populate('user');
+        const thisProfile = await BorrowProfile.findOne({ user }).populate(
+          'user'
+        );
         return res.json(thisProfile);
       } catch (error) {
         return res.status(500).json('Unknown server error');

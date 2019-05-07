@@ -7,7 +7,9 @@ import { loginUser } from '../../../actions/auth.action';
 import './Login.scss';
 class Login extends Component {
   static propTypes = {
-    prop: PropTypes
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
   };
   constructor(props) {
     super(props);
@@ -127,7 +129,7 @@ class Login extends Component {
                       </a>
                     </div>
 
-                    <button className="btn btn-lg btn-block btn-primary text-uppercase fs-13 rounded mt-5">
+                    <button className="btn btn-lg btn-block btn-warning text-uppercase fs-13 rounded mt-5">
                       Đăng nhập ngay
                     </button>
                   </div>
