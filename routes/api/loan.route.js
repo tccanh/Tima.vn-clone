@@ -2,9 +2,8 @@ const express = require('express');
 const passport = require('passport');
 
 const UserModel = require('../../models/user.model');
+const PostModel = require('../../models/post.model');
 const BorrowProfileModel = require('../../models/borrow.profile.model');
-const MortgageModel = require('../../models/mortgage.loan.model');
-const PersonalModel = require('../../models/personal.loan.model');
 const LoanProfileModel = require('../../models/loan.profile.model');
 
 const router = express.Router();
@@ -21,27 +20,19 @@ router.get(
       }
       return userProfile;
     });
-    Profile.then(async value => {
+    Profile.then(value => {
       if (!value) return res.status(404).json('This user not found');
       const { packages } = value;
       const { province, district } = value.address;
-
       console.log({ packages, province, district });
 
-      const mortgagePost = await MortgageModel.find({
+      PostModel.find({
         typeOf: { $in: [...packages.mortgage] },
         state: 'PENDING',
         'address.province': province,
         'address.district': district
-      }).populate('user');
-
-      const personalPost = await PersonalModel.find({
-        typeOf: { $in: [...packages.personal] },
-        state: 'PENDING',
-        'address.province': province,
-        'address.district': district
-      }).populate('user');
-      Promise.all([mortgagePost, personalPost])
+      })
+        .populate('user')
         .then(val => {
           const overviewMor = val[0].map(mor => ({
             info: {
@@ -56,33 +47,11 @@ router.get(
             price: {
               ...mor.price
             },
-            property: {
-              ...mor.property
-            },
-            careerInfo: { ...mor.careerInfo }
+            property: [...mor.property],
+            careerInfo: mor.careerInfo
           }));
-          const overviewPer = val[1].map(per => ({
-            info: {
-              fullname: per.user.fullname,
-              phone: per.user.phone,
-              loan: per.loan,
-              duration: per.date.duration,
-              address: per.address,
-              typeOf: per.typeOf,
-              CMND: per.personalInfo.CMND
-            },
-            price: {
-              ...per.price
-            },
-            property: {
-              ...per.property
-            },
-            careerInfo: { ...per.careerInfo }
-          }));
-          return res.json({
-            mortgage: overviewMor,
-            personal: overviewPer
-          });
+
+          return res.json(overviewMor);
         })
         .catch(err => console.log(err));
     });
@@ -90,14 +59,9 @@ router.get(
 );
 
 // Tìm tất cả các bài viết và cho xem tổng quan
-router.get('/', async (req, res) => {
-  const mortgagePost = await MortgageModel.find({ state: 'PENDING' }).populate(
-    'user'
-  );
-  const personalPost = await PersonalModel.find({ state: 'PENDING' }).populate(
-    'user'
-  );
-  Promise.all([mortgagePost, personalPost])
+router.get('/', (req, res) => {
+  PostModel.find({ state: 'PENDING' })
+    .populate('user')
     .then(val => {
       const overviewMor = val[0].map(mor => ({
         info: {
@@ -109,55 +73,30 @@ router.get('/', async (req, res) => {
           typeOf: mor.typeOf,
           CMND: mor.personalInfo.CMND
         },
-        property: {
-          ...mor.property
+        price: {
+          ...mor.price
         },
-        careerInfo: { ...mor.careerInfo }
+        property: [...mor.property],
+        careerInfo: mor.careerInfo
       }));
-      const overviewPer = val[1].map(per => ({
-        info: {
-          fullname: per.user.fullname,
-          phone: per.user.phone,
-          loan: per.loan,
-          duration: per.date.duration,
-          address: per.address,
-          typeOf: per.typeOf,
-          CMND: per.personalInfo.CMND
-        },
-        property: {
-          ...per.property
-        },
-        careerInfo: { ...per.careerInfo }
-      }));
-      return res.json({
-        mortgage: overviewMor,
-        personal: overviewPer
-      });
+
+      return res.json(overviewMor);
     })
     .catch(err => console.log(err));
 });
 
 // Xem chi tiết bài đăng
 router.get(
-  '/:type/:id',
+  '/:id',
   passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    const { type, id } = req.params;
+  async (req, res) => {
+    const { id } = req.params;
     try {
-      if (type === 'personal') {
-        const seePersonal = await PersonalModel.findById(id);
-        if (!seePersonal) {
-          return res.status(404).json('PersonalModel not found for this ID');
-        }
-        return res.status(200).json(seePersonal);
+      const seeMortgage = await PostModel.findById(id);
+      if (!seeMortgage) {
+        return res.status(404).json('PostModel not found for this ID');
       }
-      if (type === 'mortgage') {
-        const seeMortgage = await MortgageModel.findById(id);
-        if (!seeMortgage) {
-          return res.status(404).json('MortgageModel not found for this ID');
-        }
-        return res.status(200).json(seeMortgage);
-      }
+      return res.status(200).json(seeMortgage);
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send('Duplicate key', err);
@@ -168,51 +107,33 @@ router.get(
 );
 
 // get list những bài đã mua
-router.get('/purchased', async (req, res) => {
+router.get('/purchased', (req, res) => {
   const purchaser = req.user.id;
-  const mortgagePost = await MortgageModel.findOne({ purchaser });
-  const personalPost = await PersonalModel.findOne({ purchaser });
-  Promise.all([mortgagePost, personalPost])
+  PostModel.findOne({ purchaser })
     .then(val => res.json(val))
     .catch(err => console.log(err));
 });
 
 // mua một bài đăng
 router.post(
-  '/purchase/:type/:id',
+  '/purchase/:id',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { type, id } = req.params;
+    const { id } = req.params;
     const purchaser = req.user.id;
     try {
-      if (type === 'personal') {
-        const perUpdate = await PersonalModel.findOneAndUpdate(
-          { _id: id },
-          {
-            purchaser,
-            state: 'PURCHASED'
-          },
-          { new: true }
-        );
-        if (!perUpdate) {
-          return res.status(404).json('PersonalModel not found for this ID');
-        }
-        return res.status(200).json(perUpdate);
+      const mortUpdate = await PostModel.findOneAndUpdate(
+        { _id: id },
+        {
+          purchaser,
+          state: 'PURCHASED'
+        },
+        { new: true }
+      );
+      if (!mortUpdate) {
+        return res.status(404).json('PostModel not found for this ID');
       }
-      if (type === 'mortgage') {
-        const mortUpdate = await MortgageModel.findOneAndUpdate(
-          { _id: id },
-          {
-            purchaser,
-            state: 'PURCHASED'
-          },
-          { new: true }
-        );
-        if (!mortUpdate) {
-          return res.status(404).json('MortgageModel not found for this ID');
-        }
-        return res.status(200).json(mortUpdate);
-      }
+      return res.status(200).json(mortUpdate);
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send('Duplicate key', err);
@@ -223,38 +144,23 @@ router.post(
 );
 // Giải ngân ( chỉ có người đã mua mới có quyền đc giải ngân bài đăng)
 router.post(
-  '/disburse/:type/:id',
+  '/disburse/:id',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { type, id } = req.params;
+    const { id } = req.params;
     const purchaser = req.user.id;
     try {
-      if (type === 'personal') {
-        const perUpdate = await PersonalModel.findOneAndUpdate(
-          { _id: id, purchaser },
-          {
-            state: 'DISBURSED'
-          },
-          { new: true }
-        );
-        if (!perUpdate) {
-          return res.status(404).json('PersonalModel not found for this ID');
-        }
-        return res.status(200).json(perUpdate);
+      const mortUpdate = await PostModel.findOneAndUpdate(
+        { _id: id, purchaser },
+        {
+          state: 'DISBURSED'
+        },
+        { new: true }
+      );
+      if (!mortUpdate) {
+        return res.status(404).json('PostModel not found for this ID');
       }
-      if (type === 'mortgage') {
-        const mortUpdate = await MortgageModel.findOneAndUpdate(
-          { _id: id, purchaser },
-          {
-            state: 'DISBURSED'
-          },
-          { new: true }
-        );
-        if (!mortUpdate) {
-          return res.status(404).json('MortgageModel not found for this ID');
-        }
-        return res.status(200).json(mortUpdate);
-      }
+      return res.status(200).json(mortUpdate);
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send('Duplicate key', err);
@@ -266,42 +172,25 @@ router.post(
 // huỷ đơn đã mua => chuyển thành pending và giá giảm còn 80%.
 // (Chú ý: khác với người tạo huỷ đơn do họ tạo => state => canceled)
 router.post(
-  '/cancel/:type/:id',
+  '/cancel/:id',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { type, id } = req.params;
+    const { id } = req.params;
     const purchaser = req.user.id;
     try {
-      if (type === 'personal') {
-        const perUpdate = await PersonalModel.findOneAndUpdate(
-          { _id: id, purchaser },
-          {
-            state: 'PENDING',
-            purchaser: null,
-            'price.discount': 0.8
-          },
-          { new: true }
-        );
-        if (!perUpdate) {
-          return res.status(404).json('PersonalModel not found for this ID');
-        }
-        return res.status(200).json(perUpdate);
+      const mortUpdate = await PostModel.findOneAndUpdate(
+        { _id: id, purchaser },
+        {
+          state: 'PENDING',
+          purchaser: null,
+          'price.discount': 0.8
+        },
+        { new: true }
+      );
+      if (!mortUpdate) {
+        return res.status(404).json('PostModel not found for this ID');
       }
-      if (type === 'mortgage') {
-        const mortUpdate = await MortgageModel.findOneAndUpdate(
-          { _id: id, purchaser },
-          {
-            state: 'PENDING',
-            purchaser: null,
-            'price.discount': 0.8
-          },
-          { new: true }
-        );
-        if (!mortUpdate) {
-          return res.status(404).json('MortgageModel not found for this ID');
-        }
-        return res.status(200).json(mortUpdate);
-      }
+      return res.status(200).json(mortUpdate);
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send('Duplicate key', err);
@@ -343,26 +232,22 @@ router.post(
 router.get('/lookup/:field', (req, res) => {
   const { field } = req.params;
   const { value } = req.body;
-  if (field === 'phone') {
-    UserModel.findOne({ phone: value }).then(async val => {
+  if (field === 'PHONE') {
+    UserModel.find({ phone: value }).then(val => {
       if (!val) {
         return res.status(400).json('User not found.');
       }
-      const mortgagePost = await MortgageModel.findOne({ user: val.id });
-      const personalPost = await PersonalModel.findOne({ user: val.id });
-      return Promise.all([mortgagePost, personalPost])
+      PostModel.findOne({ user: val.id })
         .then(post => res.json(post))
         .catch(err => console.log(err));
     });
   }
   if (field === 'CMND') {
-    BorrowProfileModel.findOne({ CMND: value }).then(async val => {
+    BorrowProfileModel.findOne({ CMND: value }).then(val => {
       if (!val) {
         return res.status(400).json('User not found.');
       }
-      const mortgagePost = await MortgageModel.findOne({ user: val.user });
-      const personalPost = await PersonalModel.findOne({ user: val.user });
-      return Promise.all([mortgagePost, personalPost])
+      PostModel.findOne({ user: val.user })
         .then(post => res.json(post))
         .catch(err => console.log(err));
     });

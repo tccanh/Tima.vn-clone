@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-// Vay cá nhân
-const PersonalLoanSchema = new Schema({
+// Vay thế chấp
+const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  // chờ xét duyệt, đã mua, đã giải ngân, đã huỷ
+  // THÔNG TIN CHUNG
   state: {
     type: String,
     required: true,
@@ -32,13 +32,14 @@ const PersonalLoanSchema = new Schema({
       required: true
     }
   },
-  // Loại vay cá nhân
-  typeOf: {
+  // Loaị thế chấp
+  typeOfLoan: {
     type: String,
     required: true
   },
-  // Số tiền vay
-  loan: {
+
+  // BẢNG 1
+  loanNumber: {
     type: Number,
     required: true,
     default: 0
@@ -63,6 +64,8 @@ const PersonalLoanSchema = new Schema({
       required: true
     } // Huyện
   },
+
+  // BẢNG 2
   personalInfo: {
     gender: {
       type: String,
@@ -79,6 +82,8 @@ const PersonalLoanSchema = new Schema({
       type: String
     }
   },
+
+  // BẢNG 3
   careerInfo: {
     // Công việc hiện tại
     career: String,
@@ -93,32 +98,26 @@ const PersonalLoanSchema = new Schema({
     bankName: String,
     bankID: String
   },
-  // Thông tin về tại sản cầm cố
-  property: {
-    // Vd về vay theo lương:
 
-    // tên công ty
-    field1: String,
-    // thu nhập
-    field2: String,
-    // nghề nghiệp
-    field3: String,
-    // hình thức cư trú
-    field4: String,
-    // có giấy tờ gốc hay không
-    field5: String,
+  // BẢNG 4
+  property: [
+    // Nhận vào là 1 String
+    {
+      keyProp: String,
+      valueProp: String
+    }
+  ],
 
-    // có đang vay ở nơi khác hay không
-    areBorrowing: String
-  },
+  // BẢNG 5
   relatives: {
     relName: String,
     whatRels: String,
     relPhone: String
   },
+
   censorship: {
     // Chứng minh thư nhân dân ID
-    cmndPhoto: {
+    identification: {
       type: Array,
       default: []
     },
@@ -128,6 +127,7 @@ const PersonalLoanSchema = new Schema({
       default: []
     },
     // ảnh tài sản
+
     propertyPhoto: {
       type: Array,
       default: []
@@ -139,5 +139,5 @@ const PersonalLoanSchema = new Schema({
     }
   }
 });
-const PersonalLoan = mongoose.model('personalLoans', PersonalLoanSchema);
-module.exports = PersonalLoan;
+const MortgageLoan = mongoose.model('mortgageLoans', PostSchema);
+module.exports = MortgageLoan;
