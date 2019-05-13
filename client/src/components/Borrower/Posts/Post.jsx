@@ -12,7 +12,6 @@ import Post4 from './Post4';
 import Post5 from './Post5';
 import Post6 from './Post6';
 import { getCurrentProfile } from '../../../actions/profile.action';
-import { addPostValue } from '../../../actions/post.action';
 const topProcess = [
   'ĐƠN VAY',
   'THÔNG TIN CÁ NHÂN',
@@ -30,15 +29,20 @@ export class Post extends Component {
 
     this.state = {
       pageNumber: 0,
-      temp: {}
+      temp: {},
+      profile: {}
     };
   }
   componentDidMount() {
     this.props.getCurrentProfile();
   }
+  componentWillReceiveProps(newProps) {
+    if (newProps.profile.profile !== null)
+      this.setState({ profile: newProps.profile.profile });
+  }
+
   handleNextPage() {
-    let nowPage = this.state.pageNumber;
-    if (nowPage === 5) {
+    if (this.state.pageNumber === 5) {
       //Handle create Post
     } else {
       this.setState(oldState => ({
@@ -56,31 +60,72 @@ export class Post extends Component {
     // Don't handle anything.
   }
   render() {
+    const { profile } = this.state;
     const { pageNumber } = this.state;
     let Contents;
     switch (pageNumber) {
       case 0: {
-        Contents = <Post1 />;
+        Contents = (
+          <Post1
+            profile={profile}
+            handleNextPage={this.handleNextPage.bind(this)}
+          />
+        );
         break;
       }
       case 1: {
-        Contents = <Post2 />;
+        Contents = (
+          <Post2
+            profile={profile}
+            handleNextPage={this.handleNextPage.bind(this)}
+            handlePrePage={this.handlePrePage.bind(this)}
+            pageNumber={pageNumber}
+          />
+        );
         break;
       }
       case 2: {
-        Contents = <Post3 />;
+        Contents = (
+          <Post3
+            profile={profile}
+            handleNextPage={this.handleNextPage.bind(this)}
+            handlePrePage={this.handlePrePage.bind(this)}
+            pageNumber={pageNumber}
+          />
+        );
         break;
       }
       case 3: {
-        Contents = <Post4 />;
+        Contents = (
+          <Post4
+            profile={profile}
+            handleNextPage={this.handleNextPage.bind(this)}
+            handlePrePage={this.handlePrePage.bind(this)}
+            pageNumber={pageNumber}
+          />
+        );
         break;
       }
       case 4: {
-        Contents = <Post5 />;
+        Contents = (
+          <Post5
+            profile={profile}
+            handleNextPage={this.handleNextPage.bind(this)}
+            handlePrePage={this.handlePrePage.bind(this)}
+            pageNumber={pageNumber}
+          />
+        );
         break;
       }
       case 5: {
-        Contents = <Post6 />;
+        Contents = (
+          <Post6
+            profile={profile}
+            handleNextPage={this.handleNextPage.bind(this)}
+            handlePrePage={this.handlePrePage.bind(this)}
+            pageNumber={pageNumber}
+          />
+        );
         break;
       }
       default:
@@ -106,7 +151,7 @@ export class Post extends Component {
           </div>
         </div>
         {Contents}
-        <div className="d-flex justify-content-between">
+        {/* <div className="d-flex justify-content-between">
           <a
             className="btn btn-lg btn-gray-lighter px-md-6"
             onClick={() => this.handlePrePage()}
@@ -125,13 +170,16 @@ export class Post extends Component {
           >
             {pageNumber !== 5 ? 'TIẾP TỤC' : 'HOÀN THÀNH'}
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  profile: state.profile,
+  post: state.post
+});
 
 const mapDispatchToProps = {
   getCurrentProfile

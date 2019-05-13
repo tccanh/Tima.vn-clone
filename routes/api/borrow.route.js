@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 
 const PostModel = require('../../models/post.model');
-const validatePostInput = require('../../validation/post');
+const { Post1, Post2 } = require('../../validation/post');
 
 const router = express.Router();
 
@@ -25,96 +25,41 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
-// Đăng bài vay
+// Đăng bài bước 1
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { errors, isValid } = validatePostInput(req.body);
+    const { errors, isValid } = Post1(req.body);
 
     // Check Validation
     if (!isValid) {
       // Return any errors with 400 status
       return res.status(400).json(errors);
     }
-    // Get fields
     const personalFields = {};
 
     const {
       typeOfLoan,
       loanNumber,
-      fromDate,
+
       duration,
       province,
-      district,
-      gender,
-      CMND,
-      DateOfBirth,
-      email,
-      career,
-      income,
-      comName,
-      comAddress,
-      comPhone,
-      property,
-      bankName,
-      bankID,
-      relName,
-      whatRels,
-      relPhone,
-      identification,
-      householdPhoto,
-      propertyPhoto,
-      incomePhoto
+      district
     } = req.body;
-
     personalFields.user = req.user.id;
     personalFields.state = 'PENDING';
     // purchser, price don't set
     if (typeOfLoan) personalFields.typeOfLoan = typeOfLoan;
     if (loanNumber) personalFields.loanNumber = parseInt(loanNumber, 10);
     personalFields.date = {
-      fromDate,
+      fromDate: Date.now(),
       duration
     };
     personalFields.address = {
       province,
       district
     };
-    personalFields.personalInfo = {
-      gender,
-      CMND,
-      DateOfBirth,
-      email
-    };
-
-    personalFields.careerInfo = {
-      career,
-      income,
-      comName,
-      comAddress,
-      comPhone
-    };
-
-    personalFields.bank = {
-      bankName,
-      bankID
-    };
-    // Yêu cầu là 1 string
-    personalFields.property = property;
-
-    personalFields.relatives = {
-      relName,
-      whatRels,
-      relPhone
-    };
-    personalFields.censorship = {
-      identification,
-      householdPhoto,
-      propertyPhoto,
-      incomePhoto
-    };
-
     try {
       // Create
       const newProfile = await new PostModel(personalFields).save();
@@ -124,6 +69,100 @@ router.post(
     }
   }
 );
+
+// Đăng bài vay
+// router.post(
+//   '/',
+//   passport.authenticate('jwt', { session: false }),
+//   async (req, res) => {
+//     const { errors, isValid } = Post2(req.body);
+
+//     // Check Validation
+//     if (!isValid) {
+//       // Return any errors with 400 status
+//       return res.status(400).json(errors);
+//     }
+//     // Get fields
+//     const personalFields = {};
+
+//     const {
+//       gender,
+//       CMND,
+//       DateOfBirth,
+//       email,
+//       career,
+//       income,
+//       comName,
+//       comAddress,
+//       comPhone,
+//       property,
+//       bankName,
+//       bankID,
+//       relName,
+//       whatRels,
+//       relPhone,
+//       identification,
+//       householdPhoto,
+//       propertyPhoto,
+//       incomePhoto
+//     } = req.body;
+
+//     // personalFields.user = req.user.id;
+//     // personalFields.state = 'PENDING';
+//     // // purchser, price don't set
+//     // if (typeOfLoan) personalFields.typeOfLoan = typeOfLoan;
+//     // if (loanNumber) personalFields.loanNumber = parseInt(loanNumber, 10);
+//     // personalFields.date = {
+//     //   fromDate,
+//     //   duration
+//     // };
+//     // personalFields.address = {
+//     //   province,
+//     //   district
+//     // };
+//     personalFields.personalInfo = {
+//       gender,
+//       CMND,
+//       DateOfBirth,
+//       email
+//     };
+
+//     personalFields.careerInfo = {
+//       career,
+//       income,
+//       comName,
+//       comAddress,
+//       comPhone
+//     };
+
+//     personalFields.bank = {
+//       bankName,
+//       bankID
+//     };
+//     // Yêu cầu là 1 string
+//     personalFields.property = property;
+
+//     personalFields.relatives = {
+//       relName,
+//       whatRels,
+//       relPhone
+//     };
+//     personalFields.censorship = {
+//       identification,
+//       householdPhoto,
+//       propertyPhoto,
+//       incomePhoto
+//     };
+
+//     try {
+//       // Create
+//       const newProfile = await new PostModel(personalFields).save();
+//       return res.json(newProfile);
+//     } catch (error) {
+//       return res.status(500).json('Unknown server error', error);
+//     }
+//   }
+// );
 
 // Update state cho bài đăng
 router.post(

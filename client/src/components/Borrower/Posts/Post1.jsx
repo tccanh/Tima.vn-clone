@@ -2,12 +2,67 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Post1.scss';
+import { getDistricts, getCities } from '../../../utils/getVNdata';
+import TextInputPost from '../../../HOC/TextInputPost';
+import { createPost } from '../../../actions/post.action';
+const Cities = getCities();
+const year = new Date().getFullYear();
+const month = new Date().getMonth() + 1;
+const day = new Date().getDate();
+
 class Post1 extends Component {
   static propTypes = {
-    prop: PropTypes
+    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    createPost: PropTypes.func.isRequired
   };
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      loanNumber: '',
+      duration: '',
+      province: '',
+      district: '',
+      errors: {}
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+    if (nextProps.profile.address) {
+      this.setState({
+        province: nextProps.profile.address.province,
+        district: nextProps.profile.address.district
+      });
+    }
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.errors) {
+      console.log(nextProps);
+    }
+  }
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    const postData = {
+      // typeOfLoan: this.props.match.params.type,
+      typeOfLoan: 'VAY NẶNG LÃI',
+      loanNumber: this.state.loanNumber,
+      duration: this.state.duration,
+      province: this.state.province,
+      district: this.state.district
+    };
+    this.props.createPost(postData);
+  }
   render() {
+    const { profile } = this.props;
+    const { loanNumber, duration, errors, province, district } = this.state;
+    const { user } = this.props.auth;
+
     return (
       <div className="box-2 mb-3">
         <div className="box-2-header d-flex flex-column flex-md-row">
@@ -36,60 +91,45 @@ class Post1 extends Component {
           </div>
         </div>
         <div className="box-2-body">
-          <form
-            id="frmLoan"
-            method="post"
-            action="/Borrower/RegisterLoanCredit"
-            novalidate="novalidate"
-          >
+          <form id="signupForm" noValidate onSubmit={e => this.onSubmit(e)}>
             <div
-              class="tm-cv__body bg-white fs-14"
+              className="tm-cv__body bg-white fs-14"
               style={{ width: 'auto', height: 'auto' }}
             >
-              <div class="p-lg-5 p-3">
-                <div class="row">
-                  <div class="col-md-8 mb-3 mb-md-0">
+              <div className="p-lg-5 p-3">
+                <div className="row">
+                  <div className="col-md-8 mb-3 mb-md-0">
                     <div style={{ height: '15px' }} />
-                    <div className="form-group row">
-                      <label
-                        for="fc-5"
-                        className="col-lg-2 col-form-label col-form-label-lg text-nowrap"
-                        style={{ fontSize: '18px' }}
-                      >
-                        Số tiền
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          type="text"
-                          className="form-control form-control-lg"
-                          id="txtcompany"
-                          name="txtcompany"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
 
-                    <div className="form-group row">
-                      <label
-                        for="fc-5"
-                        className="col-lg-2 col-form-label col-form-label-lg text-nowrap"
-                        style={{ fontSize: '18px' }}
-                      >
-                        Thời hạn
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          type="text"
-                          className="form-control form-control-lg"
-                          id="txtcompany"
-                          name="txtcompany"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
+                    <TextInputPost
+                      className1="col-lg-2 col-form-label col-form-label-lg text-nowrap"
+                      title="Số tiền"
+                      type="number"
+                      className2="form-control form-control-lg"
+                      id="loanNumber"
+                      name="loanNumber"
+                      placeholder=""
+                      value={loanNumber}
+                      error={errors.loanNumber}
+                      onChange={e => this.onChange(e)}
+                      infos=""
+                    />
+                    <TextInputPost
+                      className1="col-lg-2 col-form-label col-form-label-lg text-nowrap"
+                      title="Thời hạn"
+                      type="number"
+                      className2="form-control form-control-lg"
+                      id="duration"
+                      name="duration"
+                      placeholder=""
+                      value={duration}
+                      error={errors.duration}
+                      onChange={e => this.onChange(e)}
+                      infos=""
+                    />
 
                     <p
-                      class="text-gray"
+                      className="text-gray"
                       style={{
                         fontSize: '12px',
                         marginBottom: '.23438rem!important',
@@ -100,7 +140,7 @@ class Post1 extends Component {
                       Tima tư vấn gói vay tín chấp theo lương khoản vay đến 50
                       triệu. Kỳ hạn thanh toán đến 90 ngày. Kỳ thanh toán 10, 15
                       hoặc 30 ngày KH tùy chọn. Chi tiết liên hệ
-                      <a class="text-gray" href="tel:1900633688">
+                      <a className="text-gray" href="tel:1900633688">
                         1900 633 688
                       </a>
                     </p>
@@ -111,7 +151,7 @@ class Post1 extends Component {
                         color: '#ffbb38',
                         marginLeft: '54px'
                       }}
-                      class="text-gray mb-3"
+                      className="text-gray mb-3"
                     >
                       <input
                         type="checkbox"
@@ -136,66 +176,78 @@ class Post1 extends Component {
                     </div>
                   </div>
 
-                  <div class="col-md-4 d-flex flex-column">
+                  <div className="col-md-4 d-flex flex-column">
                     <div style={{ height: '20px' }} />
-                    <div class="form-group mb-2">
+                    <div className="form-group mb-2">
                       <input
-                        class="form-control fs-14"
+                        className="form-control fs-14"
                         type="text"
                         placeholder="Họ và tên"
                         name="application_full_name"
                         id="application_full_name"
                         readonly
-                        value="Nguyễn Huy Ho&#224;ng"
+                        value={user && user.fullname}
+                        disabled
                       />
                     </div>
 
-                    <div class="form-group mb-2">
+                    <div className="form-group mb-2">
                       <input
-                        class="form-control fs-14"
+                        className="form-control fs-14"
                         type="tel"
                         placeholder="Số điện thoại"
                         id="application_mobile_phone"
                         name="application_mobile_phone"
-                        readonly
-                        value="0854911798"
+                        disabled
+                        value={profile && profile.user && profile.user.phone}
                       />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                       <select
-                        class="form-control form-control-lg fs-13 px-3 rounded"
-                        id="cbCity"
-                        name="city"
+                        className="form-control form-control-lg fs-13 px-3 rounded"
+                        id="province"
+                        name="province"
+                        onChange={e => this.onChange(e)}
+                        value={province}
                       >
-                        <option value="" selected hidden>
-                          Chọn thành phố
-                        </option>
-                        <option value="1">H&#224; Nội</option>
-                        <option value="75">Đồng Nai</option>
+                        {Cities.map((city, index) => {
+                          return (
+                            <option key={index} value={city[0]}>
+                              {city[1]}
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <select
-                        class="select optional form-control input-lg fs-14"
-                        id="cbDistrict"
+                        className="select optional form-control input-lg fs-14"
+                        id="district"
                         name="district"
+                        onChange={e => this.onChange(e)}
+                        value={district}
                       >
-                        <option value="973" data-cityId="96">
-                          Ngọc Hiển
-                        </option>
-                        <option value="974" data-cityId="1">
-                          Unknow
-                        </option>
+                        {province &&
+                          getDistricts(province).map((dis, index) => {
+                            return (
+                              <option key={index} value={dis[0]}>
+                                {dis[1]}
+                              </option>
+                            );
+                          })}
                       </select>
                     </div>
 
-                    <div class="input-group mb-0">
-                      <button class="btn btn-lg btn-block btn-warning rounded text-uppercase fs-14 py-3">
-                        <span class="d-flex align-items-center justify-content-between">
+                    <div className="input-group mb-0">
+                      <button
+                        type="submit"
+                        className="btn btn-lg btn-block btn-warning rounded text-uppercase fs-14 py-3"
+                      >
+                        <span className="d-flex align-items-center justify-content-between">
                           <i />
                           <span>Vay ngay</span>
-                          <i class="icon-angle-right" />
+                          <i className="icon-angle-right" />
                         </span>
                       </button>
                     </div>
@@ -203,21 +255,23 @@ class Post1 extends Component {
                 </div>
               </div>
 
-              <div class="bg-gray-lightest text-gray-light">
-                <div class="row no-gutters border-top">
-                  <div class="col-sm-6 text-center border-right py-10px">
+              <div className="bg-gray-lightest text-gray-light">
+                <div className="row no-gutters border-top">
+                  <div className="col-sm-6 text-center border-right py-10px">
                     Khoản vay
-                    <div class="fs-18 fw-6">
-                      <span id="slider-num-3">10,000,000</span>
+                    <div className="fs-18 fw-6">
+                      <span id="slider-num-3">
+                        {loanNumber ? loanNumber : '0'}
+                      </span>{' '}
                       VNĐ
                     </div>
                   </div>
 
-                  <div class="col-sm-6 text-center border-right py-10px">
-                    Ngày thanh toán
-                    <div class="fs-18 fw-6">
-                      <span class="text-gray-dark" id="payDate">
-                        02.06.2019
+                  <div className="col-sm-6 text-center border-right py-10px">
+                    Ngày đăng kí vay
+                    <div className="fs-18 fw-6">
+                      <span className="text-gray-dark" id="payDate">
+                        {day}.{month}.{year}
                       </span>
                     </div>
                   </div>
@@ -231,9 +285,11 @@ class Post1 extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { createPost };
 
 export default connect(
   mapStateToProps,

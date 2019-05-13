@@ -1,15 +1,12 @@
 import {
-  CLEAR_POST_VALUE,
-  ADD_POST_VALUE,
   POST_LOADING,
   GET_POSTS,
   GET_POST,
-  CLEAR_POST,
   CLEAR_POSTS,
-  SET_POST
+  CLEAR_POST,
+  SET_CURRENT_POST
 } from '../actions/actionTypes';
 const initialState = {
-  temp: {},
   post: null,
   posts: null,
   loading: false
@@ -17,17 +14,6 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case CLEAR_POST_VALUE:
-      return {
-        ...state,
-        temp: null
-      };
-    case ADD_POST_VALUE:
-      return {
-        ...state,
-        temp: { ...payload },
-        loading: false
-      };
     case POST_LOADING:
       return {
         ...state,
@@ -54,6 +40,11 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         posts: {}
+      };
+    case SET_CURRENT_POST:
+      return {
+        ...state,
+        post: payload
       };
 
     default:

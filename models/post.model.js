@@ -4,11 +4,11 @@ const { Schema } = mongoose;
 
 // Vay thế chấp
 const PostSchema = new Schema({
+  // THÔNG TIN CHUNG
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  // THÔNG TIN CHUNG
   state: {
     type: String,
     required: true,
@@ -32,7 +32,7 @@ const PostSchema = new Schema({
       required: true
     }
   },
-  // Loaị thế chấp
+  // Bảng 0
   typeOfLoan: {
     type: String,
     required: true
