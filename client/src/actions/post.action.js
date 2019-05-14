@@ -10,10 +10,28 @@ import {
   SET_CURRENT_POST
 } from './actionTypes';
 
-export const createPost = postData => dispatch => {
+export const createPost = (postData, history) => dispatch => {
   axios
     .post('/api/borrow', postData)
-    .then(res => dispatch(setCurrentPost(res)))
+    .then(res => {
+      dispatch(setCurrentPost(res));
+      return history.push(`/borrower/create/${res.id}/1`);
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const updatePost = (postData, number, history) => dispatch => {
+  axios
+    .post(`/api/borrow/${number}`, postData)
+    .then(res => {
+      dispatch(setCurrentPost(res));
+      return history.push(`/borrower/create/${res.id}/${number + 1}`);
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

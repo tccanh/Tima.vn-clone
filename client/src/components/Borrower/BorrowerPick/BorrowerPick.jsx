@@ -16,7 +16,7 @@ import theongay from '../../../image/borrower/theongay.png';
 import xemay from '../../../image/borrower/xemay.png';
 const listDataPersonal = [
   {
-    to: '/borrower/create',
+    to: '/borrower/create/TINCHAPTHEOLUONG',
     title: 'Vay tín chấp theo lương',
     src: luong,
     text: (
@@ -28,7 +28,7 @@ const listDataPersonal = [
     )
   },
   {
-    to: '',
+    to: '/borrower/create/SOHOKHAU',
     title: 'Vay theo sổ hộ khẩu',
     src: sohokhau,
     text: (
@@ -40,7 +40,7 @@ const listDataPersonal = [
     )
   },
   {
-    to: '',
+    to: '/borrower/create/DANGKIXEMAY',
     title: 'Vay theo đăng kí xe máy',
     src: xemay,
     text: (
@@ -52,7 +52,7 @@ const listDataPersonal = [
     )
   },
   {
-    to: '',
+    to: '/borrower/create/TRAGOPTHEONGAY',
     title: 'Vay trả góp theo ngày',
     src: theongay,
     text: (
@@ -64,7 +64,7 @@ const listDataPersonal = [
     )
   },
   {
-    to: '',
+    to: '/borrower/create/HOADONDIENNUOC',
     title: 'Vay theo hoá đơn điện nước',
     src: hoadondiennuoc,
     text: (
@@ -76,7 +76,7 @@ const listDataPersonal = [
     )
   },
   {
-    to: '',
+    to: '/borrower/create/DANGKIOTO',
     title: 'Vay theo đăng kí xe ô tô',
     src: oto,
     text: (
@@ -88,7 +88,7 @@ const listDataPersonal = [
     )
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Vay theo Icloud Iphone',
     src: icloud_iphone,
     text: (
@@ -102,43 +102,43 @@ const listDataPersonal = [
 ];
 const listDataMortgage = [
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Cầm máy tính',
     src: maytinh,
     text: <h5>Cầm máy tính</h5>
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Cầm điện thoại',
     src: dienthoai,
     text: <h5>Cầm điện thoại</h5>
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Cầm ô tô',
     src: oto,
     text: <h5>Cầm ô tô</h5>
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Cầm xe máy',
     src: xemay,
     text: <h5>Cầm xe máy</h5>
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Cầm đá quý',
     src: daquy,
     text: <h5>Cầm đá quý</h5>
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Cầm đồng hồ',
     src: dongho,
     text: <h5>Cầm đồng hồ</h5>
   },
   {
-    to: '',
+    to: '/borrower/create/CAMCOTAISAN',
     title: 'Vay theo thế chấp sổ đỏ',
     src: thechapsodo,
     text: (

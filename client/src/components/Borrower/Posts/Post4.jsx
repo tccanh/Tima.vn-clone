@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-export class Post4 extends Component {
-  static propTypes = {
-    // prop: PropTypes
-  };
-
+export default class Post4 extends Component {
   render() {
     const { pageNumber, handleNextPage, handlePrePage } = this.props;
     return (
       <>
         <div class="box-2 mb-3">
           <div class="box-2-header d-flex flex-column flex-md-row">
-            <h2 class="box-2-title mb-md-0 mb-3">Thông tin tài sản</h2>
+            <h2 class="box-2-title mb-md-0 mb-3">Thông tin người thân</h2>
 
             <div class="align-self-md-center ml-md-auto">
               <p
@@ -27,12 +21,12 @@ export class Post4 extends Component {
                 <div
                   class="progress-bar"
                   role="progressbar"
-                  style={{ width: '55%' }}
-                  aria-valuenow="40"
+                  style={{ width: '75%' }}
+                  aria-valuenow="100"
                   aria-valuemin="0"
                   aria-valuemax="100"
                 >
-                  <span class="progress-tooltip">55%</span>
+                  <span class="progress-tooltip">75%</span>
                 </div>
               </div>
             </div>
@@ -41,85 +35,63 @@ export class Post4 extends Component {
           <div class="box-2-body">
             <div class="form-group row">
               <label
-                for="attr_4"
-                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                for="fc-1"
+                class="col-lg-2 col-form-label col-form-label-lg text-nowrap"
                 style={{ fontSize: '18px' }}
               >
-                Tiền điện tháng gần nhất
+                Họ và tên
               </label>
-              <div class="col-lg-9">
+              <div class="col-lg-10">
                 <input
-                  id="attr_4"
-                  name="attr_4"
                   type="text"
-                  class="col-md-12 form-control form-control-lg fs-14 px-3"
-                  onkeyup="reformatText(this)"
-                  placeholder="Tiền điện tháng gần nhất"
+                  class="form-control form-control-lg"
+                  id="FullNameFamily"
+                  disable=""
+                  name="FullNameFamily"
+                  placeholder="Họ và tên"
                 />
               </div>
             </div>
+
             <div class="form-group row">
               <label
-                for="attr_1018"
-                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                for="fc-2"
+                class="col-lg-2 col-form-label col-form-label-lg text-nowrap"
                 style={{ fontSize: '18px' }}
               >
-                Hình thức cư trú
+                Quan hệ nhân thân
               </label>
-              <div class="col-lg-9">
+              <div class="col-lg-10">
                 <select
+                  id="slFamily"
+                  name="slFamily"
                   class="form-control form-control-lg fs-13 px-3 rounded"
-                  id="attr_1018"
-                  name="attr_1018"
                 >
-                  <option value="">Chọn Hình thức cư trú </option>
-                  <option value="89"> Ở nhà riêng </option>
-                  <option value="90"> Ở với gia đình </option>
-                  <option value="91"> Nhà đi thuê </option>
+                  <option value="1"> Chồng / Vợ </option>
+                  <option value="2"> Mẹ </option>
+                  <option value="3"> Bố </option>
+                  <option value="4"> Anh / Em trai </option>
+                  <option value="5"> Chị / Em gái </option>
                 </select>
               </div>
             </div>
             <div class="form-group row">
               <label
-                for="attr_1019"
-                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                for="fc-7"
+                class="col-lg-2 col-form-label col-form-label-lg text-nowrap"
                 style={{ fontSize: '18px' }}
               >
-                Có giấy tờ gốc hay không
+                Số điện thoại
               </label>
-              <div class="col-lg-9">
-                <select
-                  class="form-control form-control-lg fs-13 px-3 rounded"
-                  id="attr_1019"
-                  name="attr_1019"
-                >
-                  <option value="">Chọn Có giấy tờ gốc hay không </option>
-                  <option value="92"> Có giấy tờ gốc </option>
-                  <option value="93"> Giấy tờ photo </option>
-                  <option value="94"> Không có </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label
-                for="attr_1020"
-                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
-                style={{ fontSize: '18px' }}
-              >
-                Bạn có đang vay ở đâu không
-              </label>
-              <div class="col-lg-9">
-                <select
-                  class="form-control form-control-lg fs-13 px-3 rounded"
-                  id="attr_1020"
-                  name="attr_1020"
-                >
-                  <option value="">Chọn Bạn có đang vay ở đâu không </option>
-                  <option value="95"> Đang vay ngân hàng </option>
-                  <option value="96"> Đang vay ngoài </option>
-                  <option value="97"> Đang vay cty tài chính </option>
-                  <option value="98"> Không vay ở đâu </option>
-                </select>
+              <div class="col-lg-10">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="txtPhoneFamily"
+                  name="txtPhoneFamily"
+                  disable=""
+                  placeholder="Nhập số điện thoại người thân"
+                />
               </div>
             </div>
           </div>
@@ -148,12 +120,3 @@ export class Post4 extends Component {
     );
   }
 }
-
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Post4);

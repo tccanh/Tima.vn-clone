@@ -1,297 +1,144 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import './Post1.scss';
-import { getDistricts, getCities } from '../../../utils/getVNdata';
-import TextInputPost from '../../../HOC/TextInputPost';
-import { createPost } from '../../../actions/post.action';
-const Cities = getCities();
-const year = new Date().getFullYear();
-const month = new Date().getMonth() + 1;
-const day = new Date().getDate();
 
-class Post1 extends Component {
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    createPost: PropTypes.func.isRequired
-  };
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loanNumber: '',
-      duration: '',
-      province: '',
-      district: '',
-      errors: {}
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-    if (nextProps.profile.address) {
-      this.setState({
-        province: nextProps.profile.address.province,
-        district: nextProps.profile.address.district
-      });
-    }
-  }
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.errors) {
-      console.log(nextProps);
-    }
-  }
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-  onSubmit(e) {
-    e.preventDefault();
-    const postData = {
-      // typeOfLoan: this.props.match.params.type,
-      typeOfLoan: 'VAY NẶNG LÃI',
-      loanNumber: this.state.loanNumber,
-      duration: this.state.duration,
-      province: this.state.province,
-      district: this.state.district
-    };
-    this.props.createPost(postData);
-  }
+export default class Post1 extends Component {
   render() {
-    const { profile } = this.props;
-    const { loanNumber, duration, errors, province, district } = this.state;
-    const { user } = this.props.auth;
-
+    const { pageNumber, handleNextPage, handlePrePage } = this.props;
     return (
-      <div className="box-2 mb-3">
-        <div className="box-2-header d-flex flex-column flex-md-row">
-          <h2 className="box-2-title mb-md-0 mb-3">Thông tin việc làm</h2>
+      <>
+        <div class="box-2 mb-3">
+          <div class="box-2-header d-flex flex-column flex-md-row">
+            <h2 class="box-2-title mb-md-0 mb-3">Thông tin cá nhân</h2>
 
-          <div className="align-self-md-center ml-md-auto">
-            <p
-              className="fs-12 text-gray-light mb-1"
-              style={{ fontSize: '20px', fontWeight: '600' }}
-            >
-              Khả năng nhận được khoản vay
-            </p>
-
-            <div className="progress progress-style-1">
-              <div
-                className="progress-bar"
-                role="progressbar"
-                style={{ width: '40%' }}
-                aria-valuenow="40"
-                aria-valuemin="0"
-                aria-valuemax="100"
+            <div class="align-self-md-center ml-md-auto">
+              <p
+                class="fs-12 text-gray-light mb-1"
+                style={{ fontSize: '20px', fontWeight: '600' }}
               >
-                <span className="progress-tooltip">40%</span>
+                Khả năng nhận được khoản vay
+              </p>
+
+              <div class="progress progress-style-1">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style={{ width: '25%' }}
+                  aria-valuenow="25"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <span class="progress-tooltip">25%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-2-body">
+            <div class="form-group row">
+              <label
+                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                for="fc-2"
+                style={{ fontSize: '18px' }}
+              >
+                Giới tính
+              </label>
+              <div class="col-lg-9" style={{ marginTop: '13px' }}>
+                <label style={{ marginRight: '30px' }}>
+                  <input name="agree" type="radio" />
+                  Nam
+                </label>
+
+                <label>
+                  <input name="agree" type="radio" />
+                  Nữ
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label
+                for="fc-6"
+                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                style={{ fontSize: '18px' }}
+              >
+                Số CMND
+              </label>
+              <div class="col-lg-9">
+                <input
+                  type="text"
+                  class="form-control form-control-lg mr-3"
+                  id="txtCardNumber"
+                  name="txtCardNumber"
+                  disable=""
+                  placeholder="Số CMND"
+                />
+                <small class="text-muted">
+                  Lưu ý: Bạn sẽ không nhận được khoản vay nếu điền sai CMND
+                </small>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label
+                for="fc-6"
+                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                style={{ fontSize: '18px' }}
+              >
+                Ngày/Tháng/Năm sinh
+              </label>
+              <div class="col-lg-9">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="txtBirthDay"
+                  name="txtBirthDay"
+                  placeholder="dd-MM-yyyy"
+                  value=""
+                />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label
+                for="fc-7"
+                class="col-lg-3 col-form-label col-form-label-lg text-nowrap"
+                style={{ fontSize: '18px' }}
+              >
+                Email
+              </label>
+              <div class="col-lg-9">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="txtemail"
+                  name="txtemail"
+                  disable=""
+                  placeholder="Nhập địa chỉ Email"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div className="box-2-body">
-          <form id="signupForm" noValidate onSubmit={e => this.onSubmit(e)}>
-            <div
-              className="tm-cv__body bg-white fs-14"
-              style={{ width: 'auto', height: 'auto' }}
-            >
-              <div className="p-lg-5 p-3">
-                <div className="row">
-                  <div className="col-md-8 mb-3 mb-md-0">
-                    <div style={{ height: '15px' }} />
-
-                    <TextInputPost
-                      className1="col-lg-2 col-form-label col-form-label-lg text-nowrap"
-                      title="Số tiền"
-                      type="number"
-                      className2="form-control form-control-lg"
-                      id="loanNumber"
-                      name="loanNumber"
-                      placeholder=""
-                      value={loanNumber}
-                      error={errors.loanNumber}
-                      onChange={e => this.onChange(e)}
-                      infos=""
-                    />
-                    <TextInputPost
-                      className1="col-lg-2 col-form-label col-form-label-lg text-nowrap"
-                      title="Thời hạn"
-                      type="number"
-                      className2="form-control form-control-lg"
-                      id="duration"
-                      name="duration"
-                      placeholder=""
-                      value={duration}
-                      error={errors.duration}
-                      onChange={e => this.onChange(e)}
-                      infos=""
-                    />
-
-                    <p
-                      className="text-gray"
-                      style={{
-                        fontSize: '12px',
-                        marginBottom: '.23438rem!important',
-                        fontWeight: '500',
-                        marginLeft: '54px'
-                      }}
-                    >
-                      Tima tư vấn gói vay tín chấp theo lương khoản vay đến 50
-                      triệu. Kỳ hạn thanh toán đến 90 ngày. Kỳ thanh toán 10, 15
-                      hoặc 30 ngày KH tùy chọn. Chi tiết liên hệ
-                      <a className="text-gray" href="tel:1900633688">
-                        1900 633 688
-                      </a>
-                    </p>
-
-                    <div
-                      style={{
-                        fontSize: '15px',
-                        color: '#ffbb38',
-                        marginLeft: '54px'
-                      }}
-                      className="text-gray mb-3"
-                    >
-                      <input
-                        type="checkbox"
-                        name="chkDieuKhoan"
-                        id="chkDieuKhoan"
-                        checked=""
-                      />
-                      <label for="chkDieuKhoan">
-                        {' '}
-                        <a
-                          href="/Dieu-Khoan-Nguoi-Vay.html"
-                          style={{
-                            marginLeft: '10px',
-                            color: '#ffbb38'
-                          }}
-                        >
-                          {' '}
-                          Điều khoản
-                        </a>{' '}
-                        đăng ký khoản vay{' '}
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="col-md-4 d-flex flex-column">
-                    <div style={{ height: '20px' }} />
-                    <div className="form-group mb-2">
-                      <input
-                        className="form-control fs-14"
-                        type="text"
-                        placeholder="Họ và tên"
-                        name="application_full_name"
-                        id="application_full_name"
-                        readonly
-                        value={user && user.fullname}
-                        disabled
-                      />
-                    </div>
-
-                    <div className="form-group mb-2">
-                      <input
-                        className="form-control fs-14"
-                        type="tel"
-                        placeholder="Số điện thoại"
-                        id="application_mobile_phone"
-                        name="application_mobile_phone"
-                        disabled
-                        value={profile && profile.user && profile.user.phone}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <select
-                        className="form-control form-control-lg fs-13 px-3 rounded"
-                        id="province"
-                        name="province"
-                        onChange={e => this.onChange(e)}
-                        value={province}
-                      >
-                        {Cities.map((city, index) => {
-                          return (
-                            <option key={index} value={city[0]}>
-                              {city[1]}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <select
-                        className="select optional form-control input-lg fs-14"
-                        id="district"
-                        name="district"
-                        onChange={e => this.onChange(e)}
-                        value={district}
-                      >
-                        {province &&
-                          getDistricts(province).map((dis, index) => {
-                            return (
-                              <option key={index} value={dis[0]}>
-                                {dis[1]}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-
-                    <div className="input-group mb-0">
-                      <button
-                        type="submit"
-                        className="btn btn-lg btn-block btn-warning rounded text-uppercase fs-14 py-3"
-                      >
-                        <span className="d-flex align-items-center justify-content-between">
-                          <i />
-                          <span>Vay ngay</span>
-                          <i className="icon-angle-right" />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-lightest text-gray-light">
-                <div className="row no-gutters border-top">
-                  <div className="col-sm-6 text-center border-right py-10px">
-                    Khoản vay
-                    <div className="fs-18 fw-6">
-                      <span id="slider-num-3">
-                        {loanNumber ? loanNumber : '0'}
-                      </span>{' '}
-                      VNĐ
-                    </div>
-                  </div>
-
-                  <div className="col-sm-6 text-center border-right py-10px">
-                    Ngày đăng kí vay
-                    <div className="fs-18 fw-6">
-                      <span className="text-gray-dark" id="payDate">
-                        {day}.{month}.{year}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+        <div className="d-flex justify-content-between">
+          <a
+            className="btn btn-lg btn-gray-lighter px-md-6"
+            onClick={() => handlePrePage()}
+            style={{
+              backgroundColor: '#d1d1d1',
+              fontSize: '14px',
+              marginBottom: '25px'
+            }}
+          >
+            QUAY LẠI
+          </a>
+          <button
+            onClick={() => handleNextPage()}
+            className="btn btn-lg btn-warning text-white px-md-6 ml-auto"
+            style={{ fontSize: '14px', marginBottom: '25px' }}
+          >
+            {pageNumber !== 5 ? 'TIẾP TỤC' : 'HOÀN THÀNH'}
+          </button>
         </div>
-      </div>
+      </>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  auth: state.auth
-});
-
-const mapDispatchToProps = { createPost };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Post1);

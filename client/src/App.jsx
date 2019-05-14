@@ -14,7 +14,12 @@ import Profile from './components/Profile/Profile';
 import Footer from './components/layouts/Footer/Footer';
 import BorrowerPick from './components/Borrower/BorrowerPick/BorrowerPick';
 import Home from './components/Home/Home';
-import Post from './components/Borrower/Posts/Post';
+import Post1 from './components/Borrower/Posts/Post1';
+import Post2 from './components/Borrower/Posts/Post2';
+import Post3 from './components/Borrower/Posts/Post3';
+import Post4 from './components/Borrower/Posts/Post4';
+import Post5 from './components/Borrower/Posts/Post5';
+import PostCreate from './components/Borrower/Posts/PostCreate';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -44,7 +49,36 @@ function App() {
               <PrivateRoute exact path="/profile" component={Profile} />
               {/* Khu vực dành cho bọn đoé có tiền */}
               <PrivateRoute exact path="/borrower" component={BorrowerPick} />
-              <PrivateRoute exact path="/borrower/create" component={Post} />
+              <PrivateRoute
+                exact
+                path="/borrower/create/:type"
+                component={PostCreate}
+              />
+              <PrivateRoute
+                exact
+                path="/borrower/create/:id/1"
+                component={Post1}
+              />
+              <PrivateRoute
+                exact
+                path="/borrower/create/:id/2"
+                component={Post2}
+              />
+              <PrivateRoute
+                exact
+                path="/borrower/create/:id/3"
+                component={Post3}
+              />
+              <PrivateRoute
+                exact
+                path="/borrower/create/:id/4"
+                component={Post4}
+              />
+              <PrivateRoute
+                exact
+                path="/borrower/create/:id/5"
+                component={Post5}
+              />
 
               {/* Khu vực dành cho bọn thừa tiền */}
             </div>

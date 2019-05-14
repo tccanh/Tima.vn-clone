@@ -1,16 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import './Post.scss';
-// import Post1 from './Post1';
 import Post1 from './Post1';
 import Post2 from './Post2';
 import Post3 from './Post3';
 import Post4 from './Post4';
 import Post5 from './Post5';
-import Post6 from './Post6';
 import { getCurrentProfile } from '../../../actions/profile.action';
 const topProcess = [
   'ĐƠN VAY',
@@ -109,17 +106,6 @@ export class Post extends Component {
       case 4: {
         Contents = (
           <Post5
-            profile={profile}
-            handleNextPage={this.handleNextPage.bind(this)}
-            handlePrePage={this.handlePrePage.bind(this)}
-            pageNumber={pageNumber}
-          />
-        );
-        break;
-      }
-      case 5: {
-        Contents = (
-          <Post6
             profile={profile}
             handleNextPage={this.handleNextPage.bind(this)}
             handlePrePage={this.handlePrePage.bind(this)}
