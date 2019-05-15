@@ -7,15 +7,14 @@ import {
   CLEAR_POSTS,
   GET_POST,
   GET_ERRORS,
-  SET_CURRENT_POST
+  SET_CURRENT_POST,
+  SET_CURRENT_POST_TYPE
 } from './actionTypes';
 
 export const createPost = (postData, history) => dispatch => {
   axios
     .post('/api/borrow', postData)
     .then(res => {
-      console.log(res);
-
       return history.push(`/borrower/create/${res.data._id}/1`);
     })
     .catch(err =>
@@ -33,9 +32,12 @@ export const updatePost = (
   number,
   history
 ) => dispatch => {
+  console.log(postData);
+
   axios
     .post(`/api/borrow/${id}/${profileID}/${number}`, postData)
     .then(res => {
+      dispatch(setCurrentPostType(res.data.typeOfLoan));
       return history.push(`/borrower/create/${res.data._id}/${number + 1}`);
     })
     .catch(err =>
@@ -51,9 +53,9 @@ export const setPostLoading = () => {
     type: POST_LOADING
   };
 };
-export const setCurrentPost = payload => {
+export const setCurrentPostType = payload => {
   return {
-    type: SET_CURRENT_POST,
+    type: SET_CURRENT_POST_TYPE,
     payload: payload
   };
 };

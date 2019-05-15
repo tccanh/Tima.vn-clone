@@ -57,7 +57,7 @@ class PostCreate extends Component {
   onSubmit(e) {
     e.preventDefault();
     const postData = {
-      typeOfLoan: this.props.match.params.type,
+      typeOfLoan: this.props.match.params.type.toUpperCase(),
       loanNumber: this.state.loanNumber,
       duration: this.state.duration,
       province: this.state.province,

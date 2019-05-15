@@ -4,11 +4,12 @@ import {
   GET_POST,
   CLEAR_POSTS,
   CLEAR_POST,
-  SET_CURRENT_POST
+  SET_CURRENT_POST_TYPE
 } from '../actions/actionTypes';
 const initialState = {
   post: null,
   posts: null,
+  type: null,
   loading: false
 };
 
@@ -41,10 +42,10 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         posts: {}
       };
-    case SET_CURRENT_POST:
+    case SET_CURRENT_POST_TYPE:
       return {
         ...state,
-        post: payload
+        type: payload
       };
 
     default:

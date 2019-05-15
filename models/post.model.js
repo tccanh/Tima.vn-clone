@@ -100,13 +100,18 @@ const PostSchema = new Schema({
   },
 
   // BẢNG 4
-  property: [
+  property1: [
     // Nhận vào là 1 String
     {
       keyProp: String,
       valueProp: String
     }
   ],
+  property2: {
+    residence: String,
+    originalDocs: String,
+    borrowing: String
+  },
 
   // BẢNG 5
   relatives: {

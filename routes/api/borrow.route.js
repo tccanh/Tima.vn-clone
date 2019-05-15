@@ -3,7 +3,7 @@ const passport = require('passport');
 
 const PostModel = require('../../models/post.model');
 const ProfileModel = require('../../models/borrow.profile.model');
-const { Post1, Post2, Post3 } = require('../../validation/post');
+const { Post1, Post2, Post3, Post4, Post5 } = require('../../validation/post');
 
 const router = express.Router();
 
@@ -75,7 +75,7 @@ router.post(
 router.post(
   '/:id/:profileID/1',
   passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
+  (req, res) => {
     const { errors, isValid } = Post2(req.body);
     const { id, profileID } = req.params;
     const { gender, CMND, DateOfBirth, email } = req.body;
@@ -87,17 +87,25 @@ router.post(
     }
 
     try {
-      const updatePost = await PostModel.findByIdAndUpdate(
-        id,
-        {
-          'personalInfo.gender': gender,
-          'personalInfo.CMND': CMND,
-          'personalInfo.DateOfBirth': DateOfBirth,
-          'personalInfo.email': email
-        },
+      ProfileModel.findByIdAndUpdate(
+        profileID,
+        { gender, CMND, DateOfBirth, email },
         { new: true }
-      );
-      return res.json(updatePost);
+      )
+        .then(async () => {
+          const updatePost = await PostModel.findByIdAndUpdate(
+            id,
+            {
+              'personalInfo.gender': gender,
+              'personalInfo.CMND': CMND,
+              'personalInfo.DateOfBirth': DateOfBirth,
+              'personalInfo.email': email
+            },
+            { new: true }
+          );
+          return res.json(updatePost);
+        })
+        .catch(err => res.status(500).json('Unknown server error', err));
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
@@ -155,7 +163,85 @@ router.post(
     }
   }
 );
+// Đăng bài bước 4
+router.post(
+  '/:id/:profileID/3',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { errors, isValid } = Post4(req.body);
+    const { id, profileID } = req.params;
+    const { property1, residence, originalDocs, borrowing } = req.body;
+    console.log('HELLO', req.body);
 
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    const data = {
+      property1: [...property1],
+
+      property2: {
+        residence,
+        originalDocs,
+        borrowing
+      }
+    };
+    try {
+      const Post = await PostModel.findByIdAndUpdate(id, data, {
+        new: true
+      });
+      return res.json(Post);
+    } catch (error) {
+      return res.status(500).json('Unknown server error', error);
+    }
+  }
+);
+// Đăng bài bước 5
+router.post(
+  '/:id/:profileID/4',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = Post5(req.body);
+    console.log('sdfhkhdsàk', req.body);
+
+    const { id, profileID } = req.params;
+    const { relName, whatRels, relPhone } = req.body;
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    try {
+      ProfileModel.findByIdAndUpdate(
+        profileID,
+        {
+          'relatives.relName': relName,
+          'relatives.whatRels': whatRels,
+          'relatives.relPhone': relPhone
+        },
+        { new: true }
+      )
+        .then(async () => {
+          const updatePost = await PostModel.findByIdAndUpdate(
+            id,
+            {
+              'relatives.relName': relName,
+              'relatives.whatRels': whatRels,
+              'relatives.relPhone': relPhone
+            },
+            { new: true }
+          );
+          return res.json(updatePost);
+        })
+        .catch(err => res.status(500).json('Unknown server error', err));
+    } catch (error) {
+      return res.status(500).json('Unknown server error', error);
+    }
+  }
+);
 // Đăng bài vay
 // router.post(
 //   '/',

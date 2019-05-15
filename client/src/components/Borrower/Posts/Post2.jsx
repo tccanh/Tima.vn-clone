@@ -91,8 +91,8 @@ export class Post2 extends Component {
       bankName: this.state.bankName,
       bankID: this.state.bankID
     };
-    console.log(postData);
-    console.log(this.props.match.params.id);
+    // console.log(postData);
+    // console.log(this.props.match.params.id);
 
     this.props.updatePost(
       postData,

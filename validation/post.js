@@ -67,8 +67,35 @@ module.exports = {
       isValid: isEmpty(errors)
     };
   },
-
   Post4: data => {
+    const errors = {};
+
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
+  },
+  Post5: data => {
+    const errors = {};
+
+    data.relName = !isEmpty(data.relName) ? data.relName : '';
+    data.whatRels = !isEmpty(data.whatRels) ? data.whatRels : '';
+    data.relPhone = !isEmpty(data.relPhone) ? data.relPhone : '';
+
+    if (Validator.isEmpty(data.relName)) {
+      errors.relName = 'relName field is required';
+    }
+
+    if (Validator.isEmpty(data.relPhone)) {
+      errors.relPhone = 'relPhone field is required';
+    }
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
+  },
+
+  Post6: data => {
     const errors = {};
     // data.fromDate = !isEmpty(data.fromDate) ? data.fromDate : '';
     data.province = !isEmpty(data.province) ? data.province : '';
@@ -79,9 +106,7 @@ module.exports = {
     // data.field3 = !isEmpty(data.field3) ? data.field3 : '';
     // data.field4 = !isEmpty(data.field4) ? data.field4 : '';
     // data.field5 = !isEmpty(data.field5) ? data.field5 : '';
-    data.relName = !isEmpty(data.relName) ? data.relName : '';
-    data.whatRels = !isEmpty(data.whatRels) ? data.whatRels : '';
-    data.relPhone = !isEmpty(data.relPhone) ? data.relPhone : '';
+
     data.identification = !isEmpty(data.identification)
       ? data.identification
       : '';

@@ -8,3 +8,24 @@ export const Package = [
   ['DANGKIOTO', 'Vay theo đăng ký xe ô tô'],
   ['SODONHADAT', 'Cầm sổ đỏ nhà đất']
 ];
+export const FormBorrow = {
+  CAMCOTAISAN: [
+    'Tên sản phẩm',
+    'Tên thương hiệu',
+    'Năm sản xuất',
+    'Xuất xứ',
+    'Mô tả'
+  ],
+  TINCHAPTHEOLUONG: ['Tên công ty', 'Thu nhập', 'Nghề nghiệp'],
+  SOHOKHAU: ['Khu vực', 'Diện tích', 'Mô tả', 'Thu nhập', 'Nghề nghiệp'],
+  HOADONDIENNUOC: [
+    'Khu vực',
+    'Tiền điện tháng gần nhất',
+    'Thu nhập',
+    'Nghề nghiệp'
+  ],
+  TRAGOPTHEONGAY: ['Tên công ty', 'Thu nhập', 'Nghề nghiệp'],
+  DANGKIXEMAY: ['Hãng xe', 'Tên xe', 'Đời xe'],
+  DANGKIOTO: ['Hãng xe', 'Tên xe', 'Đời xe'],
+  SODONHADAT: ['Khu vực', 'Diện tích', 'Mô tả', 'Thu nhập', 'Nghề nghiệp']
+};
