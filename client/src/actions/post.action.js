@@ -26,9 +26,15 @@ export const createPost = (postData, history) => dispatch => {
     );
 };
 
-export const updatePost = (postData, id, number, history) => dispatch => {
+export const updatePost = (
+  postData,
+  id,
+  profileID,
+  number,
+  history
+) => dispatch => {
   axios
-    .post(`/api/borrow/${id}/${number}`, postData)
+    .post(`/api/borrow/${id}/${profileID}/${number}`, postData)
     .then(res => {
       return history.push(`/borrower/create/${res.data._id}/${number + 1}`);
     })

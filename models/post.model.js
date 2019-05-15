@@ -139,5 +139,5 @@ const PostSchema = new Schema({
     }
   }
 });
-const MortgageLoan = mongoose.model('mortgageLoans', PostSchema);
+const MortgageLoan = mongoose.model('posts', PostSchema);
 module.exports = MortgageLoan;

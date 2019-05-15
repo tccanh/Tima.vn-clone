@@ -32,7 +32,7 @@ export class Header extends Component {
       <Link to="/profile">TÀI KHOẢN</Link>
     );
     const Classynav =
-      user.typeOfAcc === 'loan' ? (
+      user.typeOfAcc === 'borrow' ? (
         <div className="classynav">
           <ul>
             <li>

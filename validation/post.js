@@ -51,12 +51,8 @@ module.exports = {
       isValid: isEmpty(errors)
     };
   },
-
   Post3: data => {
     const errors = {};
-    // data.fromDate = !isEmpty(data.fromDate) ? data.fromDate : '';
-    data.province = !isEmpty(data.province) ? data.province : '';
-    data.district = !isEmpty(data.district) ? data.district : '';
 
     data.career = !isEmpty(data.career) ? data.career : '';
     data.income = !isEmpty(data.income) ? data.income : '';
@@ -65,6 +61,19 @@ module.exports = {
     data.comPhone = !isEmpty(data.comPhone) ? data.comPhone : '';
     data.bankName = !isEmpty(data.bankName) ? data.bankName : '';
     data.bankID = !isEmpty(data.bankID) ? data.bankID : '';
+
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
+  },
+
+  Post4: data => {
+    const errors = {};
+    // data.fromDate = !isEmpty(data.fromDate) ? data.fromDate : '';
+    data.province = !isEmpty(data.province) ? data.province : '';
+    data.district = !isEmpty(data.district) ? data.district : '';
+
     // data.field1 = !isEmpty(data.field1) ? data.field1 : '';
     // data.field2 = !isEmpty(data.field2) ? data.field2 : '';
     // data.field3 = !isEmpty(data.field3) ? data.field3 : '';

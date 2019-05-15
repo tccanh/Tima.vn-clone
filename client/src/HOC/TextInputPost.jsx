@@ -16,11 +16,11 @@ const TextInputPost = ({
   disable
 }) => {
   return (
-    <div class="form-group row">
-      <label for="fc-6" className={className1} style={{ fontSize: '18px' }}>
+    <div className="form-group row">
+      <label htmlFor="fc-6" className={className1} style={{ fontSize: '18px' }}>
         {title}
       </label>
-      <div class="col-lg-9">
+      <div className="col-lg-9">
         <input
           type={type}
           className={className2}
@@ -32,7 +32,7 @@ const TextInputPost = ({
           onChange={onChange}
         />
         {error && <div className="text-danger">{error.toUpperCase()}</div>}
-        {infos && <small class="text-muted">{infos}</small>}
+        {infos && <small className="text-muted">{infos}</small>}
       </div>
     </div>
   );
@@ -41,7 +41,7 @@ const TextInputPost = ({
 TextInputPost.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   icon: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string.isRequired,

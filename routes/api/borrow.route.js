@@ -2,7 +2,8 @@ const express = require('express');
 const passport = require('passport');
 
 const PostModel = require('../../models/post.model');
-const { Post1, Post2 } = require('../../validation/post');
+const ProfileModel = require('../../models/borrow.profile.model');
+const { Post1, Post2, Post3 } = require('../../validation/post');
 
 const router = express.Router();
 
@@ -72,11 +73,11 @@ router.post(
 
 // Đăng bài bước 2
 router.post(
-  '/:id/1',
+  '/:id/:profileID/1',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const { errors, isValid } = Post2(req.body);
-    const { id } = req.params;
+    const { id, profileID } = req.params;
     const { gender, CMND, DateOfBirth, email } = req.body;
 
     // Check Validation
@@ -97,6 +98,58 @@ router.post(
         { new: true }
       );
       return res.json(updatePost);
+    } catch (error) {
+      return res.status(500).json('Unknown server error', error);
+    }
+  }
+);
+// Đăng bài bước 3
+router.post(
+  '/:id/:profileID/2',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = Post3(req.body);
+    const { id, profileID } = req.params;
+    const {
+      career,
+      income,
+      comName,
+      comAddress,
+      comPhone,
+      bankName,
+      bankID
+    } = req.body;
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    const data = {
+      careerInfo: {
+        career,
+        income,
+        comName,
+        comAddress,
+        comPhone
+      },
+      bank: {
+        bankName,
+        bankID
+      }
+    };
+    try {
+      ProfileModel.findByIdAndUpdate(profileID, data, {
+        new: true
+      })
+        .then(async () => {
+          const Post = await PostModel.findByIdAndUpdate(id, data, {
+            new: true
+          });
+
+          return res.json(Post);
+        })
+        .catch(err => res.status(500).json('Unknown server error', err));
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }

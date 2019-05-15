@@ -35,13 +35,19 @@ const BorrowProfileSchema = new Schema({
     ward: { type: String }, // Phường
     details: { type: String } // Mô tả thêm
   },
-  career: {
-    type: String
-  },
-  company: {
+  careerInfo: {
+    // Công việc hiện tại
+    career: String,
+    // Thu nhập hiện tại
+    income: String,
+    // Thông tin của công ty
     comName: String,
     comAddress: String,
     comPhone: String
+  },
+  bank: {
+    bankName: String,
+    bankID: String
   },
   relatives: {
     relName: String,
