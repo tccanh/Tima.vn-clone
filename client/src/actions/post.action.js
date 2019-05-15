@@ -14,8 +14,9 @@ export const createPost = (postData, history) => dispatch => {
   axios
     .post('/api/borrow', postData)
     .then(res => {
-      dispatch(setCurrentPost(res));
-      return history.push(`/borrower/create/${res.id}/1`);
+      console.log(res);
+
+      return history.push(`/borrower/create/${res.data._id}/1`);
     })
     .catch(err =>
       dispatch({
@@ -25,12 +26,11 @@ export const createPost = (postData, history) => dispatch => {
     );
 };
 
-export const updatePost = (postData, number, history) => dispatch => {
+export const updatePost = (postData, id, number, history) => dispatch => {
   axios
-    .post(`/api/borrow/${number}`, postData)
+    .post(`/api/borrow/${id}/${number}`, postData)
     .then(res => {
-      dispatch(setCurrentPost(res));
-      return history.push(`/borrower/create/${res.id}/${number + 1}`);
+      return history.push(`/borrower/create/${res.data._id}/${number + 1}`);
     })
     .catch(err =>
       dispatch({

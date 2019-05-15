@@ -37,8 +37,6 @@ class PostCreate extends Component {
       this.setState({ errors: nextProps.errors });
     }
     if (nextProps.profile.profile && nextProps.profile.profile.address) {
-      console.log(nextProps.profile.profile.address);
-
       this.setState({
         province: nextProps.profile.profile.address.province,
         district: nextProps.profile.profile.address.district
@@ -57,13 +55,11 @@ class PostCreate extends Component {
     e.preventDefault();
     const postData = {
       typeOfLoan: this.props.match.params.type,
-      // typeOfLoan: 'VAY NẶNG LÃI',
       loanNumber: this.state.loanNumber,
       duration: this.state.duration,
       province: this.state.province,
       district: this.state.district
     };
-    console.log(postData);
 
     this.props.createPost(postData, this.props.history);
   }
@@ -294,7 +290,8 @@ class PostCreate extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
+  errors: state.errors
 });
 
 const mapDispatchToProps = {

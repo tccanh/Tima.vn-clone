@@ -25,16 +25,39 @@ module.exports = {
       isValid: isEmpty(errors)
     };
   },
-
   Post2: data => {
+    const errors = {};
+
+    data.gender = !isEmpty(data.gender) ? data.gender : '';
+    data.CMND = !isEmpty(data.CMND) ? data.CMND : '';
+    // data.DateOfBirth = !isEmpty(data.DateOfBirth) ? data.DateOfBirth : '';
+    data.email = !isEmpty(data.email) ? data.email : '';
+
+    if (Validator.isEmpty(data.gender)) {
+      errors.gender = 'gender field is required';
+    }
+    if (Validator.isEmpty(data.CMND)) {
+      errors.CMND = 'CMND field is required';
+    } else if (!Validator.isNumeric(data.CMND)) {
+      errors.CMND = 'CMND field must be numeric';
+    } else if (!Validator.isLength(data.CMND, { min: 9, max: 9 })) {
+      errors.CMND = 'CMND field is invalid';
+    }
+    if (!Validator.isEmpty(data.email) && !Validator.isEmail(data.email)) {
+      errors.email = 'email field is invalid';
+    }
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
+  },
+
+  Post3: data => {
     const errors = {};
     // data.fromDate = !isEmpty(data.fromDate) ? data.fromDate : '';
     data.province = !isEmpty(data.province) ? data.province : '';
     data.district = !isEmpty(data.district) ? data.district : '';
-    data.gender = !isEmpty(data.gender) ? data.gender : '';
-    data.CMND = !isEmpty(data.CMND) ? data.CMND : '';
-    // // // data.DateOfBirth = !isEmpty(data.DateOfBirth) ? data.DateOfBirth : '';
-    data.email = !isEmpty(data.email) ? data.email : '';
+
     data.career = !isEmpty(data.career) ? data.career : '';
     data.income = !isEmpty(data.income) ? data.income : '';
     data.comName = !isEmpty(data.comName) ? data.comName : '';
@@ -65,19 +88,7 @@ module.exports = {
     if (Validator.isEmpty(data.district)) {
       errors.district = 'district field is required';
     }
-    if (Validator.isEmpty(data.gender)) {
-      errors.gender = 'gender field is required';
-    }
-    if (Validator.isEmpty(data.CMND)) {
-      errors.CMND = 'CMND field is required';
-    } else if (!Validator.isNumeric(data.CMND)) {
-      errors.CMND = 'CMND field must be numeric';
-    } else if (!Validator.isLength(data.CMND, { min: 9, max: 9 })) {
-      errors.CMND = 'CMND field is invalid';
-    }
-    if (!Validator.isEmpty(data.email) && !Validator.isEmail(data.email)) {
-      errors.email = 'email field is invalid';
-    }
+
     if (Validator.isEmpty(data.career)) {
       errors.career = 'career field is required';
     }

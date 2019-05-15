@@ -70,6 +70,39 @@ router.post(
   }
 );
 
+// Đăng bài bước 2
+router.post(
+  '/:id/1',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { errors, isValid } = Post2(req.body);
+    const { id } = req.params;
+    const { gender, CMND, DateOfBirth, email } = req.body;
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    try {
+      const updatePost = await PostModel.findByIdAndUpdate(
+        id,
+        {
+          'personalInfo.gender': gender,
+          'personalInfo.CMND': CMND,
+          'personalInfo.DateOfBirth': DateOfBirth,
+          'personalInfo.email': email
+        },
+        { new: true }
+      );
+      return res.json(updatePost);
+    } catch (error) {
+      return res.status(500).json('Unknown server error', error);
+    }
+  }
+);
+
 // Đăng bài vay
 // router.post(
 //   '/',
@@ -120,12 +153,7 @@ router.post(
 //     //   province,
 //     //   district
 //     // };
-//     personalFields.personalInfo = {
-//       gender,
-//       CMND,
-//       DateOfBirth,
-//       email
-//     };
+//
 
 //     personalFields.careerInfo = {
 //       career,
