@@ -31,7 +31,7 @@ const TextInputPost = ({
           value={value}
           onChange={onChange}
         />
-        {error && <div className="text-danger">{error.toUpperCase()}</div>}
+        {error && <div className="text-danger">{error}</div>}
         {infos && <small className="text-muted">{infos}</small>}
       </div>
     </div>

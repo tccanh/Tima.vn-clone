@@ -277,7 +277,7 @@ const TableData = props => {
                           <div className="text-nowrap">
                             <span className="text-primary">
                               {post.loanNumber} Triệu - {post.date.duration}{' '}
-                              Ngày
+                              Tháng
                             </span>
                             <hr className="my-0" />
                             {

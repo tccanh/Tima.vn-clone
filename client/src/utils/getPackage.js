@@ -32,6 +32,6 @@ export const FormBorrow = {
 export const Status = [
   ['PENDING', 'Chờ nhận', 'badge-warning'],
   ['PURCHASED', 'Đã nhận', 'badge-success'],
-  ['DISBURSED', 'Đã giải ngân', 'badge-secondary'],
+  ['DISBURSED', 'Giải ngân', 'badge-secondary'],
   ['CANCELED', 'Đã huỷ', 'badge-danger']
 ];

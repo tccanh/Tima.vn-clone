@@ -145,3 +145,32 @@ export const getPurchasedPosts = () => dispatch => {
       })
     );
 };
+
+export const updateStatePost = (id, state) => dispatch => {
+  if (
+    state === 'CANCELED' &&
+    window.confirm(
+      'Nếu bạn huỷ quá 3 lần bạn sẽ không được tiếp tục vay, tiếp tục?'
+    )
+  ) {
+    axios
+      .post(`/api/borrow/state/${id}`, { state })
+      .then(res => dispatch(getOwnPosts()))
+      .catch(err =>
+        dispatch({
+          type: GET_POSTS,
+          payload: {}
+        })
+      );
+  } else {
+    axios
+      .post(`/api/borrow/state/${id}`, { state })
+      .then(res => dispatch(getOwnPosts()))
+      .catch(err =>
+        dispatch({
+          type: GET_POSTS,
+          payload: {}
+        })
+      );
+  }
+};

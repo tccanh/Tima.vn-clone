@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableHistory from '../../../HOC/TableHistory';
 import LoanStatistic from './LoanStatistic';
-import { getOwnPosts } from '../../../actions/post.action';
+import { getOwnPosts, updateStatePost } from '../../../actions/post.action';
 class LoanHistory extends Component {
   static propTypes = {
-    getOwnPosts: PropTypes.func.isRequired
+    getOwnPosts: PropTypes.func.isRequired,
+    updateStatePost: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
@@ -29,7 +30,11 @@ class LoanHistory extends Component {
     return (
       <div className="container py-5">
         <LoanStatistic posts={posts} />
-        <TableHistory posts={posts} title="Danh sách đơn vay bạn đã tạo" />
+        <TableHistory
+          posts={posts}
+          updateStatePost={this.props.updateStatePost.bind(this)}
+          title="Danh sách đơn vay bạn đã tạo"
+        />
       </div>
     );
   }
@@ -39,7 +44,7 @@ const mapStateToProps = state => ({
   post: state.post
 });
 
-const mapDispatchToProps = { getOwnPosts };
+const mapDispatchToProps = { getOwnPosts, updateStatePost };
 
 export default connect(
   mapStateToProps,

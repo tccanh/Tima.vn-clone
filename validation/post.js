@@ -10,15 +10,21 @@ module.exports = {
     data.duration = !isEmpty(data.duration) ? data.duration : '';
 
     if (Validator.isEmpty(data.typeOfLoan)) {
-      errors.typeOfLoan = 'typeOfLoan field is required';
+      errors.typeOfLoan = 'Số tiền vay không được bỏ trống';
     }
     if (Validator.isEmpty(data.loanNumber)) {
-      errors.loanNumber = 'loanNumber field is required';
+      errors.loanNumber = 'Số tiền vay không được bỏ trống';
+    } else if (!Validator.isNumeric(data.loanNumber)) {
+      errors.loanNumber = 'Số tiền vay phải là chữ số';
+    } else if (!Validator.isInt(data.loanNumber, { min: 5, max: 100 })) {
+      errors.loanNumber = 'Số tiền vay giới hạn từ 5 đến 100 triệu';
     }
     if (Validator.isEmpty(data.duration)) {
-      errors.duration = 'duration field is required';
+      errors.duration = 'Thời gian vay không được bỏ trống';
     } else if (!Validator.isNumeric(data.duration)) {
       errors.duration = 'duration field must be numeric';
+    } else if (!Validator.isInt(data.duration, { min: 1, max: 120 })) {
+      errors.duration = 'Thời gian vay giới hạn từ 1 tháng đến 10 năm';
     }
     return {
       errors,

@@ -133,7 +133,7 @@ class PostCreate extends Component {
                         className2="form-control form-control-lg"
                         id="loanNumber"
                         name="loanNumber"
-                        placeholder="Đơn vị: Triệu đồng"
+                        placeholder="Từ 5 đến 100 triệu đồng ( Đơn vị: Triệu đồng )"
                         value={loanNumber}
                         error={errors.loanNumber}
                         onChange={e => this.onChange(e)}
@@ -146,7 +146,7 @@ class PostCreate extends Component {
                         className2="form-control form-control-lg"
                         id="duration"
                         name="duration"
-                        placeholder="Đơn vị: ngày"
+                        placeholder="Thời hạn tối thiểu là 1 tháng ( Đơn vị: tháng )"
                         value={duration}
                         error={errors.duration}
                         onChange={e => this.onChange(e)}
@@ -164,7 +164,7 @@ class PostCreate extends Component {
                       >
                         Hỗ trợ tài chính tư vấn gói vay lên đến 100 triệu.{' '}
                         <br />
-                        Kỳ hạn thanh toán không ghới hạn. Kỳ thanh toán 10, 15
+                        Kỳ hạn thanh toán lên đến 10 năm. Kỳ thanh toán 10, 15
                         hoặc 30 ngày KH tùy chọn.
                         <br />
                         Chi tiết liên hệ:

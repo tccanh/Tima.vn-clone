@@ -23,7 +23,7 @@ function Statistic(props) {
                     Tổng tiền cho vay
                   </h3>
                   <p className="fs-16 fs-lg-20 fw-6 text-gray mb-0">
-                    {statistic.money && statistic.money}.000 VNĐ
+                    {statistic.money && statistic.money}.000.000 VNĐ
                   </p>
                 </div>
               </div>

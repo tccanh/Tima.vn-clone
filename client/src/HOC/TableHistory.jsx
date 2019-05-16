@@ -5,7 +5,7 @@ import { Package, Status } from '../utils/getPackage';
 import { formatDate, formatHours } from '../utils/formatTime';
 import classnames from 'classnames';
 const TableHistory = props => {
-  const { posts, title } = props;
+  const { posts, title, updateStatePost } = props;
   return (
     <div className="tm-dtcv bg-white border border-gray p-3 px-md-5 pb-md-5 pt-md-4">
       <h2 className="text-uppercase fs-16 fw-6 mb-0">{title}</h2>
@@ -114,7 +114,7 @@ const TableHistory = props => {
       </div>
 
       <div id="divLoanAllNew">
-        {Object.keys(posts).length === 0 && (
+        {posts && Object.keys(posts).length === 0 && (
           <div className="table-responsive">
             <h3
               className="text-center border py-3"
@@ -124,7 +124,7 @@ const TableHistory = props => {
             </h3>
           </div>
         )}
-        {Object.keys(posts).length > 0 && (
+        {posts && Object.keys(posts).length > 0 && (
           <div className="table-responsive">
             <table
               className="tm-table-1 table text-gray-light"
@@ -151,135 +151,143 @@ const TableHistory = props => {
                     <div className="border-right">Số tiền</div>
                   </th>
                   <th className="text-center">
-                    <div className="border-right">Nhận đơn</div>
+                    <div className="border-right">Trạng thái</div>
                   </th>
                   <th className="text-center">
-                    <div className="border-right">Trạng thái</div>
+                    <div className="border-right">Cập nhật</div>
                   </th>
                   <th className="text-center">&nbsp;</th>
                 </tr>
-                {posts.map((post, key) => {
-                  return (
-                    <tr key={key} style={{ cursor: 'pointer' }} className="">
-                      <td
-                        className="h-100 hidden-xs-down link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item">{key + 1}</li>
-                          </ul>
-                        </div>
-                      </td>
-                      <td
-                        className="h-100 hidden-xs-down link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item">
-                              HĐ - {post._id.substr(2, 8).toUpperCase()}
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                      <td
-                        className="h-100 link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item">
-                              {formatHours(post.date.fromDate)}{' '}
-                              {formatDate(post.date.fromDate)}
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                      <td
-                        className="hidden-xs-down link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item">
-                              {
-                                Package.filter(
-                                  a => a[0] === post.typeOfLoan
-                                )[0][1]
-                              }
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
+                {posts &&
+                  posts.map((post, key) => {
+                    return (
+                      <tr key={key} style={{ cursor: 'pointer' }} className="">
+                        <td
+                          className="h-100 hidden-xs-down link-hover-undertext"
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner d-flex justify-content-center h-100">
+                            <ul className="list-h-1 align-self-start mb-0">
+                              <li className="list-h-1__item">{key + 1}</li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td
+                          className="h-100 hidden-xs-down link-hover-undertext"
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner d-flex justify-content-center h-100">
+                            <ul className="list-h-1 align-self-start mb-0">
+                              <li className="list-h-1__item">
+                                HĐ - {post._id.substr(2, 8).toUpperCase()}
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td
+                          className="h-100 link-hover-undertext"
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner d-flex justify-content-center h-100">
+                            <ul className="list-h-1 align-self-start mb-0">
+                              <li className="list-h-1__item">
+                                {formatHours(post.date.fromDate)}{' '}
+                                {formatDate(post.date.fromDate)}
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td
+                          className="hidden-xs-down link-hover-undertext"
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner d-flex justify-content-center h-100">
+                            <ul className="list-h-1 align-self-start mb-0">
+                              <li className="list-h-1__item">
+                                {
+                                  Package.filter(
+                                    a => a[0] === post.typeOfLoan
+                                  )[0][1]
+                                }
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
 
-                      <td
-                        className="hidden-xs-down link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item">
-                              {post.date.duration} Ngày
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                      <td
-                        className="link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item">
-                              {post.loanNumber},000,000 VNĐ
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                      <td
-                        className="link-hover-undertext"
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner d-flex justify-content-center h-100">
-                          <ul className="list-h-1 align-self-start mb-0">
-                            <li className="list-h-1__item" />
-                          </ul>
-                        </div>
-                      </td>
-                      <td
-                        data-toggle="modal"
-                        href="#modal-ds-nguoi-cho-vay"
-                        onclick="ShowListLender(1587281);"
-                      >
-                        <div className="td-inner media d-flex justify-content-center">
-                          <span
-                            className={classnames(
-                              'badge align-self-center',
-                              Status.filter(a => a[0] === post.state)[0][2]
-                            )}
-                          >
-                            {Status.filter(a => a[0] === post.state)[0][1]}
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        <td
+                          className="hidden-xs-down link-hover-undertext"
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner d-flex justify-content-center h-100">
+                            <ul className="list-h-1 align-self-start mb-0">
+                              <li className="list-h-1__item">
+                                {post.date.duration} Tháng
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td
+                          className="link-hover-undertext"
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner d-flex justify-content-center h-100">
+                            <ul className="list-h-1 align-self-start mb-0">
+                              <li className="list-h-1__item">
+                                {post.loanNumber},000,000 VNĐ
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+
+                        <td
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          <div className="td-inner media d-flex justify-content-center">
+                            <span
+                              className={classnames(
+                                'badge align-self-center',
+                                Status.filter(a => a[0] === post.state)[0][2]
+                              )}
+                            >
+                              {Status.filter(a => a[0] === post.state)[0][1]}
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          data-toggle="modal"
+                          href="#modal-ds-nguoi-cho-vay"
+                          onclick="ShowListLender(1587281);"
+                        >
+                          {post && post.state === 'PENDING' && (
+                            <div className="td-inner media d-flex justify-content-center">
+                              <button
+                                onClick={() =>
+                                  updateStatePost(post._id, 'CANCELED')
+                                }
+                                className=" btn-danger btn-xs"
+                              >
+                                Huỷ đơn
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
