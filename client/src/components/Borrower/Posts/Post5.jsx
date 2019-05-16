@@ -116,7 +116,7 @@ export class Post5 extends Component {
           </div>
         </div>
         <div className="d-flex justify-content-between">
-          <a
+          {/* <a
             className="btn btn-lg btn-gray-lighter px-md-6"
             style={{
               backgroundColor: '#d1d1d1',
@@ -125,7 +125,7 @@ export class Post5 extends Component {
             }}
           >
             QUAY LẠI
-          </a>
+          </a> */}
           <button
             type="submit"
             className="btn btn-lg btn-warning text-white px-md-6 ml-auto"
