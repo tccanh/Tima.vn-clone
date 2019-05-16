@@ -1,10 +1,67 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class Post5 extends Component {
+import { updatePost } from '../../../actions/post.action';
+import { getCurrentProfile } from '../../../actions/profile.action';
+import IdentificationPhoto from './Sub/IdentificationPhoto';
+import HouseholdPhoto from './Sub/HouseholdPhoto';
+import PropertyPhoto from './Sub/PropertyPhoto';
+import IncomePhoto from './Sub/IncomePhoto';
+import classnames from 'classnames';
+const topProcess = [
+  'ĐƠN VAY',
+  'THÔNG TIN CÁ NHÂN',
+  'VIỆC LÀM',
+  'TÀI SẢN',
+  'NGƯỜI THÂN',
+  'HOÀN THÀNH'
+];
+export class Post5 extends Component {
+  static propTypes = {
+    profile: PropTypes.object.isRequired,
+    updatePost: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired
+  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      profileID: '',
+      relName: '',
+      whatRels: '',
+      relPhone: '',
+      errors: {}
+    };
+  }
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   render() {
-    const { pageNumber, handleNextPage, handlePrePage } = this.props;
+    const { profile, loading } = this.props.profile;
+    const id = this.props.match.params.id;
     return (
-      <>
+      <div className="w-xl-85 mx-auto">
+        <div className="w-85 w-lg-66 mx-auto pb-6">
+          <div style={{ height: '25px' }} />
+          <div className="step">
+            {topProcess.map((text, index) => {
+              return (
+                <div
+                  className={classnames('step-item active', {
+                    active: 3 === index
+                  })}
+                  key={index}
+                >
+                  <div className="step-item-text text-uppercase">{text}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <div class="box-2 mb-3">
           <div class="box-2-header d-flex flex-column flex-md-row">
             <h2 class="box-2-title mb-md-0 mb-3">Tải ảnh CMND</h2>
@@ -52,103 +109,15 @@ export default class Post5 extends Component {
 
             <hr class="border-gray mt-md-4 mt-3 mb-0" />
 
-            <div class="uploadct-item">
-              <div class="uploadct-item__header" onclick="UploadImg(1)">
-                <div class="upload btn-file mb-2">
-                  <div class="upload__icon">
-                    <span class="icon-id-card">
-                      <span class="upload__icon-plus" />
-                    </span>
-                  </div>
-                  <div class="upload__text">Nhân thân</div>
-                </div>
-
-                <em class="text-gray-light fs-13">
-                  CMND, Hộ chiếu, Thẻ căn cước
-                </em>
-              </div>
-
-              <div
-                class="uploadct-item__body"
-                id="divImgCardNumber"
-                name="divImgCardNumber"
-              />
-            </div>
-
-            <div class="uploadct-item">
-              <div class="uploadct-item__header" onclick="UploadImg(2)">
-                <div class="upload btn-file mb-2">
-                  <div class="upload__icon">
-                    <span class="icon-house">
-                      <span class="upload__icon-plus" />
-                    </span>
-                  </div>
-                  <div class="upload__text">Cư trú</div>
-                </div>
-
-                <em class="text-gray-light fs-13">
-                  Sổ hộ khẩu, KT3, Tạm trú tạm vắng
-                </em>
-              </div>
-
-              <div
-                class="uploadct-item__body"
-                id="divImgLocation"
-                name="divImgLocation"
-              />
-            </div>
-
-            <div class="uploadct-item">
-              <div class="uploadct-item__header" onclick="UploadImg(5)">
-                <div class="upload btn-file mb-2">
-                  <div class="upload__icon">
-                    <span class="icon-cardid-back">
-                      <span class="upload__icon-plus" />
-                    </span>
-                  </div>
-                  <div class="upload__text">Tài sản</div>
-                </div>
-
-                <em class="text-gray-light fs-13">
-                  Giấy tờ xe, ảnh xe, ảnh tài sản thế chấp...
-                </em>
-              </div>
-
-              <div
-                class="uploadct-item__body"
-                id="divImgContractAsset"
-                name="divImgContractAsset"
-              />
-            </div>
-
-            <div class="uploadct-item">
-              <div class="uploadct-item__header" onclick="UploadImg(3)">
-                <div class="upload btn-file mb-2">
-                  <div class="upload__icon">
-                    <span class="icon-wallet-gray">
-                      <span class="upload__icon-plus" />
-                    </span>
-                  </div>
-                  <div class="upload__text">Thu nhập</div>
-                </div>
-
-                <em class="text-gray-light fs-13">
-                  Sao kê bảng lương. HĐLĐ, BHXH ...
-                </em>
-              </div>
-
-              <div
-                class="uploadct-item__body"
-                id="divImgContractAndSalary"
-                name="divImgContractAndSalary"
-              />
-            </div>
+            <IdentificationPhoto profile={profile} id={id} />
+            <HouseholdPhoto profile={profile} id={id} />
+            <PropertyPhoto profile={profile} id={id} />
+            <IncomePhoto profile={profile} id={id} />
           </div>
         </div>
         <div className="d-flex justify-content-between">
           <a
             className="btn btn-lg btn-gray-lighter px-md-6"
-            onClick={() => handlePrePage()}
             style={{
               backgroundColor: '#d1d1d1',
               fontSize: '14px',
@@ -158,14 +127,26 @@ export default class Post5 extends Component {
             QUAY LẠI
           </a>
           <button
-            onClick={() => handleNextPage()}
+            type="submit"
             className="btn btn-lg btn-warning text-white px-md-6 ml-auto"
             style={{ fontSize: '14px', marginBottom: '25px' }}
           >
-            {pageNumber !== 5 ? 'TIẾP TỤC' : 'HOÀN THÀNH'}
+            HOÀN THÀNH
           </button>
         </div>
-      </>
+      </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  profile: state.profile,
+  errors: state.errors
+});
+
+const mapDispatchToProps = { getCurrentProfile, updatePost };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Post5);

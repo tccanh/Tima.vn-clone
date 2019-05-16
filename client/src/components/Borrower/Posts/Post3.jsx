@@ -17,12 +17,14 @@ const topProcess = [
 ];
 export class Post3 extends Component {
   static propTypes = {
-    updatePost: PropTypes.func.isRequired
+    updatePost: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
 
     this.state = {
+      profileID: '',
       Lists: undefined,
       residence: '',
       originalDocs: '',
@@ -33,6 +35,7 @@ export class Post3 extends Component {
   }
 
   componentDidMount() {
+    this.props.getCurrentProfile();
     let Lists = FormBorrow[this.props.post.type];
     this.setState({ Lists });
     Lists &&
@@ -48,8 +51,12 @@ export class Post3 extends Component {
       // console.log(nextProps.errors);
       this.setState({ errors: nextProps.errors });
     }
-    if (nextProps) {
-      console.log('HEHE', nextProps);
+    if (nextProps.profile.profile && nextProps.profile.profile) {
+      const { profile } = nextProps.profile;
+      // console.log(profile);
+      this.setState({
+        profileID: profile._id
+      });
     }
   }
 
@@ -266,10 +273,11 @@ export class Post3 extends Component {
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  post: state.post
+  post: state.post,
+  profile: state.profile
 });
 
-const mapDispatchToProps = { updatePost };
+const mapDispatchToProps = { updatePost, getCurrentProfile };
 
 export default connect(
   mapStateToProps,

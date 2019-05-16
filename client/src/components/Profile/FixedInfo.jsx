@@ -7,14 +7,14 @@ const FixedInfo = props => {
       className="profilecard media bg-gray-lighter p-sm-4 p-3"
       style={{ marginBottom: '50px' }}
     >
-      <img
+      {/* <img
         className="profilecard__img wf-80 wf-md-126 mr-md-5 mr-3"
         style={{ cursor: 'pointer' }}
         src="https://rs.tima.vn/staticFile//img-avatar/2019/5/6038f62964e74074b91eeadb47cc9204_1_21644528.jpg"
         alt="avatar-san-tai-chinh-Thanh Lam"
         id="imgAvatar"
         title="Đổi ảnh đại diện khác"
-      />
+      /> */}
       <input
         type="file"
         name="uploadAvatar"

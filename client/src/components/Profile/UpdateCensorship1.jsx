@@ -12,6 +12,7 @@ class UpdateCensorship1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      typeOfAcc: '',
       uploading: false,
       images: [],
       portrait: []
@@ -19,7 +20,10 @@ class UpdateCensorship1 extends Component {
   }
   componentDidMount() {
     const { identification, portrait } = this.props.profile.censorship;
-    this.setState({ images: [...identification], portrait });
+    const { user } = this.props.profile;
+    const { typeOfAcc } = user;
+
+    this.setState({ images: [...identification], portrait, typeOfAcc });
   }
   toast = notify.createShowQueue();
   onChange = e => {
@@ -68,7 +72,11 @@ class UpdateCensorship1 extends Component {
           portrait
         };
 
-        this.props.updateProfile('loan/update/censorship', newData);
+        this.state.typeOfAcc &&
+          this.props.updateProfile(
+            `${this.state.typeOfAcc}/update/censorship`,
+            newData
+          );
         this.toast('Cập nhật ảnh thành công.', 'warning', 3000);
       })
       .catch(err => {
@@ -90,7 +98,11 @@ class UpdateCensorship1 extends Component {
       portrait
     };
 
-    this.props.updateProfile('loan/update/censorship', newData);
+    this.state.typeOfAcc &&
+      this.props.updateProfile(
+        `${this.state.typeOfAcc}/update/censorship`,
+        newData
+      );
     this.toast('Xoá ảnh thành công.', 'warning', 2000);
   };
 

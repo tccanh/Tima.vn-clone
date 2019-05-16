@@ -3,25 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Notifications, { notify } from 'react-notify-toast';
 import axios from 'axios';
-import { updateProfile } from '../../actions/profile.action';
-class UpdateCensorship2 extends Component {
+import { updatePostImage } from '../../../../actions/post.action';
+class PropertyPhoto extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
-    updateProfile: PropTypes.func.isRequired
+    updatePostImage: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
     this.state = {
+      profileID: '',
+      id: '',
       uploading: false,
-      images: [],
-      identification: []
+      images: []
     };
   }
   componentDidMount() {
-    const { identification, portrait } = this.props.profile.censorship;
-    const { user } = this.props.profile;
-    const { typeOfAcc } = user;
-    this.setState({ images: [...portrait], identification, typeOfAcc });
+    if (this.props.profile) {
+      this.setState({
+        profileID: this.props.profile._id
+      });
+    }
+    if (this.props.id) {
+      this.setState({ id: this.props.id });
+    }
   }
   toast = notify.createShowQueue();
   onChange = e => {
@@ -55,7 +60,7 @@ class UpdateCensorship2 extends Component {
     this.setState({ uploading: true });
     axios
       .request({
-        url: '/upload/censorship/300',
+        url: '/upload/post/300',
         method: 'POST',
         data: formData
       })
@@ -64,21 +69,21 @@ class UpdateCensorship2 extends Component {
           uploading: false,
           images: [...oldState.images, ...images_.data]
         }));
-        const { images, identification } = this.state;
+        const { images } = this.state;
         const newData = {
-          identification,
-          portrait: images
+          propertyPhoto: images
         };
 
-        this.state.typeOfAcc &&
-          this.props.updateProfile(
-            `${this.state.typeOfAcc}/update/censorship`,
-            newData
-          );
-
+        this.props.updatePostImage(
+          newData,
+          this.state.id,
+          this.state.profileID
+        );
         this.toast('Cập nhật ảnh thành công.', 'warning', 3000);
       })
       .catch(err => {
+        console.log(err);
+
         err.json().then(e => {
           this.toast(e.message, 'error', 3000);
           this.setState({ uploading: false });
@@ -91,17 +96,12 @@ class UpdateCensorship2 extends Component {
 
   removeImage = id => {
     this.setState({ images: this.filter(id) });
-    const { images, identification } = this.state;
+    const { images } = this.state;
     const newData = {
-      identification,
-      portrait: images
+      propertyPhoto: images
     };
 
-    this.state.typeOfAcc &&
-      this.props.updateProfile(
-        `${this.state.typeOfAcc}/update/censorship`,
-        newData
-      );
+    this.props.updatePostImage(newData, this.state.id, this.state.profileID);
 
     this.toast('Xoá ảnh thành công.', 'warning', 2000);
   };
@@ -117,21 +117,23 @@ class UpdateCensorship2 extends Component {
         <Notifications options={{ zIndex: 200, top: '10px' }} />
         <div className="uploadct-item__header">
           <div className="upload btn-file mb-2">
+            <input
+              type="file"
+              id="multi"
+              onChange={e => this.onChange(e)}
+              multiple
+            />
             <div className="upload__icon">
               <span className="icon-id-card">
                 <span className="upload__icon-plus" />
-                <input
-                  type="file"
-                  id="multi"
-                  onChange={e => this.onChange(e)}
-                  multiple
-                />
               </span>
             </div>
-            <div className="upload__text">Ảnh chân dung</div>
+            <div className="upload__text">Tài sản</div>
           </div>
 
-          <em className="text-gray-light fs-13">Ảnh chụp chân dung</em>
+          <em className="text-gray-light fs-13">
+            Giấy tờ xe, ảnh xe, ảnh tài sản thế chấp...
+          </em>
         </div>
 
         <div className="uploadct-item__body" id="divImgCardNumber">
@@ -155,9 +157,9 @@ class UpdateCensorship2 extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = { updateProfile };
+const mapDispatchToProps = { updatePostImage };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UpdateCensorship2);
+)(PropertyPhoto);

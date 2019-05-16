@@ -242,6 +242,48 @@ router.post(
     }
   }
 );
+// Đăng ảnh
+router.post(
+  '/image/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { id } = req.params;
+
+    const {
+      identification,
+      householdPhoto,
+      propertyPhoto,
+      incomePhoto
+    } = req.body;
+    let data = {};
+    if (identification) {
+      data = {
+        'censorship.identification': identification
+      };
+    } else if (householdPhoto) {
+      data = {
+        'censorship.householdPhoto': householdPhoto
+      };
+    } else if (propertyPhoto) {
+      data = {
+        'censorship.propertyPhoto': propertyPhoto
+      };
+    } else if (incomePhoto) {
+      data = {
+        'censorship.incomePhoto': incomePhoto
+      };
+    }
+
+    try {
+      const updatePost = await PostModel.findByIdAndUpdate(id, data, {
+        new: true
+      });
+      return res.json(updatePost);
+    } catch (error) {
+      return res.status(500).json('Unknown server error', error);
+    }
+  }
+);
 // Đăng bài vay
 // router.post(
 //   '/',
