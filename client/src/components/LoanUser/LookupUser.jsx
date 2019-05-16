@@ -21,10 +21,8 @@ class LookupUser extends Component {
               Bạn và Người Đang Cho Vay tránh được rủi ro nợ xấu không đáng có
             </div>
             <div class="text-gray-light mb-5 fs-14 text-center">
-              Phí <span class="badge badge-success fs-12">2.000đ</span> cho mỗi
-              lần kiểm tra không có kết quả,{' '}
-              <span class="badge badge-success fs-12">10.000đ</span> cho mỗi lần
-              kiểm tra thành công!
+              Phí <span class="badge badge-success fs-12">10.000đ</span> cho mỗi
+              lần kiểm tra thành công!
             </div>
 
             <form

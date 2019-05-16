@@ -24,6 +24,7 @@ import Recharge from './components/Borrower/Recharge/Recharge';
 import Exchange from './components/LoanUser/Exchange';
 import LookupUser from './components/LoanUser/LookupUser';
 import LoanHistory from './components/Borrower/History/LoanHistory';
+import ExchargeHistory from './components/LoanUser/ExchargeHistory';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -57,6 +58,11 @@ function App() {
               <PrivateRoute exact path="/recharge" component={Recharge} />
               <PrivateRoute exact path="/loanlookup" component={LookupUser} />
               <PrivateRoute exact path="/loanhistory" component={LoanHistory} />
+              <PrivateRoute
+                exact
+                path="/loanmanagement"
+                component={ExchargeHistory}
+              />
               <PrivateRoute
                 exact
                 path="/borrower/create/:type"

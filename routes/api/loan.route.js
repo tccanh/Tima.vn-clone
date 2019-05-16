@@ -104,12 +104,16 @@ router.get(
 );
 
 // get list những bài đã mua
-router.get('/purchased', (req, res) => {
-  const purchaser = req.user.id;
-  PostModel.findOne({ purchaser })
-    .then(val => res.json(val))
-    .catch(err => console.log(err));
-});
+router.get(
+  '/purchased',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const purchaser = req.user.id;
+    PostModel.findOne({ purchaser })
+      .then(val => res.json(val))
+      .catch(err => console.log(err));
+  }
+);
 
 // mua một bài đăng
 router.post(

@@ -126,3 +126,22 @@ export const getOwnPosts = () => dispatch => {
       })
     );
 };
+// Get đơn đã mua của thằng cho vay
+export const getPurchasedPosts = () => dispatch => {
+  dispatch(clearListPosts());
+  dispatch(setPostLoading());
+  axios
+    .get('/api/loan/purchased')
+    .then(res =>
+      dispatch({
+        type: GET_POSTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_POSTS,
+        payload: {}
+      })
+    );
+};

@@ -4,12 +4,10 @@ import { Package, Status } from '../utils/getPackage';
 import { formatDate, formatHours } from '../utils/formatTime';
 import classnames from 'classnames';
 const TableHistory = props => {
-  const { posts } = props;
+  const { posts, title } = props;
   return (
     <div className="tm-dtcv bg-white border border-gray p-3 px-md-5 pb-md-5 pt-md-4">
-      <h2 className="text-uppercase fs-16 fw-6 mb-0">
-        Danh sách đơn vay bạn đã tạo
-      </h2>
+      <h2 className="text-uppercase fs-16 fw-6 mb-0">{title}</h2>
 
       <hr className="mb-3" />
 
@@ -115,41 +113,48 @@ const TableHistory = props => {
       </div>
 
       <div id="divLoanAllNew">
-        <div className="table-responsive">
-          <table
-            className="tm-table-1 table text-gray-light"
-            style={{ minWidth: 'unset' }}
-          >
-            <tbody>
-              <tr>
-                <th className="text-center hidden-xs-down">
-                  <div className="border-right">STT</div>
-                </th>
-                <th className="text-center hidden-xs-down">
-                  <div className="border-right">Mã hợp đồng</div>
-                </th>
-                <th className="text-center ">
-                  <div className="border-right">Thời gian tạo</div>
-                </th>
-                <th className="text-center hidden-xs-down">
-                  <div className="border-right">Gói vay</div>
-                </th>
-                <th className="text-center hidden-xs-down">
-                  <div className="border-right">Thời gian vay</div>
-                </th>
-                <th className="text-center">
-                  <div className="border-right">Số tiền</div>
-                </th>
-                <th className="text-center">
-                  <div className="border-right">Nhận đơn</div>
-                </th>
-                <th className="text-center">
-                  <div className="border-right">Trạng thái</div>
-                </th>
-                <th className="text-center">&nbsp;</th>
-              </tr>
-              {Object.keys(posts).length > 0 &&
-                posts.map((post, key) => {
+        {Object.keys(posts).length === 0 && (
+          <div class="table-responsive">
+            <h3 class="text-center border py-3" style={{ color: '#ed522e' }}>
+              Hiện tại chưa có đơn vay được chuyển đến bạn
+            </h3>
+          </div>
+        )}
+        {Object.keys(posts).length > 0 && (
+          <div className="table-responsive">
+            <table
+              className="tm-table-1 table text-gray-light"
+              style={{ minWidth: 'unset' }}
+            >
+              <tbody>
+                <tr>
+                  <th className="text-center hidden-xs-down">
+                    <div className="border-right">STT</div>
+                  </th>
+                  <th className="text-center hidden-xs-down">
+                    <div className="border-right">Mã hợp đồng</div>
+                  </th>
+                  <th className="text-center ">
+                    <div className="border-right">Thời gian tạo</div>
+                  </th>
+                  <th className="text-center hidden-xs-down">
+                    <div className="border-right">Gói vay</div>
+                  </th>
+                  <th className="text-center hidden-xs-down">
+                    <div className="border-right">Thời gian vay</div>
+                  </th>
+                  <th className="text-center">
+                    <div className="border-right">Số tiền</div>
+                  </th>
+                  <th className="text-center">
+                    <div className="border-right">Nhận đơn</div>
+                  </th>
+                  <th className="text-center">
+                    <div className="border-right">Trạng thái</div>
+                  </th>
+                  <th className="text-center">&nbsp;</th>
+                </tr>
+                {posts.map((post, key) => {
                   return (
                     <tr key={key} style={{ cursor: 'pointer' }} className="">
                       <td
@@ -271,10 +276,10 @@ const TableHistory = props => {
                     </tr>
                   );
                 })}
-            </tbody>
-          </table>
-        </div>
-
+              </tbody>
+            </table>
+          </div>
+        )}
         <hr />
 
         <div className="d-flex">

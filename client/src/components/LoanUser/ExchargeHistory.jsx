@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TableHistory from '../../../HOC/TableHistory';
-import LoanStatistic from './LoanStatistic';
-import { getOwnPosts } from '../../../actions/post.action';
-class LoanHistory extends Component {
+import TableHistory from '../../HOC/TableHistory';
+import { getPurchasedPosts } from '../../actions/post.action';
+class ExchargeHistory extends Component {
   static propTypes = {
-    getOwnPosts: PropTypes.func.isRequired
+    getPurchasedPosts: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
@@ -17,7 +16,7 @@ class LoanHistory extends Component {
   }
 
   componentDidMount() {
-    this.props.getOwnPosts();
+    this.props.getPurchasedPosts();
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.post && nextProps.post.posts) {
@@ -28,8 +27,10 @@ class LoanHistory extends Component {
     const { posts } = this.state;
     return (
       <div className="container py-5">
-        <LoanStatistic posts={posts} />
-        <TableHistory posts={posts} title="Danh sách đơn vay bạn đã tạo" />
+        <TableHistory
+          posts={posts}
+          title="DANH SÁCH ĐƠN VAY ĐƯỢC CHUYỂN ĐẾN BẠN"
+        />
       </div>
     );
   }
@@ -39,9 +40,9 @@ const mapStateToProps = state => ({
   post: state.post
 });
 
-const mapDispatchToProps = { getOwnPosts };
+const mapDispatchToProps = { getPurchasedPosts };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoanHistory);
+)(ExchargeHistory);
