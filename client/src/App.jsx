@@ -21,6 +21,9 @@ import Post4 from './components/Borrower/Posts/Post4';
 import Post5 from './components/Borrower/Posts/Post5';
 import PostCreate from './components/Borrower/Posts/PostCreate';
 import Recharge from './components/Borrower/Recharge/Recharge';
+import Exchange from './components/LoanUser/Exchange';
+import LookupUser from './components/LoanUser/LookupUser';
+import LoanHistory from './components/Borrower/History/LoanHistory';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -47,10 +50,13 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/exchanges" component={Exchange} />
               <PrivateRoute exact path="/profile" component={Profile} />
               {/* Khu vực dành cho bọn đoé có tiền */}
               <PrivateRoute exact path="/borrower" component={BorrowerPick} />
               <PrivateRoute exact path="/recharge" component={Recharge} />
+              <PrivateRoute exact path="/loanlookup" component={LookupUser} />
+              <PrivateRoute exact path="/loanhistory" component={LoanHistory} />
               <PrivateRoute
                 exact
                 path="/borrower/create/:type"

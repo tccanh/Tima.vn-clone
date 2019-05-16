@@ -1078,6 +1078,7 @@ const getCities = () => {
   for (let [key, val] of Object.entries(data)) {
     res.push([key, Object.values(val)[0]]);
   }
+
   return res;
 };
 

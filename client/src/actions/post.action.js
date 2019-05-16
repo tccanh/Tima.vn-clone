@@ -3,7 +3,8 @@ import {
   POST_LOADING,
   CLEAR_POSTS,
   GET_ERRORS,
-  SET_CURRENT_POST_TYPE
+  SET_CURRENT_POST_TYPE,
+  GET_POSTS
 } from './actionTypes';
 
 export const createPost = (postData, history) => dispatch => {
@@ -86,4 +87,42 @@ export const deletePost = () => dispatch => {
     //     })
     //   );
   }
+};
+export const getPostsOverview = () => dispatch => {
+  dispatch(clearListPosts());
+  dispatch(setPostLoading());
+  axios
+    .get('/api/loan')
+    .then(res =>
+      dispatch({
+        type: GET_POSTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_POSTS,
+        payload: {}
+      })
+    );
+};
+
+// Get đơn vay của thằng vay
+export const getOwnPosts = () => dispatch => {
+  dispatch(clearListPosts());
+  dispatch(setPostLoading());
+  axios
+    .get('/api/borrow')
+    .then(res =>
+      dispatch({
+        type: GET_POSTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_POSTS,
+        payload: {}
+      })
+    );
 };

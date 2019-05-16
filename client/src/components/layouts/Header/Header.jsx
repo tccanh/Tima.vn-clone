@@ -107,7 +107,7 @@ export class Header extends Component {
 
                 <div className="contact">
                   <a href="#">
-                    <img src={Call2} alt="" /> +84 241 264 798
+                    <img src={Call2} alt="" /> +0123 456 798
                   </a>
                 </div>
               </nav>

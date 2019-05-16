@@ -19,13 +19,6 @@ router.get(
   }
 );
 
-// get đơn vay
-router.get('/', (req, res) => {
-  PostModel.find()
-    .then(val => res.json(val))
-    .catch(err => console.log(err));
-});
-
 // Đăng bài bước 1
 router.post(
   '/',

@@ -63,20 +63,17 @@ router.get('/', (req, res) => {
   PostModel.find({ state: 'PENDING' })
     .populate('user')
     .then(val => {
-      const overviewMor = val[0].map(mor => ({
-        info: {
-          fullname: mor.user.fullname,
-          phone: mor.user.phone,
-          loan: mor.loan,
-          duration: mor.date.duration,
-          address: mor.address,
-          typeOf: mor.typeOf,
-          CMND: mor.personalInfo.CMND
-        },
-        price: {
-          ...mor.price
-        },
-        property: [...mor.property],
+      const overviewMor = val.map(mor => ({
+        fullname: mor.user.fullname,
+        phone: `${mor.user.phone.substr(0, 3)}*****${mor.user.phone.substr(7)}`,
+        loanNumber: mor.loanNumber,
+        date: mor.date,
+        address: mor.address,
+        typeOfLoan: mor.typeOfLoan,
+        CMND: `********${mor.personalInfo.CMND.substr(6)}`,
+        price: mor.price,
+        property1: mor.property1,
+        property2: mor.property2,
         careerInfo: mor.careerInfo
       }));
 

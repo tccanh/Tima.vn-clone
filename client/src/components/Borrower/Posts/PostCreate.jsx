@@ -132,7 +132,7 @@ class PostCreate extends Component {
                         className2="form-control form-control-lg"
                         id="loanNumber"
                         name="loanNumber"
-                        placeholder=""
+                        placeholder="Đơn vị: Triệu đồng"
                         value={loanNumber}
                         error={errors.loanNumber}
                         onChange={e => this.onChange(e)}
@@ -145,7 +145,7 @@ class PostCreate extends Component {
                         className2="form-control form-control-lg"
                         id="duration"
                         name="duration"
-                        placeholder=""
+                        placeholder="Đơn vị: ngày"
                         value={duration}
                         error={errors.duration}
                         onChange={e => this.onChange(e)}
@@ -158,22 +158,23 @@ class PostCreate extends Component {
                           fontSize: '12px',
                           marginBottom: '.23438rem!important',
                           fontWeight: '500',
-                          marginLeft: '54px'
+                          marginLeft: '125px'
                         }}
                       >
-                        Tima tư vấn gói vay tín chấp theo lương khoản vay đến 50
-                        triệu. Kỳ hạn thanh toán đến 90 ngày. Kỳ thanh toán 10,
-                        15 hoặc 30 ngày KH tùy chọn. Chi tiết liên hệ
-                        <a className="text-gray" href="tel:1900633688">
-                          1900 633 688
-                        </a>
+                        Hỗ trợ tài chính tư vấn gói vay lên đến 100 triệu.{' '}
+                        <br />
+                        Kỳ hạn thanh toán không ghới hạn. Kỳ thanh toán 10, 15
+                        hoặc 30 ngày KH tùy chọn.
+                        <br />
+                        Chi tiết liên hệ:
+                        <a className="text-gray"> 0123 456 789</a>
                       </p>
 
                       <div
                         style={{
                           fontSize: '15px',
                           color: '#ffbb38',
-                          marginLeft: '54px'
+                          marginLeft: '125px'
                         }}
                         className="text-gray mb-3"
                       >
@@ -288,7 +289,7 @@ class PostCreate extends Component {
                         <span id="slider-num-3">
                           {loanNumber ? loanNumber : '0'}
                         </span>{' '}
-                        VNĐ
+                        Triệu đồng
                       </div>
                     </div>
 

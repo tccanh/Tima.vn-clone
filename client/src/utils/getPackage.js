@@ -29,3 +29,9 @@ export const FormBorrow = {
   DANGKIOTO: ['Hãng xe', 'Tên xe', 'Đời xe'],
   SODONHADAT: ['Khu vực', 'Diện tích', 'Mô tả', 'Thu nhập', 'Nghề nghiệp']
 };
+export const Status = [
+  ['PENDING', 'Chờ nhận', 'badge-warning'],
+  ['PURCHASED', 'Đã nhận', 'badge-success'],
+  ['DISBURSED', 'Đã giải ngân', 'badge-secondary'],
+  ['CANCELED', 'Đã huỷ', 'badge-danger']
+];
