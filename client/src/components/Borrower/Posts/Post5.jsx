@@ -9,15 +9,7 @@ import IdentificationPhoto from './Sub/IdentificationPhoto';
 import HouseholdPhoto from './Sub/HouseholdPhoto';
 import PropertyPhoto from './Sub/PropertyPhoto';
 import IncomePhoto from './Sub/IncomePhoto';
-import classnames from 'classnames';
-const topProcess = [
-  'ĐƠN VAY',
-  'THÔNG TIN CÁ NHÂN',
-  'VIỆC LÀM',
-  'TÀI SẢN',
-  'NGƯỜI THÂN',
-  'HOÀN THÀNH'
-];
+
 export class Post5 extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
@@ -41,25 +33,28 @@ export class Post5 extends Component {
   }
 
   render() {
-    const { profile, loading } = this.props.profile;
+    const { profile } = this.props.profile;
     const id = this.props.match.params.id;
     return (
       <div className="w-xl-85 mx-auto">
-        <div className="w-85 w-lg-66 mx-auto pb-6">
+        <div class="w-85 w-lg-66 mx-auto pb-6">
           <div style={{ height: '25px' }} />
-          <div className="step">
-            {topProcess.map((text, index) => {
-              return (
-                <div
-                  className={classnames('step-item active', {
-                    active: 3 === index
-                  })}
-                  key={index}
-                >
-                  <div className="step-item-text text-uppercase">{text}</div>
-                </div>
-              );
-            })}
+          <div class="step">
+            <div class="step-item ">
+              <div class="step-item-text text-uppercase">THÔNG TIN CÁ NHÂN</div>
+            </div>
+            <div class="step-item ">
+              <div class="step-item-text text-uppercase">VIỆC LÀM</div>
+            </div>
+            <div class="step-item ">
+              <div class="step-item-text text-uppercase">TÀI SẢN</div>
+            </div>
+            <div class="step-item ">
+              <div class="step-item-text text-uppercase">NGƯỜI THÂN</div>
+            </div>
+            <div class="step-item active">
+              <div class="step-item-text text-uppercase">HOÀN THÀNH</div>
+            </div>
           </div>
         </div>
         <div class="box-2 mb-3">

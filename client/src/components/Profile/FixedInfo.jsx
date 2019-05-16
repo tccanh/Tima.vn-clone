@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 const FixedInfo = props => {
   return (
     <div
@@ -41,12 +41,12 @@ const FixedInfo = props => {
                 >
                   Quản lý đơn vay
                 </a>
-                <a
-                  href="/nap-tien.html"
+                <Link
+                  to="/recharge"
                   className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
                 >
                   <i className="fa fa-usd" aria-hidden="true" /> Nạp tiền
-                </a>
+                </Link>
               </span>
             </div>
           </div>
