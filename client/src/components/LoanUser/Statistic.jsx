@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 function Statistic(props) {
+  const { statistic } = props;
+
   return (
     <div className="row mb-5">
       <div className="col-xl-9 mb-3 mb-xl-0">
@@ -21,7 +23,7 @@ function Statistic(props) {
                     Tổng tiền cho vay
                   </h3>
                   <p className="fs-16 fs-lg-20 fw-6 text-gray mb-0">
-                    67,609,105,000,000
+                    {statistic.money && statistic.money}.000 VNĐ
                   </p>
                 </div>
               </div>
@@ -35,7 +37,7 @@ function Statistic(props) {
                     Tổng số người vay
                   </h3>
                   <p className="fs-16 fs-lg-20 fw-6 text-gray mb-0">
-                    3,317,506
+                    {statistic.borrow && statistic.borrow}
                   </p>
                 </div>
               </div>
@@ -48,7 +50,9 @@ function Statistic(props) {
                   <h3 className="fs-14 fs-lg-16 fw-6 text-gray-light mb-0 mt-1">
                     Tổng số người cho vay
                   </h3>
-                  <p className="fs-16 fs-lg-20 fw-6 text-gray mb-0">36,573</p>
+                  <p className="fs-16 fs-lg-20 fw-6 text-gray mb-0">
+                    {statistic.loan && statistic.loan}
+                  </p>
                 </div>
               </div>
             </div>
@@ -58,18 +62,20 @@ function Statistic(props) {
 
       <div className="col-xl-3 d-flex">
         <div className="d-flex align-items-center justify-content-center w-100 bg-white border border-gray p-3 p-md-5">
-          <a
-            className="btn btn-primary text-uppercase text-white fs-16 fs-lg-20"
-            href="/Lender/ListLoan/"
+          <Link
+            className="btn btn-warning text-uppercase text-white fs-16 fs-lg-20"
+            to="/loanmanagement"
           >
             Quản lý đơn vay
-          </a>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
 
-Statistic.propTypes = {};
+Statistic.propTypes = {
+  statistic: PropTypes.object.isRequired
+};
 
 export default Statistic;

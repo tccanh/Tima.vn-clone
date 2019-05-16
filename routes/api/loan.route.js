@@ -105,10 +105,10 @@ router.get(
 
 // get list những bài đã mua
 router.get(
-  '/purchased',
+  '/waspurchased',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const purchaser = req.user.id;
+    const purchaser = req.user._id;
     PostModel.findOne({ purchaser })
       .then(val => res.json(val))
       .catch(err => console.log(err));
@@ -230,26 +230,61 @@ router.post(
 // filter bài viết
 
 // tra cứu người cần thuê dựa trên số điện thoại hoặc số CMND
-router.get('/lookup/:field', (req, res) => {
+router.post('/lookup/:field', (req, res) => {
   const { field } = req.params;
-  const { value } = req.body;
+  const { data } = req.body;
+
   if (field === 'PHONE') {
-    UserModel.find({ phone: value }).then(val => {
+    UserModel.findOne({ phone: data }).then(val => {
       if (!val) {
-        return res.status(400).json('User not found.');
+        return res.json({});
       }
-      PostModel.findOne({ user: val.id })
-        .then(post => res.json(post))
+
+      PostModel.find({ user: val.id })
+        .populate('user')
+        .then(posts => {
+          const overview = posts.map(mor => ({
+            fullname: mor.user.fullname,
+            phone: `${mor.user.phone.substr(0, 3)}*****${mor.user.phone.substr(
+              7
+            )}`,
+            loanNumber: mor.loanNumber,
+            date: mor.date,
+            address: mor.address,
+            typeOfLoan: mor.typeOfLoan,
+            CMND: `********${mor.personalInfo.CMND.substr(6)}`,
+            price: mor.price,
+            property1: mor.property1,
+            property2: mor.property2,
+            careerInfo: mor.careerInfo
+          }));
+          return res.json(overview);
+        })
         .catch(err => console.log(err));
     });
   }
   if (field === 'CMND') {
-    BorrowProfileModel.findOne({ CMND: value }).then(val => {
+    BorrowProfileModel.findOne({ CMND: data }).then(val => {
       if (!val) {
-        return res.status(400).json('User not found.');
+        return res.json({});
       }
-      PostModel.findOne({ user: val.user })
-        .then(post => res.json(post))
+      PostModel.find({ user: val.user })
+        .populate('user')
+        .then(posts => {
+          const overview = posts.map(mor => ({
+            fullname: mor.user.fullname,
+            phone: mor.user.phone,
+            loanNumber: mor.loanNumber,
+            date: mor.date,
+            address: mor.address,
+            typeOfLoan: mor.typeOfLoan,
+            CMND: mor.personalInfo.CMND,
+            price: mor.price,
+            careerInfo: mor.careerInfo
+          }));
+
+          return res.json(overview);
+        })
         .catch(err => console.log(err));
     });
   }

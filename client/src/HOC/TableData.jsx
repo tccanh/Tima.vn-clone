@@ -7,13 +7,11 @@ import { Package } from '../utils/getPackage';
 import { getCities, getDistricts } from '../utils/getVNdata';
 const Cities = getCities();
 const TableData = props => {
-  const { posts } = props;
+  const { posts, title } = props;
 
   return (
     <div className="tm-dtcv bg-white border border-gray p-3 px-md-5 pb-md-5 pt-md-4">
-      <h2 className="text-uppercase fs-16 fw-6 mb-0">
-        Danh sách đơn xin vay mới trên toàn hệ thống
-      </h2>
+      <h2 className="text-uppercase fs-16 fw-6 mb-0">{title}</h2>
 
       <hr className="mb-3" />
 
@@ -398,6 +396,8 @@ const TableData = props => {
   );
 };
 
-TableData.propTypes = {};
+TableData.propTypes = {
+  posts: PropTypes.object.isRequired
+};
 
 export default TableData;

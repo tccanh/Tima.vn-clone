@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 import { updatePost } from '../../../actions/post.action';
 import { getCurrentProfile } from '../../../actions/profile.action';
 import IdentificationPhoto from './Sub/IdentificationPhoto';
@@ -121,13 +121,13 @@ export class Post5 extends Component {
           >
             QUAY LẠI
           </a> */}
-          <button
-            type="submit"
+          <Link
             className="btn btn-lg btn-warning text-white px-md-6 ml-auto"
             style={{ fontSize: '14px', marginBottom: '25px' }}
+            to="/borrower/success"
           >
             HOÀN THÀNH
-          </button>
+          </Link>
         </div>
       </div>
     );

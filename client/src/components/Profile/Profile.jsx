@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Profile.scss';
 import { getCurrentProfile } from '../../actions/profile.action';
-import SwappingSquaresSpinner from '../common/SwappingSquaresSpinner';
 import FixedInfo from './FixedInfo';
 import UpdateInfo from './UpdateInfo';
 import UpdatePackage from './UpdatePackage';
 import UpdateDistrict from './UpdateDistrict';
 import UpdateCensorship1 from './UpdateCensorship1';
 import UpdateCensorship2 from './UpdateCensorship2';
+import Preloader from '../common/Preloader';
 export class Profile extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
@@ -19,7 +19,7 @@ export class Profile extends Component {
 
     let Content =
       loading || profile === null ? (
-        <SwappingSquaresSpinner />
+        <Preloader />
       ) : (
         <>
           <div className="container bg-white">

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/role-has-required-aria-props */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Package, Status } from '../utils/getPackage';
@@ -24,7 +25,7 @@ const TableHistory = props => {
                 role="combobox"
                 aria-haspopup="true"
                 aria-expanded="false"
-                tabindex="0"
+                tabIndex="0"
                 aria-labelledby="select2-cbProduct-container"
               >
                 <span
@@ -44,7 +45,7 @@ const TableHistory = props => {
           <select
             className="form-control border-primary rounded-0 fs-15 form-control-default select2-hidden-accessible"
             id="cbProduct"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
           >
             <option value="">Chọn Gói Sản Phẩm...</option>
@@ -69,7 +70,7 @@ const TableHistory = props => {
                 role="combobox"
                 aria-haspopup="true"
                 aria-expanded="false"
-                tabindex="0"
+                tabIndex="0"
                 aria-labelledby="select2-cbStatus-container"
               >
                 <span
@@ -114,8 +115,11 @@ const TableHistory = props => {
 
       <div id="divLoanAllNew">
         {Object.keys(posts).length === 0 && (
-          <div class="table-responsive">
-            <h3 class="text-center border py-3" style={{ color: '#ed522e' }}>
+          <div className="table-responsive">
+            <h3
+              className="text-center border py-3"
+              style={{ color: '#ed522e' }}
+            >
               Hiện tại chưa có đơn vay được chuyển đến bạn
             </h3>
           </div>
@@ -289,11 +293,7 @@ const TableHistory = props => {
           >
             <ul className="pagination pagination-sm mb-0 mr-3">
               <li className="page-item page-item--prev d-flex">
-                <a
-                  className="page-link"
-                  href="javascript:void(0);"
-                  onclick="page_click(-1)"
-                >
+                <a className="page-link" href="#">
                   Prev
                 </a>
               </li>
@@ -303,11 +303,7 @@ const TableHistory = props => {
                 </div>
               </li>
               <li className="page-item page-item--next d-flex">
-                <a
-                  className="page-link"
-                  href="javascript:void(0);"
-                  onclick="page_click(1)"
-                >
+                <a className="page-link" href="#">
                   Next
                 </a>
               </li>

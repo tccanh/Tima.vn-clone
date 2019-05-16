@@ -131,7 +131,7 @@ export const getPurchasedPosts = () => dispatch => {
   dispatch(clearListPosts());
   dispatch(setPostLoading());
   axios
-    .get('/api/loan/purchased')
+    .get('/api/loan/waspurchased')
     .then(res =>
       dispatch({
         type: GET_POSTS,

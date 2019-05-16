@@ -30,25 +30,42 @@ const FixedInfo = props => {
             <div className="col-3">
               <span>Thông tin tài khoản</span>
             </div>
-            <div className="col-9">
-              <span
-                style={{ position: 'absolute', right: '5%' }}
-                className="hidden-xs-down"
-              >
-                <a
-                  className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
-                  href="/Lender/ListLoan/"
+            {props.profile.user.typeOfAcc === 'loan' ? (
+              <div className="col-9">
+                <span
+                  style={{ position: 'absolute', right: '5%' }}
+                  className="hidden-xs-down"
                 >
-                  Quản lý đơn vay
-                </a>
-                <Link
-                  to="/recharge"
-                  className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
+                  <Link
+                    style={{ margin: '0 10px 0 10px' }}
+                    className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
+                    to="/purchasedhistory"
+                  >
+                    Lịch sử đơn vay
+                  </Link>
+                  <Link
+                    to="/recharge"
+                    className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
+                  >
+                    <i className="fa fa-usd" aria-hidden="true" /> Nạp tiền
+                  </Link>
+                </span>
+              </div>
+            ) : (
+              <div className="col-9">
+                <span
+                  style={{ position: 'absolute', right: '5%' }}
+                  className="hidden-xs-down"
                 >
-                  <i className="fa fa-usd" aria-hidden="true" /> Nạp tiền
-                </Link>
-              </span>
-            </div>
+                  <Link
+                    className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
+                    to="/loanhistory"
+                  >
+                    Quản lý đơn vay
+                  </Link>
+                </span>
+              </div>
+            )}
           </div>
         </div>
 

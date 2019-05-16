@@ -16,6 +16,7 @@ const usersRouter = require('./routes/user.route');
 const profilesRouter = require('./routes/api/profile.route');
 const borrowRouter = require('./routes/api/borrow.route');
 const loanRouter = require('./routes/api/loan.route');
+const statisticRouter = require('./routes/statistical/statistic');
 
 // Database config
 const SecretKey = require('./configs/server.config');
@@ -56,6 +57,7 @@ app.use('/users', usersRouter);
 app.use('/api/profile', profilesRouter);
 app.use('/api/borrow', borrowRouter);
 app.use('/api/loan', loanRouter);
+app.use('/api/statistic', statisticRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

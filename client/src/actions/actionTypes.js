@@ -16,3 +16,8 @@ export const GET_POST = 'GET_POST';
 export const GET_POSTS = 'GET_POSTS';
 export const CLEAR_POST = 'CLEAR_POST';
 export const CLEAR_POSTS = 'CLEAR_POSTS';
+//statistic
+export const COUNT_USER = 'COUNT_USER';
+export const COUNT_MONEY = 'COUNT_MONEY';
+export const SET_LOOK_UP_USER = 'SET_LOOK_UP_USER';
+export const CLEAR_LOOK_UP_USER = 'CLEAR_LOOK_UP_USER';

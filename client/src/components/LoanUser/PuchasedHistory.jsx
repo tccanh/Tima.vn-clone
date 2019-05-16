@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableHistory from '../../HOC/TableHistory';
 import { getPurchasedPosts } from '../../actions/post.action';
-class ExchargeHistory extends Component {
+class PuchasedHistory extends Component {
   static propTypes = {
     getPurchasedPosts: PropTypes.func.isRequired
   };
@@ -45,4 +45,4 @@ const mapDispatchToProps = { getPurchasedPosts };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExchargeHistory);
+)(PuchasedHistory);

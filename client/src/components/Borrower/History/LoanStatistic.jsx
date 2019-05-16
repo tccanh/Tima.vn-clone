@@ -1,6 +1,7 @@
 import React from 'react';
-
-const LoanStatistic = () => {
+import { Link } from 'react-router-dom';
+const LoanStatistic = props => {
+  const { posts } = props;
   return (
     <div class="row mb-5">
       <div class="col-xl-9 mb-3 mb-xl-0">
@@ -19,7 +20,9 @@ const LoanStatistic = () => {
                   <h3 class="fs-14 fs-lg-16 fw-6 text-gray-light mb-0 mt-1">
                     Tổng đơn đăng ký
                   </h3>
-                  <p class="fs-16 fs-lg-20 fw-6 text-gray mb-0">3</p>
+                  <p class="fs-16 fs-lg-20 fw-6 text-gray mb-0 ">
+                    {posts.length}
+                  </p>
                 </div>
               </div>
             </div>
@@ -31,7 +34,10 @@ const LoanStatistic = () => {
                   <h3 class="fs-14 fs-lg-16 fw-6 text-gray-light mb-0 mt-1">
                     Tổng đơn chờ nhận
                   </h3>
-                  <p class="fs-16 fs-lg-20 fw-6 text-gray mb-0">0</p>
+                  <p class="fs-16 fs-lg-20 fw-6 text-gray mb-0">
+                    {Object.keys(posts).length > 0 &&
+                      posts.filter(a => a.state === 'PENDING').length}
+                  </p>
                 </div>
               </div>
             </div>
@@ -43,7 +49,10 @@ const LoanStatistic = () => {
                   <h3 class="fs-14 fs-lg-16 fw-6 text-gray-light mb-0 mt-1">
                     Tổng đơn hủy
                   </h3>
-                  <p class="fs-16 fs-lg-20 fw-6 text-gray mb-0">0</p>
+                  <p class="fs-16 fs-lg-20 fw-6 text-gray mb-0">
+                    {Object.keys(posts).length > 0 &&
+                      posts.filter(a => a.state === 'CANCELED').length}
+                  </p>
                 </div>
               </div>
             </div>
@@ -53,12 +62,12 @@ const LoanStatistic = () => {
 
       <div class="col-xl-3 d-flex">
         <div class="d-flex align-items-center justify-content-center w-100 bg-white border border-gray p-3 p-md-5">
-          <a
-            class="btn btn-primary text-uppercase text-white fs-16 fs-lg-20"
-            href="/Borrower/"
+          <Link
+            class="btn btn-warning text-uppercase text-white fs-16 fs-lg-20"
+            to="/borrower"
           >
             Đăng ký vay ngay
-          </a>
+          </Link>
         </div>
       </div>
     </div>
