@@ -116,24 +116,26 @@ class HouseholdPhoto extends Component {
       <div className="uploadct-item">
         <Notifications options={{ zIndex: 200, top: '10px' }} />
         <div className="uploadct-item__header">
-          <div className="upload btn-file mb-2">
-            <input
-              type="file"
-              id="multi"
-              onChange={e => this.onChange(e)}
-              multiple
-            />
-            <div className="upload__icon">
-              <span className="icon-id-card">
-                <span className="upload__icon-plus" />
-              </span>
+          <input
+            type="file"
+            id="multi3"
+            onChange={e => this.onChange(e)}
+            multiple
+          />
+          <label className="customlable" htmlFor="multi3">
+            <div className="upload btn-file mb-2">
+              <div className="upload__icon">
+                <span className="icon-id-card">
+                  <span className="upload__icon-plus" />
+                </span>
+              </div>
+              <div className="upload__text">Cư trú</div>
             </div>
-            <div className="upload__text">Cư trú</div>
-          </div>
 
-          <em className="text-gray-light fs-13">
-            Sổ hộ khẩu, KT3, Tạm trú tạm vắng
-          </em>
+            <em className="text-gray-light fs-13">
+              Sổ hộ khẩu, KT3, Tạm trú tạm vắng
+            </em>
+          </label>
         </div>
 
         <div className="uploadct-item__body" id="divImgCardNumber">

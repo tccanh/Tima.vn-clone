@@ -116,22 +116,24 @@ class UpdateCensorship2 extends Component {
       <div className="uploadct-item">
         <Notifications options={{ zIndex: 200, top: '10px' }} />
         <div className="uploadct-item__header">
-          <div className="upload btn-file mb-2">
-            <div className="upload__icon">
-              <span className="icon-id-card">
-                <span className="upload__icon-plus" />
-                <input
-                  type="file"
-                  id="multi"
-                  onChange={e => this.onChange(e)}
-                  multiple
-                />
-              </span>
+          <input
+            type="file"
+            id="multi2"
+            onChange={e => this.onChange(e)}
+            multiple
+          />
+          <label className="customlable" htmlFor="multi2">
+            <div className="upload btn-file mb-2">
+              <div className="upload__icon">
+                <span className="icon-id-card">
+                  <span className="upload__icon-plus" />
+                </span>
+              </div>
+              <div className="upload__text">Ảnh chân dung</div>
             </div>
-            <div className="upload__text">Ảnh chân dung</div>
-          </div>
 
-          <em className="text-gray-light fs-13">Ảnh chụp chân dung</em>
+            <em className="text-gray-light fs-13">Ảnh chụp chân dung</em>
+          </label>
         </div>
 
         <div className="uploadct-item__body" id="divImgCardNumber">

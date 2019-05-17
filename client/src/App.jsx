@@ -2,7 +2,6 @@ import React from 'react';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import store from './store';
-import './App.scss';
 import { Provider } from 'react-redux';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { setCurrentUser, logoutUser } from './actions/auth.action';
