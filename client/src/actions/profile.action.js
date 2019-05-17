@@ -84,3 +84,18 @@ export const getProfiles = () => dispatch => {
       })
     );
 };
+export const fakeRecharge = (data, history) => dispatch => {
+  console.log(data);
+
+  dispatch(setProfileLoading());
+  axios
+    .post(`/api/loan/recharge/fake`, data)
+    .then(res => history.push('/profile'))
+    .catch(err =>
+      //nếu không có user không đẩy ra lỗi mà để rỗng
+      dispatch({
+        type: GET_PROFILE,
+        payload: null
+      })
+    );
+};

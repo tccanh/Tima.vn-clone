@@ -9,7 +9,7 @@ import UpdatePackage from './UpdatePackage';
 import UpdateDistrict from './UpdateDistrict';
 import UpdateCensorship1 from './UpdateCensorship1';
 import UpdateCensorship2 from './UpdateCensorship2';
-import Preloader from '../common/Preloader';
+import SwappingSquaresSpinner from '../common/SwappingSquaresSpinner';
 export class Profile extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
@@ -19,7 +19,7 @@ export class Profile extends Component {
 
     let Content =
       loading || profile === null ? (
-        <Preloader />
+        <SwappingSquaresSpinner />
       ) : (
         <>
           <div className="container bg-white">

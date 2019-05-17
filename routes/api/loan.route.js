@@ -160,18 +160,26 @@ router.post(
     const { id } = req.params;
     const purchaser = req.user.id;
     try {
-      const mortUpdate = await PostModel.findOneAndUpdate(
-        { _id: id },
-        {
-          purchaser,
-          state: 'PURCHASED'
-        },
-        { new: true }
-      );
-      if (!mortUpdate) {
-        return res.status(404).json('PostModel not found for this ID');
+      const Profile = await LoanProfileModel.findOne({ user: purchaser });
+      const temp = await Profile.balance;
+      if (temp < 25000) {
+        return res.status(404).json('Mày không có đủ tiền để mua bài đâu e');
       }
-      return res.status(200).json(mortUpdate);
+      Profile.balance = temp - 25000;
+      Profile.save().then(async () => {
+        const mortUpdate = await PostModel.findOneAndUpdate(
+          { _id: id },
+          {
+            purchaser,
+            state: 'PURCHASED'
+          },
+          { new: true }
+        );
+        if (!mortUpdate) {
+          return res.status(404).json('PostModel not found for this ID');
+        }
+        return res.status(200).json(mortUpdate);
+      });
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send('Duplicate key', err);
@@ -211,17 +219,21 @@ router.post(
 // fake chuyển tiền
 
 router.post(
-  '/recharge/fake/:id',
+  '/recharge/fake',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { id } = req.params;
+    const user = req.user.id;
     const amount = parseInt(req.body.amount, 10);
+    console.log('haha:', amount);
+
     try {
-      const mortUpdate = await LoanProfileModel.findOneAndUpdate(
-        { _id: id },
-        { balance: amount },
-        { new: true }
-      );
+      const profile = await LoanProfileModel.findOne({ user });
+
+      const temp = profile.balance;
+      console.log(temp);
+
+      profile.balance = temp + amount;
+      const mortUpdate = await profile.save();
       if (!mortUpdate) {
         return res.status(404).json('LoanProfileModel not found for this ID');
       }
@@ -237,64 +249,77 @@ router.post(
 // filter bài viết
 
 // tra cứu người cần thuê dựa trên số điện thoại hoặc số CMND
-router.post('/lookup/:field', (req, res) => {
-  const { field } = req.params;
-  const { data } = req.body;
+router.post(
+  '/lookup/:field',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const user = req.user.id;
+    const { field } = req.params;
+    const { data } = req.body;
+    const Profile = await LoanProfileModel.findOne({ user });
+    const temp = await Profile.balance;
+    if (temp < 10000) {
+      return res.status(404).json('Mày không có đủ tiền để mua bài đâu e');
+    }
+    Profile.balance = temp - 10000;
+    Profile.save().then(async () => {
+      if (field === 'PHONE') {
+        UserModel.findOne({ phone: data }).then(val => {
+          if (!val) {
+            return res.json({});
+          }
 
-  if (field === 'PHONE') {
-    UserModel.findOne({ phone: data }).then(val => {
-      if (!val) {
-        return res.json({});
+          PostModel.find({ user: val.id })
+            .populate('user')
+            .then(posts => {
+              const overview = posts.map(mor => ({
+                fullname: mor.user.fullname,
+                phone: `${mor.user.phone.substr(
+                  0,
+                  3
+                )}*****${mor.user.phone.substr(7)}`,
+                loanNumber: mor.loanNumber,
+                date: mor.date,
+                address: mor.address,
+                typeOfLoan: mor.typeOfLoan,
+                CMND: `********${mor.personalInfo.CMND.substr(6)}`,
+                price: mor.price,
+                property1: mor.property1,
+                property2: mor.property2,
+                careerInfo: mor.careerInfo
+              }));
+              return res.json(overview);
+            })
+            .catch(err => console.log(err));
+        });
       }
+      if (field === 'CMND') {
+        BorrowProfileModel.findOne({ CMND: data }).then(val => {
+          if (!val) {
+            return res.json({});
+          }
+          PostModel.find({ user: val.user })
+            .populate('user')
+            .then(posts => {
+              const overview = posts.map(mor => ({
+                fullname: mor.user.fullname,
+                phone: mor.user.phone,
+                loanNumber: mor.loanNumber,
+                date: mor.date,
+                address: mor.address,
+                typeOfLoan: mor.typeOfLoan,
+                CMND: mor.personalInfo.CMND,
+                price: mor.price,
+                careerInfo: mor.careerInfo
+              }));
 
-      PostModel.find({ user: val.id })
-        .populate('user')
-        .then(posts => {
-          const overview = posts.map(mor => ({
-            fullname: mor.user.fullname,
-            phone: `${mor.user.phone.substr(0, 3)}*****${mor.user.phone.substr(
-              7
-            )}`,
-            loanNumber: mor.loanNumber,
-            date: mor.date,
-            address: mor.address,
-            typeOfLoan: mor.typeOfLoan,
-            CMND: `********${mor.personalInfo.CMND.substr(6)}`,
-            price: mor.price,
-            property1: mor.property1,
-            property2: mor.property2,
-            careerInfo: mor.careerInfo
-          }));
-          return res.json(overview);
-        })
-        .catch(err => console.log(err));
+              return res.json(overview);
+            })
+            .catch(err => console.log(err));
+        });
+      }
     });
   }
-  if (field === 'CMND') {
-    BorrowProfileModel.findOne({ CMND: data }).then(val => {
-      if (!val) {
-        return res.json({});
-      }
-      PostModel.find({ user: val.user })
-        .populate('user')
-        .then(posts => {
-          const overview = posts.map(mor => ({
-            fullname: mor.user.fullname,
-            phone: mor.user.phone,
-            loanNumber: mor.loanNumber,
-            date: mor.date,
-            address: mor.address,
-            typeOfLoan: mor.typeOfLoan,
-            CMND: mor.personalInfo.CMND,
-            price: mor.price,
-            careerInfo: mor.careerInfo
-          }));
-
-          return res.json(overview);
-        })
-        .catch(err => console.log(err));
-    });
-  }
-});
+);
 
 module.exports = router;

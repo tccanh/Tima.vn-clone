@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getDistricts, getCities } from '../utils/getVNdata';
 import { Package } from '../utils/getPackage';
-
+import Notifications, { notify } from 'react-notify-toast';
+const toast = notify.createShowQueue();
 function OverviewlPost(props) {
-  const { post, purchasePost, history } = props;
+  const { post, purchasePost, history, profile } = props;
   return (
     <div className="modal-dialog modal-lg" role="document">
+      <Notifications options={{ zIndex: 200, top: '125px' }} />
       <div
         id="divResultDetailsLoan"
         className="modal-content of-hidden rounded-10 border-0"
@@ -199,12 +201,22 @@ function OverviewlPost(props) {
           </div>
         )}
         <div className="modal-footer justify-content-center">
-          {post && (
+          {post && profile && (
             <button
               type="button"
               className="btn btn-danger btn-sm text-center"
               id="btnAccept"
-              onClick={() => purchasePost(post.id, history)}
+              onClick={() => {
+                if (profile.balance > 25000) {
+                  purchasePost(post.id, history);
+                } else {
+                  toast(
+                    'Bạn không đủ tiền để mua bài đăng này, vui lòng nạp thêm',
+                    'warning',
+                    3000
+                  );
+                }
+              }}
             >
               Đồng ý
             </button>

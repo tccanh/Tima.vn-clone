@@ -37,7 +37,6 @@ const FixedInfo = props => {
                   className="hidden-xs-down"
                 >
                   <Link
-                    style={{ margin: '0 10px 0 10px' }}
                     className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
                     to="/purchasedhistory"
                   >
@@ -103,7 +102,7 @@ const FixedInfo = props => {
                       href="/lich-su-giao-dich.html"
                       className="btn btn-warning text-uppercase text-white fs-15 fs-lg-15 btn-sm"
                     >
-                      {props.profile.balance}
+                      {props.profile.balance} VNĐ
                     </a>
                   </b>
                 </label>
@@ -124,21 +123,6 @@ const FixedInfo = props => {
         <div className="row">
           <div className="col-xl-6">
             <div className="profilecard__progress">
-              <p className="mb-0 text-gray-light fs-13">
-                Mức độ hoàn thành hồ sơ
-              </p>
-              <div className="progress mb-2">
-                <div
-                  className="progress-bar"
-                  role="progressbar"
-                  style={{ width: '57%' }}
-                  aria-valuenow="57"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  <span className="progress-tooltip">57%</span>
-                </div>
-              </div>
               <p className="mb-0 text-gray-light fs-13">
                 Bạn vui l&#242;ng cập nhật đầy đủ hồ sơ để kh&#225;ch h&#224;ng
                 c&#243; thể kết nối được với bạn.

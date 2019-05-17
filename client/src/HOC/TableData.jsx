@@ -8,7 +8,7 @@ import Modal from 'react-responsive-modal';
 import OverviewlPost from './OverviewlPost';
 const Cities = getCities();
 const TableData = props => {
-  const { posts, title, purchasePost, history } = props;
+  const { posts, title, purchasePost, history, profile } = props;
   const [isShow, setIsShow] = useState(false);
   const [postModal, setPostModal] = useState(null);
   function handleOpenModal(post) {
@@ -24,6 +24,7 @@ const TableData = props => {
       <Modal open={isShow} onClose={() => handleCloseModal()} center>
         <OverviewlPost
           history={history}
+          profile={profile}
           purchasePost={purchasePost}
           handleCloseModal={handleCloseModal}
           post={postModal}

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { lookUpUser } from '../../actions/statistic.action';
+import { getCurrentProfile } from '../../actions/profile.action';
 import Notifications, { notify } from 'react-notify-toast';
 import TableData from '../../HOC/TableData';
 class LookupUser extends Component {
   static propTypes = {
-    lookUpUser: PropTypes.func.isRequired
+    lookUpUser: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
@@ -14,41 +16,56 @@ class LookupUser extends Component {
     this.state = {
       phone: '',
       CMND: '',
+      profile: {},
       errors: {}
     };
     this.toast = notify.createShowQueue();
   }
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
   componentWillReceiveProps(newProps) {
     if (newProps.statistic) {
       this.setState({ posts: newProps.statistic.lookup });
+    }
+    if (newProps.profile) {
+      this.setState({ profile: newProps.profile.profile });
     }
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   onSubmit(e) {
-    const { phone, CMND } = this.state;
+    const { phone, CMND, profile } = this.state;
     e.preventDefault();
-    if (phone !== '' && CMND !== '') {
+    if (profile.balance < 10000) {
       this.toast(
-        'Bạn chỉ có thể tìm kiếm bằng số điện thoại hoặc số CMND',
+        'Bạn không đủ tiền, vui lòng nạp thêm tiền vào tài khoản',
         'warning',
-        2500
+        3000
       );
-      this.setState({ phone: '', CMND: '' });
-    }
-    if (phone === '' && CMND === '') {
-      this.toast('Vui lòng nhập số điện thoại hoặc số CMND', 'warning', 2500);
-    }
-    if (phone !== '' && CMND === '') {
-      this.props.lookUpUser({ data: phone }, 'PHONE');
-    }
-    if (CMND !== '' && phone === '') {
-      this.props.lookUpUser({ data: CMND }, 'CMND');
+    } else {
+      if (phone !== '' && CMND !== '') {
+        this.toast(
+          'Bạn chỉ có thể tìm kiếm bằng số điện thoại hoặc số CMND',
+          'warning',
+          2500
+        );
+        this.setState({ phone: '', CMND: '' });
+      }
+      if (phone === '' && CMND === '') {
+        this.toast('Vui lòng nhập số điện thoại hoặc số CMND', 'warning', 2500);
+      }
+      if (phone !== '' && CMND === '') {
+        this.props.lookUpUser({ data: phone }, 'PHONE');
+      }
+      if (CMND !== '' && phone === '') {
+        this.props.lookUpUser({ data: CMND }, 'CMND');
+      }
     }
   }
   render() {
-    const { phone, CMND, posts } = this.state;
+    const { phone, CMND, posts, profile } = this.state;
     return (
       <div className="container py-5">
         <Notifications options={{ zIndex: 200, top: '126px' }} />
@@ -101,12 +118,14 @@ class LookupUser extends Component {
                   </div>
                 </div>
               </div>
-              <button
-                type="submit"
-                className="btn btn-lg btn-block btn-warning justify-content-center align-items-center"
-              >
-                Tìm kiếm
-              </button>
+              {profile && Object.keys(profile).length > 0 && (
+                <button
+                  type="submit"
+                  className="btn btn-lg btn-block btn-warning justify-content-center align-items-center"
+                >
+                  Tìm kiếm
+                </button>
+              )}
             </form>
           </div>
           <hr className="my-6" />
@@ -131,11 +150,13 @@ class LookupUser extends Component {
 }
 
 const mapStateToProps = state => ({
-  statistic: state.statistic
+  statistic: state.statistic,
+  profile: state.profile
 });
 
 const mapDispatchToProps = {
-  lookUpUser
+  lookUpUser,
+  getCurrentProfile
 };
 
 export default connect(
