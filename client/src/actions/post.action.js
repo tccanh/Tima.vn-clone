@@ -59,11 +59,11 @@ export const setPostLoading = () => {
     type: POST_LOADING
   };
 };
-export const setCurrentPostType = payload => {
-  return {
+export const setCurrentPostType = payload => dispatch => {
+  return dispatch({
     type: SET_CURRENT_POST_TYPE,
     payload: payload
-  };
+  });
 };
 export const clearListPosts = () => dispatch => {
   dispatch({
@@ -147,25 +147,65 @@ export const getPurchasedPosts = () => dispatch => {
 };
 
 export const updateStatePost = (id, state) => dispatch => {
-  if (
-    state === 'CANCELED' &&
-    window.confirm(
-      'Nếu bạn huỷ quá 3 lần bạn sẽ không được tiếp tục vay, tiếp tục?'
-    )
-  ) {
+  if (state === 'CANCELED') {
+    if (
+      window.confirm(
+        'Nếu bạn huỷ quá 3 lần bạn sẽ không được tiếp tục vay, tiếp tục?'
+      )
+    ) {
+      axios
+        .post(`/api/borrow/state/${id}`, { state })
+        .then()
+        .catch(err =>
+          dispatch({
+            type: GET_POSTS,
+            payload: {}
+          })
+        );
+    }
+  } else if (state === 'DISBURSED') {
+    if (window.confirm('Giao dịch giữa 2 bên đã thành công? Giải ngân ngay?'))
+      axios
+        .post(`/api/borrow/state/${id}`, { state })
+        .then()
+        .catch(err =>
+          dispatch({
+            type: GET_POSTS,
+            payload: {}
+          })
+        );
+  } else {
     axios
       .post(`/api/borrow/state/${id}`, { state })
-      .then(res => dispatch(getOwnPosts()))
+      .then()
       .catch(err =>
         dispatch({
           type: GET_POSTS,
           payload: {}
         })
       );
-  } else {
+  }
+};
+
+// Mua một đơn vay
+export const purchasePost = (id, history) => dispatch => {
+  if (window.confirm('Bạn có chắc chắn mua đơn vay này không?')) {
     axios
-      .post(`/api/borrow/state/${id}`, { state })
-      .then(res => dispatch(getOwnPosts()))
+      .post(`/api/loan/purchase/${id}`)
+      .then(res => history.push('/purchasedhistory'))
+      .catch(err =>
+        dispatch({
+          type: GET_POSTS,
+          payload: {}
+        })
+      );
+  }
+};
+export const loanCancelPost = (id, history) => dispatch => {
+  if (window.confirm('Bạn có chắc chắn huỷ đơn vay này?')) {
+    axios
+      .post(`/api/loan/cancel/${id}`)
+      .then(res => dispatch(getPurchasedPosts()))
       .catch(err =>
         dispatch({
           type: GET_POSTS,

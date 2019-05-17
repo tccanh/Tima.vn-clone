@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableData from '../../HOC/TableData';
 import Statistic from './Statistic';
-import { getPostsOverview } from '../../actions/post.action';
+import { getPostsOverview, purchasePost } from '../../actions/post.action';
 import { countUser, countMoney } from '../../actions/statistic.action';
 class Exchange extends Component {
   static propTypes = {
     getPostsOverview: PropTypes.func.isRequired,
+    purchasePost: PropTypes.func.isRequired,
     countUser: PropTypes.func.isRequired,
     countMoney: PropTypes.func.isRequired
   };
@@ -38,6 +39,8 @@ class Exchange extends Component {
       <div className="container py-5">
         <Statistic statistic={statistic} />
         <TableData
+          history={this.props.history}
+          purchasePost={this.props.purchasePost.bind(this)}
           posts={posts}
           title="DANH SÁCH ĐƠN XIN VAY MỚI TRÊN TOÀN HỆ THỐNG"
         />
@@ -53,6 +56,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getPostsOverview,
+  purchasePost,
   countUser,
   countMoney
 };

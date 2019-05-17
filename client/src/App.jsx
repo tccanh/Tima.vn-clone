@@ -23,7 +23,7 @@ import PostCreate from './components/Borrower/Posts/PostCreate';
 import Recharge from './components/Borrower/Recharge/Recharge';
 import Exchange from './components/LoanUser/Exchange';
 import LookupUser from './components/LoanUser/LookupUser';
-import LoanHistory from './components/Borrower/History/LoanHistory';
+import BorrowHistory from './components/Borrower/TotalStatistic/History';
 import ExchargeSubscribe from './components/LoanUser/ExchargeSubscribe';
 import PostSuccess from './components/Borrower/Posts/PostSuccess';
 import PuchasedHistory from './components/LoanUser/PuchasedHistory';
@@ -59,7 +59,11 @@ function App() {
               <PrivateRoute exact path="/borrower" component={BorrowerPick} />
               <PrivateRoute exact path="/recharge" component={Recharge} />
               <PrivateRoute exact path="/loanlookup" component={LookupUser} />
-              <PrivateRoute exact path="/loanhistory" component={LoanHistory} />
+              <PrivateRoute
+                exact
+                path="/loanhistory"
+                component={BorrowHistory}
+              />
               <PrivateRoute
                 exact
                 path="/loanmanagement"

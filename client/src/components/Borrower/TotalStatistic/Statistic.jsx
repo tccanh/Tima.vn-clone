@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const LoanStatistic = props => {
+const Statistic = props => {
   const { posts } = props;
   return (
     <div class="row mb-5">
@@ -74,4 +74,4 @@ const LoanStatistic = props => {
   );
 };
 
-export default LoanStatistic;
+export default Statistic;

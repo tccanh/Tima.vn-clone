@@ -4,7 +4,7 @@ import React from 'react';
 import { Package, Status } from '../utils/getPackage';
 import { formatDate, formatHours } from '../utils/formatTime';
 import classnames from 'classnames';
-const TableHistory = props => {
+const BorrowHistory = props => {
   const { posts, title, updateStatePost } = props;
   return (
     <div className="tm-dtcv bg-white border border-gray p-3 px-md-5 pb-md-5 pt-md-4">
@@ -284,6 +284,26 @@ const TableHistory = props => {
                               </button>
                             </div>
                           )}
+                          {post && post.state === 'PURCHASED' && (
+                            <div className="td-inner media d-flex justify-content-center">
+                              <button
+                                onClick={() =>
+                                  updateStatePost(post._id, 'CANCELED')
+                                }
+                                className=" btn-danger btn-xs"
+                              >
+                                Huỷ đơn
+                              </button>
+                              <button
+                                onClick={() =>
+                                  updateStatePost(post._id, 'DISBURSED')
+                                }
+                                className=" btn-info btn-xs"
+                              >
+                                Giải ngân
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     );
@@ -323,4 +343,4 @@ const TableHistory = props => {
   );
 };
 
-export default TableHistory;
+export default BorrowHistory;

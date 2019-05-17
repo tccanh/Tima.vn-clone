@@ -64,13 +64,18 @@ router.get('/', (req, res) => {
     .populate('user')
     .then(val => {
       const overviewMor = val.map(mor => ({
+        id: mor.id,
         fullname: mor.user.fullname,
-        phone: `${mor.user.phone.substr(0, 3)}*****${mor.user.phone.substr(7)}`,
+        phone:
+          // eslint-disable-next-line operator-linebreak
+          mor.user.phone &&
+          `${mor.user.phone.substr(0, 3)}*****${mor.user.phone.substr(7)}`,
         loanNumber: mor.loanNumber,
         date: mor.date,
         address: mor.address,
         typeOfLoan: mor.typeOfLoan,
-        CMND: `********${mor.personalInfo.CMND.substr(6)}`,
+        CMND:
+          mor.personalInfo.CMND && `********${mor.personalInfo.CMND.substr(6)}`,
         price: mor.price,
         property1: mor.property1,
         property2: mor.property2,
@@ -82,6 +87,50 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
+// get list những bài đã mua
+router.get(
+  '/waspurchased',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const purchaser = req.user.id;
+    console.log(req.user.id);
+
+    PostModel.find({ purchaser })
+      .populate('user')
+      .then(val => res.json(val))
+      .catch(err => console.log(err));
+  }
+);
+// huỷ đơn đã mua => chuyển thành pending và giá giảm còn 80%.
+// (Chú ý: khác với người tạo huỷ đơn do họ tạo => state => canceled)
+router.post(
+  '/cancel/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { id } = req.params;
+    const purchaser = req.user.id;
+    try {
+      const mortUpdate = await PostModel.findOneAndUpdate(
+        { _id: id, purchaser },
+        {
+          state: 'PENDING',
+          purchaser: null,
+          'price.discount': 0.8
+        },
+        { new: true }
+      );
+      if (!mortUpdate) {
+        return res.status(404).json('PostModel not found for this ID');
+      }
+      return res.status(200).json(mortUpdate);
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send('Duplicate key', err);
+      }
+      res.status(500).send(err);
+    }
+  }
+);
 // Xem chi tiết bài đăng
 router.get(
   '/:id',
@@ -100,18 +149,6 @@ router.get(
       }
       res.status(500).send(err);
     }
-  }
-);
-
-// get list những bài đã mua
-router.get(
-  '/waspurchased',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const purchaser = req.user._id;
-    PostModel.findOne({ purchaser })
-      .then(val => res.json(val))
-      .catch(err => console.log(err));
   }
 );
 
@@ -155,36 +192,6 @@ router.post(
         { _id: id, purchaser },
         {
           state: 'DISBURSED'
-        },
-        { new: true }
-      );
-      if (!mortUpdate) {
-        return res.status(404).json('PostModel not found for this ID');
-      }
-      return res.status(200).json(mortUpdate);
-    } catch (err) {
-      if (err.name === 'MongoError' && err.code === 11000) {
-        res.status(409).send('Duplicate key', err);
-      }
-      res.status(500).send(err);
-    }
-  }
-);
-// huỷ đơn đã mua => chuyển thành pending và giá giảm còn 80%.
-// (Chú ý: khác với người tạo huỷ đơn do họ tạo => state => canceled)
-router.post(
-  '/cancel/:id',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    const { id } = req.params;
-    const purchaser = req.user.id;
-    try {
-      const mortUpdate = await PostModel.findOneAndUpdate(
-        { _id: id, purchaser },
-        {
-          state: 'PENDING',
-          purchaser: null,
-          'price.discount': 0.8
         },
         { new: true }
       );

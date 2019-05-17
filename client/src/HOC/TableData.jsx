@@ -1,16 +1,34 @@
 /* eslint-disable jsx-a11y/role-has-required-aria-props */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { formatDate, formatHours } from '../utils/formatTime';
 import { Package } from '../utils/getPackage';
 import { getCities, getDistricts } from '../utils/getVNdata';
+import Modal from 'react-responsive-modal';
+import OverviewlPost from './OverviewlPost';
 const Cities = getCities();
 const TableData = props => {
-  const { posts, title } = props;
+  const { posts, title, purchasePost, history } = props;
+  const [isShow, setIsShow] = useState(false);
+  const [postModal, setPostModal] = useState(null);
+  function handleOpenModal(post) {
+    setIsShow(true);
+    setPostModal(post);
+  }
+  function handleCloseModal() {
+    setIsShow(false);
+  }
 
   return (
     <div className="tm-dtcv bg-white border border-gray p-3 px-md-5 pb-md-5 pt-md-4">
+      <Modal open={isShow} onClose={() => handleCloseModal()} center>
+        <OverviewlPost
+          history={history}
+          purchasePost={purchasePost}
+          handleCloseModal={handleCloseModal}
+          post={postModal}
+        />
+      </Modal>
       <h2 className="text-uppercase fs-16 fw-6 mb-0">{title}</h2>
 
       <hr className="mb-3" />
@@ -230,6 +248,7 @@ const TableData = props => {
                 posts.map((post, key) => {
                   return (
                     <tr
+                      onClick={() => handleOpenModal(post)}
                       key={key}
                       style={{ cursor: 'pointer' }}
                       title="Nhận đơn"
@@ -325,7 +344,7 @@ const TableData = props => {
                                   marginLeft: '5px'
                                 }}
                               >
-                                -{(1 - post.price.discount) * 100}%
+                                -{Math.ceil((1 - post.price.discount) * 100)}%
                               </span>
                             </div>
                           </div>
@@ -339,10 +358,7 @@ const TableData = props => {
                           <ul className="list-h-1 align-self-start">
                             <li className="list-h-1__item">
                               <button
-                                type="button"
                                 className="btn btn-outline-success btn-sm mr-2"
-                                data-toggle="modal"
-                                data-tracking="1639057"
                                 title="Nhận đơn"
                               >
                                 <i
@@ -394,10 +410,6 @@ const TableData = props => {
       </div>
     </div>
   );
-};
-
-TableData.propTypes = {
-  posts: PropTypes.object.isRequired
 };
 
 export default TableData;

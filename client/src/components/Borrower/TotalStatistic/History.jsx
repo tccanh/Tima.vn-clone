@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TableHistory from '../../../HOC/TableHistory';
-import LoanStatistic from './LoanStatistic';
+import BorrowHistory from '../../../HOC/BorrowHistory';
+import Statistic from './Statistic';
 import { getOwnPosts, updateStatePost } from '../../../actions/post.action';
-class LoanHistory extends Component {
+class History extends Component {
   static propTypes = {
     getOwnPosts: PropTypes.func.isRequired,
     updateStatePost: PropTypes.func.isRequired
@@ -29,8 +29,8 @@ class LoanHistory extends Component {
     const { posts } = this.state;
     return (
       <div className="container py-5">
-        <LoanStatistic posts={posts} />
-        <TableHistory
+        <Statistic posts={posts} />
+        <BorrowHistory
           posts={posts}
           updateStatePost={this.props.updateStatePost.bind(this)}
           title="Danh sách đơn vay bạn đã tạo"
@@ -49,4 +49,4 @@ const mapDispatchToProps = { getOwnPosts, updateStatePost };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoanHistory);
+)(History);
