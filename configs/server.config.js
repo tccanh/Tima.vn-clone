@@ -1,5 +1,8 @@
 module.exports = {
-  mongoURI: process.env.MONGO_URL || 'mongodb://@localhost:27017/Tima',
+  mongoURI:
+    // eslint-disable-next-line operator-linebreak
+    process.env.MONGO_URL ||
+    'mongodb://timaadmin:tima123@ds011775.mlab.com:11775/tima',
   secretOfKey: process.env.SECRETKEY || 'HelloVietnam',
 
   // Cloudinary congfig
