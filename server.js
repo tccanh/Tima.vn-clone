@@ -38,6 +38,7 @@ app.use(formData.parse());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(express.static('client/build'));
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -70,7 +71,6 @@ app.use((err, req, res) => {
 
 // Server static assets if in production
 // Set static folder
-app.use(express.static('client/build'));
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
