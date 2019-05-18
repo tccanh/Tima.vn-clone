@@ -8,14 +8,14 @@ module.exports = data => {
   data.password = !isEmpty(data.password) ? data.password : '';
 
   if (Validator.isEmpty(data.phone)) {
-    errors.phone = 'Phone field is required';
+    errors.login = 'Vui lòng nhập số điện thoại';
   }
   // else if (!Validator.isEmail(data.phone)) {
   //   errors.phone = 'Email is invalid';
   // }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = 'Password field is required';
+    errors.login = 'Vui lòng nhập mật khẩu';
   }
   return {
     errors,

@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { setCurrentUser, logoutUser } from './actions/auth.action';
 import PrivateRoute from './HOC/PrivateRoute';
-import Header from './components/layouts/Header/Header';
 import Login from './components/auth/Login/Login';
 import Register from './components/auth/Register/Register';
 import Profile from './components/Profile/Profile';
@@ -26,6 +25,7 @@ import BorrowHistory from './components/Borrower/TotalStatistic/History';
 import ExchargeSubscribe from './components/LoanUser/ExchargeSubscribe';
 import PostSuccess from './components/Borrower/Posts/PostSuccess';
 import PuchasedHistory from './components/LoanUser/PuchasedHistory';
+import Navbar from './components/layouts/Header/Navbar';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -45,8 +45,9 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <Navbar />
         <div className="page-wrapper page-home">
-          <Header />
+          {/* <Header /> */}
           <div className="main-page">
             <div className="container py-5">
               <Route exact path="/" component={Home} />

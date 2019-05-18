@@ -97,12 +97,12 @@ router.post('/login', (req, res) => {
   // Find User by phone
   User.findOne({ phone }).then(user => {
     if (!user) {
-      errors.phone = 'Phone not found!';
+      errors.login = 'Tài khoản hoặc mật khẩu không chính xác';
       return res.status(404).json(errors);
     }
     // Check password
     bcrypt.compare(password, user.password, (err, same) => {
-      errors.password = 'Password incorrect!';
+      errors.login = 'Tài khoản hoặc mật khẩu không chính xác';
       if (!same) return res.status(400).json(errors);
       // User matched
       const payload = {

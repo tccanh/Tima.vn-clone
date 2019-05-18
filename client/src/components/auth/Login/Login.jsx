@@ -98,7 +98,6 @@ class Login extends Component {
                       type="input"
                       onChange={e => this.onChange(e)}
                       value={phone}
-                      error={errors.phone}
                     />
                     <TextInputAuth
                       id="password"
@@ -109,7 +108,7 @@ class Login extends Component {
                       type="password"
                       onChange={e => this.onChange(e)}
                       value={password}
-                      error={errors.password}
+                      error={errors.login}
                     />
 
                     <div className="form-group d-flex justify-content-between align-items-center">
