@@ -6,12 +6,14 @@ import { logoutUser } from '../../../actions/auth.action';
 
 import classnames from 'classnames';
 import Logo from '../../../image/core-img/logo.png';
-class Navbar extends Component {
+import Message from '../../../image/core-img/message.png';
+import Placeholder from '../../../image/core-img/placeholder.png';
+class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isShow: false
+      isShow: false,
     };
   }
   onLogoutClick(e) {
@@ -27,17 +29,15 @@ class Navbar extends Component {
     ) : (
       <>
         <Link to="/profile">TÀI KHOẢN</Link>
-        <a
-          style={{ color: 'black', cursor: 'pointer' }}
-          onClick={e => this.onLogoutClick(e)}
-        >
-          ĐĂNG XUẤT
-        </a>
+        <a onClick={e => this.onLogoutClick(e)}>ĐĂNG XUẤT</a>
       </>
     );
     const Barcontent =
       user && user.typeOfAcc && user.typeOfAcc === 'borrow' ? (
         <ul>
+          <li>
+            <Link to="/">TRANG CHỦ</Link>
+          </li>
           <li>
             <Link to="/borrower">CẦN MỘT KHOẢN VAY</Link>
           </li>
@@ -48,6 +48,9 @@ class Navbar extends Component {
         </ul>
       ) : (
         <ul>
+          <li>
+            <Link to="/">TRANG CHỦ</Link>
+          </li>
           <li>
             <Link to="/exchanges">SÀN GIAO DỊCH</Link>
           </li>
@@ -63,21 +66,53 @@ class Navbar extends Component {
     return (
       <header>
         <div className="header-area">
+          <div className="top-header-area">
+            <div className="container h-100">
+              <div className="row h-100 align-items-center">
+                <div className="col-12 d-flex justify-content-between">
+                  <div className="logo" style={{ marginTop: '12px' }}>
+                    <a href="/">
+                      <img src={Logo} alt="" />
+                    </a>
+                  </div>
+
+                  <div className="top-contact-info d-flex align-items-center">
+                    <a
+                      href="https://www.hust.edu.vn"
+                      target="blank"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="25 th Street Avenue, Los Angeles, CA"
+                    >
+                      <img src={Placeholder} alt="" />{' '}
+                      <span>17th, Trần Đại Nghĩa, Hà Nội</span>
+                    </a>
+                    <a
+                      href="https://www.hust.edu.vn"
+                      target="blank"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="www.hust.edu.vn"
+                    >
+                      <img src={Message} alt="" />
+                      <span>www.hust.edu.vn</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style={{ height: '15px' }} />
           <div className="container">
             <div
               id="omega"
               className={classnames({ 'omega-activated': isShow })}
             >
               <div id="omega-content">
-                <nav>
-                  <a href="/">
-                    <img src={Logo} alt="" style={{ margin: '0 20px' }} />
-                  </a>
-                  {Barcontent}
-                </nav>
+                <nav>{Barcontent}</nav>
               </div>
               <button
-                class="btn btn-warning"
+                className="btn btn-warning"
                 onClick={() => this.setState(pre => ({ isShow: !pre.isShow }))}
                 id="omega-button"
               >
@@ -94,10 +129,10 @@ class Navbar extends Component {
                       left: '83%',
                       margin: '5px',
                       height: 'auto',
-                      borderRadius: '15%'
+                      borderRadius: '15%',
                     }}
                     type="button"
-                    class="btn btn-warning"
+                    className="btn btn-warning"
                     aria-label="Close"
                   >
                     <span
@@ -123,12 +158,12 @@ class Navbar extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 const mapDispatchToProps = { logoutUser };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Navbar));
+  mapDispatchToProps,
+)(withRouter(Header));

@@ -5,8 +5,8 @@ const UserModel = require('../../models/user.model');
 const PostModel = require('../../models/post.model');
 
 router.get('/count/users', async (req, res) => {
-  const loanUser = await UserModel.count({ typeOfAcc: 'loan' });
-  const borrowUser = await UserModel.count({ typeOfAcc: 'borrow' });
+  const loanUser = await UserModel.countDocuments({ typeOfAcc: 'loan' });
+  const borrowUser = await UserModel.countDocuments({ typeOfAcc: 'borrow' });
 
   return res.json({ loan: loanUser, borrow: borrowUser });
 });
@@ -16,10 +16,10 @@ router.get('/count/money', async (req, res) => {
       $group: {
         _id: null,
         total: {
-          $sum: '$loanNumber'
-        }
-      }
-    }
+          $sum: '$loanNumber',
+        },
+      },
+    },
   ]);
 
   return res.json({ total });

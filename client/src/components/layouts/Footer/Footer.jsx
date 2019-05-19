@@ -14,7 +14,7 @@ export default class Footer extends Component {
           className="newsletter-area section-padding-100 bg-img jarallax"
           style={{
             backgroundImage:
-              'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557072179/statics/6_euemq0.jpg)'
+              'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557072179/statics/6_euemq0.jpg)',
           }}
         >
           <div className="container">
@@ -22,7 +22,7 @@ export default class Footer extends Component {
               <div className="col-12 col-sm-10 col-lg-8">
                 <div className="nl-content text-center">
                   <h2>Đăng kí để nhận những thông tin mới nhất</h2>
-                  <form action="#" method="post">
+                  <form action="#">
                     <input
                       type="email"
                       name="nl-email"
@@ -52,19 +52,19 @@ export default class Footer extends Component {
                   <nav>
                     <ul>
                       <li>
-                        <a href="index.html">Trang chủ</a>
+                        <a href="/">Trang chủ</a>
                       </li>
                       <li>
-                        <a href="about.html">Về chúng tôi</a>
+                        <a href="/">Về chúng tôi</a>
                       </li>
                       <li>
-                        <a href="services.html">Các dịch vụ</a>
+                        <a href="/">Các dịch vụ</a>
                       </li>
                       <li>
-                        <a href="contact.html">Liên hệ</a>
+                        <a href="/">Liên hệ</a>
                       </li>
                       <li>
-                        <a href="post.html">Tin tức</a>
+                        <a href="/">Tin tức</a>
                       </li>
                     </ul>
                   </nav>

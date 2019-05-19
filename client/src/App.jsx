@@ -25,7 +25,7 @@ import BorrowHistory from './components/Borrower/TotalStatistic/History';
 import ExchargeSubscribe from './components/LoanUser/ExchargeSubscribe';
 import PostSuccess from './components/Borrower/Posts/PostSuccess';
 import PuchasedHistory from './components/LoanUser/PuchasedHistory';
-import Navbar from './components/layouts/Header/Navbar';
+import Header from './components/layouts/Header/Header';
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -45,9 +45,8 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Navbar />
+        <Header />
         <div className="page-wrapper page-home">
-          {/* <Header /> */}
           <div className="main-page">
             <div className="container py-5">
               <Route exact path="/" component={Home} />

@@ -6,7 +6,7 @@
 }
 #omega-content nav ul {
   display: inline-block;
-  margin-right: 12em;
+  margin-right: 2em;
 }
 #omega-content nav ul li a {
   padding: 0 0.5em;
@@ -15,7 +15,6 @@
 #omega-content #logo,
 #omega-content nav {
   display: inline-block;
-  margin-top: 13px;
 }
 .omega-links {
   display: inline-block;
@@ -48,6 +47,7 @@
 #omega-sidebar-header {
   background-image: url(../img/bg.png);
   background-size: cover;
+  height: 110px;
 }
 #omega-sidebar-body {
   padding: 1em;
@@ -105,7 +105,7 @@
   color: #606c76;
 }
 #omega-sidebar-body nav ul li a:hover {
-  color: #ffbb38;
+  color: #9b4dca;
 }
 #omega-sidebar-body .omega-links a {
   display: block;
@@ -128,10 +128,6 @@
   #omega-sidebar,
   .omega-activated #omega-overlay {
     display: block;
-  }
-
-  #omega-button {
-    margin-top: 20px;
   }
   .omega-activated #omega-sidebar {
     transform: translateX(0);
