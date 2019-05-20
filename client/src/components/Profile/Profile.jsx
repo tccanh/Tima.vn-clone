@@ -30,10 +30,10 @@ export class Profile extends Component {
           </div>
           <div className="container py-5">
             <div className="tm-account bg-white p-md-5 pt-md-4 p-3">
-              {profile.user.typeOfAcc === 'loan' && (
+              {profile.user && profile.user.typeOfAcc === 'loan' && (
                 <UpdatePackage profile={profile} />
               )}
-              {profile.user.typeOfAcc === 'loan' && (
+              {profile.user && profile.user.typeOfAcc === 'loan' && (
                 <UpdateDistrict profile={profile} />
               )}
               <div
@@ -58,17 +58,17 @@ export class Profile extends Component {
 }
 Profile.propTypes = {
   profile: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
 });
 
 const mapDispatchToProps = {
-  getCurrentProfile
+  getCurrentProfile,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Profile);

@@ -14,9 +14,10 @@ router.get(
   (req, res) => {
     const user = req.user.id;
     PostModel.find({ user })
+      .populate('user')
       .then(val => res.json(val))
       .catch(err => console.log(err));
-  }
+  },
 );
 
 // Đăng bài bước 1
@@ -39,7 +40,7 @@ router.post(
 
       duration,
       province,
-      district
+      district,
     } = req.body;
     personalFields.user = req.user.id;
     personalFields.state = 'PENDING';
@@ -48,11 +49,11 @@ router.post(
     if (loanNumber) personalFields.loanNumber = parseInt(loanNumber, 10);
     personalFields.date = {
       fromDate: Date.now(),
-      duration
+      duration,
     };
     personalFields.address = {
       province,
-      district
+      district,
     };
     try {
       // Create
@@ -61,7 +62,7 @@ router.post(
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
-  }
+  },
 );
 
 // Đăng bài bước 2
@@ -83,7 +84,7 @@ router.post(
       ProfileModel.findByIdAndUpdate(
         profileID,
         { gender, CMND, DateOfBirth, email },
-        { new: true }
+        { new: true },
       )
         .then(async () => {
           const updatePost = await PostModel.findByIdAndUpdate(
@@ -92,9 +93,9 @@ router.post(
               'personalInfo.gender': gender,
               'personalInfo.CMND': CMND,
               'personalInfo.DateOfBirth': DateOfBirth,
-              'personalInfo.email': email
+              'personalInfo.email': email,
             },
-            { new: true }
+            { new: true },
           );
           return res.json(updatePost);
         })
@@ -102,7 +103,7 @@ router.post(
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
-  }
+  },
 );
 // Đăng bài bước 3
 router.post(
@@ -118,7 +119,7 @@ router.post(
       comAddress,
       comPhone,
       bankName,
-      bankID
+      bankID,
     } = req.body;
 
     // Check Validation
@@ -132,20 +133,20 @@ router.post(
         income,
         comName,
         comAddress,
-        comPhone
+        comPhone,
       },
       bank: {
         bankName,
-        bankID
-      }
+        bankID,
+      },
     };
     try {
       ProfileModel.findByIdAndUpdate(profileID, data, {
-        new: true
+        new: true,
       })
         .then(async () => {
           const Post = await PostModel.findByIdAndUpdate(id, data, {
-            new: true
+            new: true,
           });
 
           return res.json(Post);
@@ -154,7 +155,7 @@ router.post(
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
-  }
+  },
 );
 // Đăng bài bước 4
 router.post(
@@ -177,18 +178,18 @@ router.post(
       property2: {
         residence,
         originalDocs,
-        borrowing
-      }
+        borrowing,
+      },
     };
     try {
       const Post = await PostModel.findByIdAndUpdate(id, data, {
-        new: true
+        new: true,
       });
       return res.json(Post);
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
-  }
+  },
 );
 // Đăng bài bước 5
 router.post(
@@ -213,9 +214,9 @@ router.post(
         {
           'relatives.relName': relName,
           'relatives.whatRels': whatRels,
-          'relatives.relPhone': relPhone
+          'relatives.relPhone': relPhone,
         },
-        { new: true }
+        { new: true },
       )
         .then(async () => {
           const updatePost = await PostModel.findByIdAndUpdate(
@@ -223,9 +224,9 @@ router.post(
             {
               'relatives.relName': relName,
               'relatives.whatRels': whatRels,
-              'relatives.relPhone': relPhone
+              'relatives.relPhone': relPhone,
             },
-            { new: true }
+            { new: true },
           );
           return res.json(updatePost);
         })
@@ -233,7 +234,7 @@ router.post(
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
-  }
+  },
 );
 // Đăng ảnh
 router.post(
@@ -246,36 +247,36 @@ router.post(
       identification,
       householdPhoto,
       propertyPhoto,
-      incomePhoto
+      incomePhoto,
     } = req.body;
     let data = {};
     if (identification) {
       data = {
-        'censorship.identification': identification
+        'censorship.identification': identification,
       };
     } else if (householdPhoto) {
       data = {
-        'censorship.householdPhoto': householdPhoto
+        'censorship.householdPhoto': householdPhoto,
       };
     } else if (propertyPhoto) {
       data = {
-        'censorship.propertyPhoto': propertyPhoto
+        'censorship.propertyPhoto': propertyPhoto,
       };
     } else if (incomePhoto) {
       data = {
-        'censorship.incomePhoto': incomePhoto
+        'censorship.incomePhoto': incomePhoto,
       };
     }
 
     try {
       const updatePost = await PostModel.findByIdAndUpdate(id, data, {
-        new: true
+        new: true,
       });
       return res.json(updatePost);
     } catch (error) {
       return res.status(500).json('Unknown server error', error);
     }
-  }
+  },
 );
 
 // Update state cho bài đăng
@@ -289,7 +290,7 @@ router.post(
       const perUpdate = await PostModel.findOneAndUpdate(
         { _id: id },
         { state },
-        { new: true }
+        { new: true },
       );
       if (!perUpdate) {
         return res.status(404).json('PersonalModel not found for this ID');
@@ -301,7 +302,7 @@ router.post(
       }
       res.status(500).send(err);
     }
-  }
+  },
 );
 
 module.exports = router;

@@ -18,7 +18,7 @@ function OverviewlPost(props) {
             <h3 className="modal-title mr-3">
               {' '}
               Bạn đồng ý mua hồ sơ của:{' '}
-              <span className="text-uppercase">{post && post.fullname} ?</span>
+              <span className="">{post && post.fullname} ?</span>
             </h3>
           </div>
         </div>
@@ -77,13 +77,13 @@ function OverviewlPost(props) {
                         post.address &&
                         post.address.province &&
                         getDistricts(post.address.province).filter(
-                          a => a[0] === post.address.district
+                          a => a[0] === post.address.district,
                         )[0][1]}{' '}
                       -{' '}
                       {post &&
                         post.address &&
                         getCities().filter(
-                          a => a[0] === post.address.province
+                          a => a[0] === post.address.province,
                         )[0][1]}
                     </strong>
                   </div>
@@ -207,13 +207,19 @@ function OverviewlPost(props) {
               className="btn btn-danger btn-sm text-center"
               id="btnAccept"
               onClick={() => {
-                if (profile.balance > 25000) {
+                if (Object.keys(profile).length === 0) {
+                  toast(
+                    'Bạn cần phải đăng nhập trước khi mua bài đăng này',
+                    'warning',
+                    3000,
+                  );
+                } else if (profile.balance > 25000) {
                   purchasePost(post.id, history);
                 } else {
                   toast(
                     'Bạn không đủ tiền để mua bài đăng này, vui lòng nạp thêm',
                     'warning',
-                    3000
+                    3000,
                   );
                 }
               }}
@@ -235,7 +241,7 @@ function OverviewlPost(props) {
 }
 
 OverviewlPost.propTypes = {
-  post: PropTypes.object
+  post: PropTypes.object,
 };
 
 export default OverviewlPost;

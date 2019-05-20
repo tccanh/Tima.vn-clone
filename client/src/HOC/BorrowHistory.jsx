@@ -1,13 +1,32 @@
 /* eslint-disable jsx-a11y/role-has-required-aria-props */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 import { Package, Status } from '../utils/getPackage';
 import { formatDate, formatHours } from '../utils/formatTime';
 import classnames from 'classnames';
+import Modal from 'react-responsive-modal';
+import Details from '../components/Borrower/TotalStatistic/Details';
 const BorrowHistory = props => {
-  const { posts, title, updateStatePost } = props;
+  const [isShow, setIsShow] = useState(false);
+  const [postModal, setPostModal] = useState(null);
+  const { posts, title, updateStatePost, history } = props;
+  function handleOpenModal(post) {
+    setIsShow(true);
+    setPostModal(post);
+  }
+  function handleCloseModal() {
+    setIsShow(false);
+  }
   return (
     <div className="tm-dtcv bg-white border border-gray p-3 px-md-5 pb-md-5 pt-md-4">
+      <Modal open={isShow} onClose={() => handleCloseModal()} center>
+        <Details
+          history={history}
+          updateStatePost={updateStatePost}
+          handleCloseModal={handleCloseModal}
+          post={postModal}
+        />
+      </Modal>
       <h2 className="text-uppercase fs-16 fw-6 mb-0">{title}</h2>
 
       <hr className="mb-3" />
@@ -43,7 +62,7 @@ const BorrowHistory = props => {
             <span className="dropdown-wrapper" aria-hidden="true" />
           </span>
           <select
-            className="form-control border-primary rounded-0 fs-15 form-control-default select2-hidden-accessible"
+            className="form-control border-warning rounded-0 fs-15 form-control-default select2-hidden-accessible"
             id="cbProduct"
             tabIndex="-1"
             aria-hidden="true"
@@ -88,7 +107,7 @@ const BorrowHistory = props => {
             <span className="dropdown-wrapper" aria-hidden="true" />
           </span>
           <select
-            className="form-control border-primary rounded-0 fs-15 form-control-default select2-hidden-accessible"
+            className="form-control border-warning rounded-0 fs-15 form-control-default select2-hidden-accessible"
             id="cbStatus"
             tabIndex="-1"
             aria-hidden="true"
@@ -105,7 +124,7 @@ const BorrowHistory = props => {
         </div>
         <div className="col-md-3 col-sm-6 mb-3 mb-md-0">
           <a
-            className="btn btn-primary text-uppercase text-white fs-16"
+            className="btn btn-warning text-uppercase text-white fs-16"
             href="#"
           >
             Tìm kiếm
@@ -166,7 +185,7 @@ const BorrowHistory = props => {
                           className="h-100 hidden-xs-down link-hover-undertext"
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner d-flex justify-content-center h-100">
                             <ul className="list-h-1 align-self-start mb-0">
@@ -178,7 +197,7 @@ const BorrowHistory = props => {
                           className="h-100 hidden-xs-down link-hover-undertext"
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner d-flex justify-content-center h-100">
                             <ul className="list-h-1 align-self-start mb-0">
@@ -192,7 +211,7 @@ const BorrowHistory = props => {
                           className="h-100 link-hover-undertext"
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner d-flex justify-content-center h-100">
                             <ul className="list-h-1 align-self-start mb-0">
@@ -207,14 +226,14 @@ const BorrowHistory = props => {
                           className="hidden-xs-down link-hover-undertext"
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner d-flex justify-content-center h-100">
                             <ul className="list-h-1 align-self-start mb-0">
                               <li className="list-h-1__item">
                                 {
                                   Package.filter(
-                                    a => a[0] === post.typeOfLoan
+                                    a => a[0] === post.typeOfLoan,
                                   )[0][1]
                                 }
                               </li>
@@ -226,7 +245,7 @@ const BorrowHistory = props => {
                           className="hidden-xs-down link-hover-undertext"
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner d-flex justify-content-center h-100">
                             <ul className="list-h-1 align-self-start mb-0">
@@ -240,7 +259,7 @@ const BorrowHistory = props => {
                           className="link-hover-undertext"
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner d-flex justify-content-center h-100">
                             <ul className="list-h-1 align-self-start mb-0">
@@ -254,24 +273,20 @@ const BorrowHistory = props => {
                         <td
                           data-toggle="modal"
                           href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
+                          onClick={() => handleOpenModal(post)}
                         >
                           <div className="td-inner media d-flex justify-content-center">
                             <span
                               className={classnames(
                                 'badge align-self-center',
-                                Status.filter(a => a[0] === post.state)[0][2]
+                                Status.filter(a => a[0] === post.state)[0][2],
                               )}
                             >
                               {Status.filter(a => a[0] === post.state)[0][1]}
                             </span>
                           </div>
                         </td>
-                        <td
-                          data-toggle="modal"
-                          href="#modal-ds-nguoi-cho-vay"
-                          onclick="ShowListLender(1587281);"
-                        >
+                        <td data-toggle="modal" href="#modal-ds-nguoi-cho-vay">
                           {post && post.state === 'PENDING' && (
                             <div className="td-inner media d-flex justify-content-center">
                               <button
