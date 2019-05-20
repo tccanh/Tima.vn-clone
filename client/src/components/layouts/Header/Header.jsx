@@ -126,7 +126,7 @@ class Header extends Component {
                     }
                     style={{
                       position: 'relative',
-                      left: '83%',
+                      left: '75%',
                       margin: '5px',
                       height: 'auto',
                       borderRadius: '15%',
