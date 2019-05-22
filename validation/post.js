@@ -28,7 +28,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   Post2: data => {
@@ -40,21 +40,21 @@ module.exports = {
     data.email = !isEmpty(data.email) ? data.email : '';
 
     if (Validator.isEmpty(data.gender)) {
-      errors.gender = 'gender field is required';
+      errors.gender = 'Giới tính không được bỏ trống';
     }
     if (Validator.isEmpty(data.CMND)) {
-      errors.CMND = 'CMND field is required';
+      errors.CMND = 'CMND không được bỏ trống';
     } else if (!Validator.isNumeric(data.CMND)) {
-      errors.CMND = 'CMND field must be numeric';
+      errors.CMND = 'CMND phải là số';
     } else if (!Validator.isLength(data.CMND, { min: 9, max: 9 })) {
-      errors.CMND = 'CMND field is invalid';
+      errors.CMND = 'CMND không hợp lệ';
     }
     if (!Validator.isEmpty(data.email) && !Validator.isEmail(data.email)) {
-      errors.email = 'email field is invalid';
+      errors.email = 'Email không được bỏ trống';
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   Post3: data => {
@@ -70,7 +70,7 @@ module.exports = {
 
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   Post4: data => {
@@ -78,7 +78,7 @@ module.exports = {
 
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   Post5: data => {
@@ -89,15 +89,15 @@ module.exports = {
     data.relPhone = !isEmpty(data.relPhone) ? data.relPhone : '';
 
     if (Validator.isEmpty(data.relName)) {
-      errors.relName = 'relName field is required';
+      errors.relName = 'Trường này không được bỏ trống';
     }
 
     if (Validator.isEmpty(data.relPhone)) {
-      errors.relPhone = 'relPhone field is required';
+      errors.relPhone = 'Trường này không được bỏ trống';
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
 
@@ -123,17 +123,17 @@ module.exports = {
     data.incomePhoto = !isEmpty(data.incomePhoto) ? data.incomePhoto : '';
 
     if (Validator.isEmpty(data.province)) {
-      errors.province = 'province field is required';
+      errors.province = 'Tỉnh không được bỏ trống';
     }
     if (Validator.isEmpty(data.district)) {
-      errors.district = 'district field is required';
+      errors.district = 'QUận/huyện không được bỏ trống';
     }
 
     if (Validator.isEmpty(data.career)) {
-      errors.career = 'career field is required';
+      errors.career = 'Nghề nghiệp không được bỏ trống';
     }
     if (Validator.isEmpty(data.income)) {
-      errors.income = 'income field is required';
+      errors.income = 'Thu nhập không được bỏ trống';
     }
 
     // // Thiếu các field property ở đây
@@ -142,18 +142,18 @@ module.exports = {
     // }
 
     if (Validator.isEmpty(data.relName)) {
-      errors.relName = 'relName field is required';
+      errors.relName = 'Trường này không được bỏ trống';
     }
     if (Validator.isEmpty(data.whatRels)) {
-      errors.whatRels = 'whatRels field is required';
+      errors.whatRels = 'Trường này không được bỏ trống';
     }
     if (Validator.isEmpty(data.relPhone)) {
-      errors.relPhone = 'relPhone field is required';
+      errors.relPhone = 'Trường này không được bỏ trống';
     }
 
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
-  }
+  },
 };

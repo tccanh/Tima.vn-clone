@@ -30,20 +30,20 @@ module.exports = data => {
     : false;
 
   if (Validator.isEmpty(data.gender)) {
-    errors.gender = 'Gender field is required';
+    errors.gender = 'Giới tính không được bỏ trống';
   } else if (
     data.gender !== 'Male' &&
     data.gender !== 'Male' &&
     data.gender !== 'Other'
   ) {
-    errors.gender = 'Gender is invalid';
+    errors.gender = 'Giới tính không hợp lệ';
   }
   // if (Validator.isEmpty(data.DateOfBirth)) {
   //   errors.DateOfBirth = 'Date of birth field is required';
   // }
 
   if (!Validator.isURL(data.avatar) && !Validator.isEmpty(data.avatar)) {
-    errors.avatar = 'Avatar is invalid';
+    errors.avatar = 'Avatar không hợp lệ';
   }
   // if (
   //   !Validator.isURL(data.identification) &&
@@ -55,10 +55,10 @@ module.exports = data => {
   //   errors.identification = 'Portrait photo is invalid';
   // }
   if (!Validator.isEmail(data.email) && !Validator.isEmpty(data.email)) {
-    errors.identification = 'Email is invalid';
+    errors.identification = 'Email không hợp lệ';
   }
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };

@@ -14,52 +14,52 @@ module.exports = data => {
   data.typeOfAcc = !isEmpty(data.typeOfAcc) ? data.typeOfAcc : '';
 
   if (!Validator.isLength(data.fullname, { min: 2, max: 30 })) {
-    errors.fullname = 'Name must be between 2 and 30 characters';
+    errors.fullname = 'Tên phải chứa từ 2 đến 30 ký tự';
   }
 
   if (Validator.isEmpty(data.fullname)) {
-    errors.fullname = 'Name field is required';
+    errors.fullname = 'Tên không được bỏ trống';
   }
   if (Validator.isEmpty(data.typeOfAcc)) {
-    errors.typeOfAcc = 'Kind of account field is required';
+    errors.typeOfAcc = 'Loại tài khoản không được bỏ trống';
   } else if (data.typeOfAcc !== 'loan' && data.typeOfAcc !== 'borrow') {
-    errors.typeOfAcc = 'Kind of account is invalid';
+    errors.typeOfAcc = 'Loại tài khoản không hợp lệ';
   }
   if (Validator.isEmpty(data.phone)) {
-    errors.phone = 'Phone field is required';
+    errors.phone = 'Số điện thoại không được bỏ trống';
   } else if (!Validator.isNumeric(data.phone)) {
-    errors.phone = 'Phone field must be numeric';
+    errors.phone = 'Số điện thoại phải là số';
   } else if (!Validator.isLength(data.phone, { min: 10, max: 10 })) {
-    errors.phone = 'Phone field is invalid';
+    errors.phone = 'Số điện thoại không hợp lệ';
   }
   if (Validator.isEmpty(data.province)) {
-    errors.province = 'Province field is required';
+    errors.province = 'Tỉnh không được bỏ trống';
   }
   if (Validator.isEmpty(data.district)) {
-    errors.district = 'District field is required';
+    errors.district = 'Quận huyện không được bỏ trống';
   }
   //   } else if (!Validator.isEmail(data.phone)) {
   //     errors.phone = 'Email is invalid';
   //   }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = 'Password field is required';
+    errors.password = 'Mật khẩu không được bỏ trống';
   }
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
-    errors.password = 'Password must be at least 6 characters';
+    errors.password = 'Mật khẩu phải chứa ít nhất 6 ký tự';
   }
 
   if (Validator.isEmpty(data.password2)) {
-    errors.password2 = 'Confirm Password field is required';
+    errors.password2 = 'Xác nhận mật khẩu không được bỏ trống';
   }
 
   if (!Validator.equals(data.password, data.password2)) {
-    errors.password2 = 'Passwords must match';
+    errors.password2 = 'Mật khẩu chưa khớp';
   }
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };

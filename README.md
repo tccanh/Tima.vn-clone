@@ -2,7 +2,7 @@
 
 > Link demo: https://thecredit.herokuapp.com
 
-### Đây là webside cho vay nặng lãi được thực hiện bởi nhóm Cảnh - Đức - Đạt.
+### Đây là webs cho vay nặng lãi được thực hiện bởi nhóm Cảnh - Đức - Đạt.
 
 ### Nghiệp vụ chính của trang web được xây dựng dựa theo trang web [Tima.vn](https://tima.vn) (trang web trung gian giữa người vay và người cho vay).
 
