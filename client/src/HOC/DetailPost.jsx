@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getDistricts, getCities } from '../utils/getVNdata';
 import { Package } from '../utils/getPackage';
 import { formatDate } from '../utils/formatTime';
-
+import Alter from './Alter';
 function DetailPost(props) {
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
   const { post, loanCancelPost, updateStatePost, history } = props;
   return (
     <div className="modal-dialog modal-lg" role="document">
@@ -78,13 +80,13 @@ function DetailPost(props) {
                         post.address &&
                         post.address.province &&
                         getDistricts(post.address.province).filter(
-                          a => a[0] === post.address.district
+                          a => a[0] === post.address.district,
                         )[0][1]}{' '}
                       -{' '}
                       {post &&
                         post.address &&
                         getCities().filter(
-                          a => a[0] === post.address.province
+                          a => a[0] === post.address.province,
                         )[0][1]}
                     </strong>
                   </div>
@@ -383,30 +385,51 @@ function DetailPost(props) {
         )}
         <div className="modal-footer justify-content-center">
           {post && post.state === 'PURCHASED' && (
-            <button
-              type="button"
-              className="btn btn-info btn-sm text-center"
-              id="btnAccept"
-              onClick={() => {
-                updateStatePost(post._id, 'DISBURSED');
-                props.handleCloseModal();
-              }}
-            >
-              Giải ngân
-            </button>
+            <>
+              <Alter
+                show={show1}
+                title="Giải ngân"
+                text="Bạn có chắc chắn muốn giản ngân?"
+                onConfirm={() => {
+                  setShow1(false);
+                  props.handleCloseModal();
+                  return updateStatePost(post._id, 'DISBURSED');
+                }}
+                onCancel={() => setShow1(false)}
+              />
+
+              <button
+                type="button"
+                className="btn btn-info btn-sm text-center"
+                id="btnAccept"
+                onClick={() => setShow1(true)}
+              >
+                Giải ngân
+              </button>
+            </>
           )}
           {post && post.state === 'PURCHASED' && (
-            <button
-              type="button"
-              className="btn btn-danger btn-sm text-center"
-              id="btnAccept"
-              onClick={() => {
-                loanCancelPost(post._id, history);
-                props.handleCloseModal();
-              }}
-            >
-              Huỷ đơn
-            </button>
+            <>
+              <Alter
+                show={show2}
+                title="Huỷ đơn"
+                text="Bạn có chắc chắn huỷ đơn này không?"
+                onConfirm={() => {
+                  setShow2(false);
+                  props.handleCloseModal();
+                  return loanCancelPost(post._id, history);
+                }}
+                onCancel={() => setShow2(false)}
+              />
+              <button
+                type="button"
+                className="btn btn-danger btn-sm text-center"
+                id="btnAccept"
+                onClick={() => setShow2(true)}
+              >
+                Huỷ đơn
+              </button>
+            </>
           )}
 
           <button
@@ -414,7 +437,7 @@ function DetailPost(props) {
             className="btn btn-default btn-sm text-center"
             onClick={() => props.handleCloseModal()}
           >
-            Hủy
+            Đóng
           </button>
         </div>
       </div>
@@ -423,7 +446,7 @@ function DetailPost(props) {
 }
 
 DetailPost.propTypes = {
-  post: PropTypes.object
+  post: PropTypes.object,
 };
 
 export default DetailPost;

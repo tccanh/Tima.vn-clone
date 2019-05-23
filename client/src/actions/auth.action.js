@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 import { GET_ERRORS, SET_CURRENT_USER } from './actionTypes';
-
+import { clearCurrentProfile } from './profile.action';
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post('/users/register', userData)
@@ -10,8 +10,8 @@ export const registerUser = (userData, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
-      })
+        payload: err.response.data,
+      }),
     );
 };
 
@@ -35,14 +35,14 @@ export const loginUser = userData => dispatch => {
 
       return dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response.data,
       });
     });
 };
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
-    payload: decoded
+    payload: decoded,
   };
 };
 
@@ -55,5 +55,5 @@ export const logoutUser = () => dispatch => {
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
   //Remove user profile
-  //   dispatch(clearCurrentProfile());
+  dispatch(clearCurrentProfile());
 };

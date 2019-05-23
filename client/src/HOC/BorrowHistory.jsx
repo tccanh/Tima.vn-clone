@@ -5,11 +5,14 @@ import { Package, Status } from '../utils/getPackage';
 import { formatDate, formatHours } from '../utils/formatTime';
 import classnames from 'classnames';
 import Modal from 'react-responsive-modal';
+import Alter from './Alter';
 import Details from '../components/Borrower/TotalStatistic/Details';
 const BorrowHistory = props => {
   const [isShow, setIsShow] = useState(false);
   const [postModal, setPostModal] = useState(null);
   const { posts, title, updateStatePost, history } = props;
+  const [alter1, setAlter1] = useState(false);
+  const [alter2, setAlter2] = useState(false);
   function handleOpenModal(post) {
     setIsShow(true);
     setPostModal(post);
@@ -27,6 +30,7 @@ const BorrowHistory = props => {
           post={postModal}
         />
       </Modal>
+
       <h2 className="text-uppercase fs-16 fw-6 mb-0">{title}</h2>
 
       <hr className="mb-3" />
@@ -286,13 +290,31 @@ const BorrowHistory = props => {
                             </span>
                           </div>
                         </td>
+                        <Alter
+                          show={alter1}
+                          onConfirm={() => {
+                            setAlter1(false);
+                            return updateStatePost(post._id, 'CANCELED');
+                          }}
+                          text="Nếu bạn huỷ quá 3 lần bạn sẽ không được tiếp tục vay, tiếp tục?"
+                          title="Huỷ đơn"
+                          onCancel={() => setAlter1(false)}
+                        />
+                        <Alter
+                          show={alter2}
+                          title="Giải ngân"
+                          text="Giao dịch giữa 2 bên đã thành công? Giải ngân ngay?"
+                          onConfirm={() => {
+                            setAlter2(false);
+                            return updateStatePost(post._id, 'DISBURSED');
+                          }}
+                          onCancel={() => setAlter2(false)}
+                        />
                         <td data-toggle="modal" href="#modal-ds-nguoi-cho-vay">
                           {post && post.state === 'PENDING' && (
                             <div className="td-inner media d-flex justify-content-center">
                               <button
-                                onClick={() =>
-                                  updateStatePost(post._id, 'CANCELED')
-                                }
+                                onClick={() => setAlter1(true)}
                                 className=" btn-danger btn-xs"
                               >
                                 Huỷ đơn
@@ -302,17 +324,13 @@ const BorrowHistory = props => {
                           {post && post.state === 'PURCHASED' && (
                             <div className="td-inner media d-flex justify-content-center">
                               <button
-                                onClick={() =>
-                                  updateStatePost(post._id, 'CANCELED')
-                                }
+                                onClick={() => setAlter1(true)}
                                 className=" btn-danger btn-xs"
                               >
                                 Huỷ đơn
                               </button>
                               <button
-                                onClick={() =>
-                                  updateStatePost(post._id, 'DISBURSED')
-                                }
+                                onClick={() => setAlter2(true)}
                                 className=" btn-info btn-xs"
                               >
                                 Giải ngân

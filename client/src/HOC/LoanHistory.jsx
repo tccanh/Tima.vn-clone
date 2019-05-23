@@ -6,7 +6,10 @@ import { formatDate, formatHours } from '../utils/formatTime';
 import Modal from 'react-responsive-modal';
 import DetailPost from './DetailPost';
 import classnames from 'classnames';
+import Alter from './Alter';
 const LoanHistory = props => {
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
   const { posts, title, loanCancelPost, updateStatePost, history } = props;
   const [isShow, setIsShow] = useState(false);
   const [postModal, setPostModal] = useState(null);
@@ -225,7 +228,7 @@ const LoanHistory = props => {
                               <li className="list-h-1__item">
                                 {
                                   Package.filter(
-                                    a => a[0] === post.typeOfLoan
+                                    a => a[0] === post.typeOfLoan,
                                   )[0][1]
                                 }
                               </li>
@@ -263,21 +266,38 @@ const LoanHistory = props => {
                             <span
                               className={classnames(
                                 'badge align-self-center',
-                                Status.filter(a => a[0] === post.state)[0][2]
+                                Status.filter(a => a[0] === post.state)[0][2],
                               )}
                             >
                               {Status.filter(a => a[0] === post.state)[0][1]}
                             </span>
                           </div>
                         </td>
-
+                        <Alter
+                          show={show1}
+                          title="Huỷ đơn"
+                          text="Bạn có chắc chắn huỷ đơn này không?"
+                          onConfirm={() => {
+                            setShow1(false);
+                            return loanCancelPost(post._id, history);
+                          }}
+                          onCancel={() => setShow1(false)}
+                        />
+                        <Alter
+                          show={show2}
+                          title="Giải ngân"
+                          text="Bạn có chắc chắn muốn giản ngân?"
+                          onConfirm={() => {
+                            setShow2(false);
+                            return updateStatePost(post._id, 'DISBURSED');
+                          }}
+                          onCancel={() => setShow2(false)}
+                        />
                         <td data-toggle="modal">
                           {post && post.state === 'PENDING' && (
                             <div className="td-inner media d-flex justify-content-center">
                               <button
-                                onClick={() =>
-                                  loanCancelPost(post._id, history)
-                                }
+                                onClick={() => setShow1(true)}
                                 className=" btn-danger btn-xs"
                               >
                                 Huỷ đơn
@@ -287,17 +307,13 @@ const LoanHistory = props => {
                           {post && post.state === 'PURCHASED' && (
                             <div className="td-inner media d-flex justify-content-center">
                               <button
-                                onClick={() =>
-                                  loanCancelPost(post._id, history)
-                                }
+                                onClick={() => setShow1(true)}
                                 className=" btn-danger btn-xs"
                               >
                                 Huỷ đơn
                               </button>
                               <button
-                                onClick={() =>
-                                  updateStatePost(post._id, 'DISBURSED')
-                                }
+                                onClick={() => setShow2(true)}
                                 className=" btn-info btn-xs"
                               >
                                 Giải ngân

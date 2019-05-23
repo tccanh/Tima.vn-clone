@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getDistricts, getCities } from '../utils/getVNdata';
 import { Package } from '../utils/getPackage';
-import Notifications, { notify } from 'react-notify-toast';
-const toast = notify.createShowQueue();
+import Alter from './Alter';
 function OverviewlPost(props) {
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
   const { post, purchasePost, history, profile } = props;
   return (
     <div className="modal-dialog modal-lg" role="document">
-      <Notifications options={{ zIndex: 200, top: '125px' }} />
       <div
         id="divResultDetailsLoan"
         className="modal-content of-hidden rounded-10 border-0"
@@ -200,6 +201,36 @@ function OverviewlPost(props) {
             </div>
           </div>
         )}
+        <Alter
+          show={show1}
+          title="Đăng nhập"
+          text="Bạn cần phải đăng nhập trước khi mua bài đăng này, đăng nhập ngay?"
+          onConfirm={() => {
+            setShow1(false);
+            return history.push('/login');
+          }}
+          onCancel={() => setShow1(false)}
+        />
+        <Alter
+          show={show2}
+          title="Mua ngay"
+          text="Bạn có chắc chắn mua đơn vay này không?"
+          onConfirm={() => {
+            setShow2(false);
+            return purchasePost(post.id, history);
+          }}
+          onCancel={() => setShow2(false)}
+        />
+        <Alter
+          show={show3}
+          title="Nạp tiền"
+          text="Bạn không đủ tiền để mua bài đăng này, vui lòng nạp thêm"
+          onConfirm={() => {
+            setShow3(false);
+            return history.push('/recharge');
+          }}
+          onCancel={() => setShow3(false)}
+        />
         <div className="modal-footer justify-content-center">
           {post && profile && (
             <button
@@ -208,19 +239,11 @@ function OverviewlPost(props) {
               id="btnAccept"
               onClick={() => {
                 if (Object.keys(profile).length === 0) {
-                  toast(
-                    'Bạn cần phải đăng nhập trước khi mua bài đăng này',
-                    'warning',
-                    3000,
-                  );
+                  setShow1(true);
                 } else if (profile.balance > 25000) {
-                  purchasePost(post.id, history);
+                  setShow2(true);
                 } else {
-                  toast(
-                    'Bạn không đủ tiền để mua bài đăng này, vui lòng nạp thêm',
-                    'warning',
-                    3000,
-                  );
+                  setShow3(true);
                 }
               }}
             >
@@ -232,7 +255,7 @@ function OverviewlPost(props) {
             className="btn btn-default btn-sm text-center"
             onClick={() => props.handleCloseModal()}
           >
-            Hủy
+            Đóng
           </button>
         </div>
       </div>

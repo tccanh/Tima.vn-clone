@@ -36,7 +36,7 @@ export default class Section1 extends Component {
                 className="single-features-area mb-100 wow fadeInUp"
                 data-wow-delay="300ms"
               >
-                <img src={Background2} alt="" />
+                <img style={{ borderRadius: 10 }} src={Background2} alt="" />
                 <h5 style={{ textAlign: 'center' }}>Quan tâm tới bạn</h5>
               </div>
             </div>
@@ -45,7 +45,7 @@ export default class Section1 extends Component {
                 className="single-features-area mb-100 wow fadeInUp"
                 data-wow-delay="500ms"
               >
-                <img src={Background3} alt="" />
+                <img style={{ borderRadius: 10 }} src={Background3} alt="" />
                 <h5 style={{ textAlign: 'center' }}>Thủ tục nhanh chóng</h5>
               </div>
             </div>
@@ -54,7 +54,7 @@ export default class Section1 extends Component {
                 className="single-features-area mb-100 wow fadeInUp"
                 data-wow-delay="700ms"
               >
-                <img src={Background4} alt="" />
+                <img style={{ borderRadius: 10 }} src={Background4} alt="" />
                 <h5 style={{ textAlign: 'center' }}>
                   Vay dễ dàng &amp; tiện lợi
                 </h5>
