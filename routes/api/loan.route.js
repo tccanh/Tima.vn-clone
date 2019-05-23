@@ -30,7 +30,7 @@ router.get(
         typeOf: { $in: [...packages.mortgage] },
         state: 'PENDING',
         'address.province': province,
-        'address.district': district
+        'address.district': district,
       })
         .populate('user')
         .then(val => {
@@ -42,20 +42,20 @@ router.get(
               duration: mor.date.duration,
               address: mor.address,
               typeOf: mor.typeOf,
-              CMND: mor.personalInfo.CMND
+              CMND: mor.personalInfo.CMND,
             },
             price: {
-              ...mor.price
+              ...mor.price,
             },
             property: [...mor.property],
-            careerInfo: mor.careerInfo
+            careerInfo: mor.careerInfo,
           }));
 
           return res.json(overviewMor);
         })
         .catch(err => console.log(err));
     });
-  }
+  },
 );
 
 // Tìm tất cả các bài viết và cho xem tổng quan
@@ -79,7 +79,7 @@ router.get('/', (req, res) => {
         price: mor.price,
         property1: mor.property1,
         property2: mor.property2,
-        careerInfo: mor.careerInfo
+        careerInfo: mor.careerInfo,
       }));
 
       return res.json(overviewMor);
@@ -99,7 +99,7 @@ router.get(
       .populate('user')
       .then(val => res.json(val))
       .catch(err => console.log(err));
-  }
+  },
 );
 // huỷ đơn đã mua => chuyển thành pending và giá giảm còn 80%.
 // (Chú ý: khác với người tạo huỷ đơn do họ tạo => state => canceled)
@@ -115,9 +115,9 @@ router.post(
         {
           state: 'PENDING',
           purchaser: null,
-          'price.discount': 0.8
+          'price.discount': 0.8,
         },
-        { new: true }
+        { new: true },
       );
       if (!mortUpdate) {
         return res.status(404).json('PostModel not found for this ID');
@@ -129,7 +129,7 @@ router.post(
       }
       res.status(500).send(err);
     }
-  }
+  },
 );
 // Xem chi tiết bài đăng
 router.get(
@@ -149,7 +149,7 @@ router.get(
       }
       res.status(500).send(err);
     }
-  }
+  },
 );
 
 // mua một bài đăng
@@ -171,9 +171,9 @@ router.post(
           { _id: id },
           {
             purchaser,
-            state: 'PURCHASED'
+            state: 'PURCHASED',
           },
-          { new: true }
+          { new: true },
         );
         if (!mortUpdate) {
           return res.status(404).json('PostModel not found for this ID');
@@ -186,7 +186,7 @@ router.post(
       }
       res.status(500).send(err);
     }
-  }
+  },
 );
 // Giải ngân ( chỉ có người đã mua mới có quyền đc giải ngân bài đăng)
 router.post(
@@ -199,9 +199,9 @@ router.post(
       const mortUpdate = await PostModel.findOneAndUpdate(
         { _id: id, purchaser },
         {
-          state: 'DISBURSED'
+          state: 'DISBURSED',
         },
-        { new: true }
+        { new: true },
       );
       if (!mortUpdate) {
         return res.status(404).json('PostModel not found for this ID');
@@ -213,7 +213,7 @@ router.post(
       }
       res.status(500).send(err);
     }
-  }
+  },
 );
 
 // fake chuyển tiền
@@ -224,7 +224,7 @@ router.post(
   async (req, res) => {
     const user = req.user.id;
     const amount = parseInt(req.body.amount, 10);
-    console.log('haha:', amount);
+    // console.log('haha:', amount);
 
     try {
       const profile = await LoanProfileModel.findOne({ user });
@@ -244,7 +244,7 @@ router.post(
       }
       res.status(500).send(err);
     }
-  }
+  },
 );
 // filter bài viết
 
@@ -276,7 +276,7 @@ router.post(
                 fullname: mor.user.fullname,
                 phone: `${mor.user.phone.substr(
                   0,
-                  3
+                  3,
                 )}*****${mor.user.phone.substr(7)}`,
                 loanNumber: mor.loanNumber,
                 date: mor.date,
@@ -286,7 +286,7 @@ router.post(
                 price: mor.price,
                 property1: mor.property1,
                 property2: mor.property2,
-                careerInfo: mor.careerInfo
+                careerInfo: mor.careerInfo,
               }));
               return res.json(overview);
             })
@@ -310,7 +310,7 @@ router.post(
                 typeOfLoan: mor.typeOfLoan,
                 CMND: mor.personalInfo.CMND,
                 price: mor.price,
-                careerInfo: mor.careerInfo
+                careerInfo: mor.careerInfo,
               }));
 
               return res.json(overview);
@@ -319,7 +319,7 @@ router.post(
         });
       }
     });
-  }
+  },
 );
 
 module.exports = router;

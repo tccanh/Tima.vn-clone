@@ -14,6 +14,7 @@ router.get(
   (req, res) => {
     const user = req.user.id;
     PostModel.find({ user })
+      .populate('purchaser')
       .populate('user')
       .then(val => res.json(val))
       .catch(err => console.log(err));
@@ -163,9 +164,9 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const { errors, isValid } = Post4(req.body);
-    const { id, profileID } = req.params;
+    const { id } = req.params;
     const { property1, residence, originalDocs, borrowing } = req.body;
-    console.log('HELLO', req.body);
+    // console.log('HELLO', req.body);
 
     // Check Validation
     if (!isValid) {
@@ -197,7 +198,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { errors, isValid } = Post5(req.body);
-    console.log('sdfhkhdsàk', req.body);
+    // console.log('sdfhkhdsàk', req.body);
 
     const { id, profileID } = req.params;
     const { relName, whatRels, relPhone } = req.body;

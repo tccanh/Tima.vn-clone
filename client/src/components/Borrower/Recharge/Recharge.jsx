@@ -6,14 +6,14 @@ import { fakeRecharge } from '../../../actions/profile.action';
 import './Recharge.scss';
 export class Recharge extends Component {
   static propTypes = {
-    fakeRecharge: PropTypes.func.isRequired
+    fakeRecharge: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
 
     this.state = {
       seriCard: '',
-      errors: ''
+      errors: '',
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -27,7 +27,7 @@ export class Recharge extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { seriCard } = this.state;
-    console.log(seriCard);
+    //console.log(seriCard);
     this.props.fakeRecharge({ amount: seriCard }, this.props.history);
   }
   render() {
@@ -269,12 +269,12 @@ export class Recharge extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
 });
 
 const mapDispatchToProps = { fakeRecharge };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Recharge);

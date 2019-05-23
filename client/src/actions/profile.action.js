@@ -5,7 +5,7 @@ import {
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   SET_CURRENT_USER,
-  GET_PROFILES
+  GET_PROFILES,
 } from './actionTypes';
 
 export const getCurrentProfile = () => dispatch => {
@@ -15,14 +15,14 @@ export const getCurrentProfile = () => dispatch => {
     .then(res =>
       dispatch({
         type: GET_PROFILE,
-        payload: res.data
-      })
+        payload: res.data,
+      }),
     )
     .catch(err =>
       dispatch({
         type: GET_PROFILE,
-        payload: {}
-      })
+        payload: {},
+      }),
     );
 };
 
@@ -37,14 +37,14 @@ export const updateProfile = (type, profileData) => dispatch => {
 // Profile loading
 export const setProfileLoading = () => {
   return {
-    type: PROFILE_LOADING
+    type: PROFILE_LOADING,
   };
 };
 
 // Clear profile
 export const clearCurrentProfile = () => {
   return {
-    type: CLEAR_CURRENT_PROFILE
+    type: CLEAR_CURRENT_PROFILE,
   };
 };
 export const deleteAccount = () => dispatch => {
@@ -54,14 +54,14 @@ export const deleteAccount = () => dispatch => {
       .then(res =>
         dispatch({
           type: SET_CURRENT_USER,
-          payload: {}
-        })
+          payload: {},
+        }),
       )
       .catch(err =>
         dispatch({
           type: GET_ERRORS,
-          payload: err.response.data
-        })
+          payload: err.response.data,
+        }),
       );
   }
 };
@@ -73,19 +73,19 @@ export const getProfiles = () => dispatch => {
     .then(res =>
       dispatch({
         type: GET_PROFILES,
-        payload: res.data
-      })
+        payload: res.data,
+      }),
     )
     .catch(err =>
       //nếu không có user không đẩy ra lỗi mà để rỗng
       dispatch({
         type: GET_PROFILE,
-        payload: null
-      })
+        payload: null,
+      }),
     );
 };
 export const fakeRecharge = (data, history) => dispatch => {
-  console.log(data);
+  //console.log(data);
 
   dispatch(setProfileLoading());
   axios
@@ -95,7 +95,7 @@ export const fakeRecharge = (data, history) => dispatch => {
       //nếu không có user không đẩy ra lỗi mà để rỗng
       dispatch({
         type: GET_PROFILE,
-        payload: null
-      })
+        payload: null,
+      }),
     );
 };

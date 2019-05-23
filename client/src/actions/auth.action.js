@@ -31,7 +31,7 @@ export const loginUser = userData => dispatch => {
       dispatch(setCurrentUser(decoded));
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
 
       return dispatch({
         type: GET_ERRORS,

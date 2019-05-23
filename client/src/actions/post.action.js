@@ -28,7 +28,7 @@ export const updatePost = (
   number,
   history,
 ) => dispatch => {
-  console.log(postData);
+  //console.log(postData);
   axios
     .post(`/api/borrow/${id}/${profileID}/${number}`, postData)
     .then(res => {
@@ -45,7 +45,7 @@ export const updatePost = (
 export const updatePostImage = (postData, id, profileID) => dispatch => {
   axios
     .post(`/api/borrow/image/${id}`, postData)
-    .then(res => console.log(res.data))
+    .then()
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

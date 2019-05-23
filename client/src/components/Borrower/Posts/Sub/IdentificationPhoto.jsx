@@ -7,7 +7,7 @@ import { updatePostImage } from '../../../../actions/post.action';
 class IdentificationPhoto extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
-    updatePostImage: PropTypes.func.isRequired
+    updatePostImage: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -15,13 +15,13 @@ class IdentificationPhoto extends Component {
       profileID: '',
       id: '',
       uploading: false,
-      images: []
+      images: [],
     };
   }
   componentDidMount() {
     if (this.props.profile) {
       this.setState({
-        profileID: this.props.profile._id
+        profileID: this.props.profile._id,
       });
     }
     if (this.props.id) {
@@ -62,27 +62,27 @@ class IdentificationPhoto extends Component {
       .request({
         url: '/upload/post/300',
         method: 'POST',
-        data: formData
+        data: formData,
       })
       .then(images_ => {
         this.setState(oldState => ({
           uploading: false,
-          images: [...oldState.images, ...images_.data]
+          images: [...oldState.images, ...images_.data],
         }));
         const { images } = this.state;
         const newData = {
-          identification: images
+          identification: images,
         };
 
         this.props.updatePostImage(
           newData,
           this.state.id,
-          this.state.profileID
+          this.state.profileID,
         );
         this.toast('Cập nhật ảnh thành công.', 'warning', 3000);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
 
         err.json().then(e => {
           this.toast(e.message, 'error', 3000);
@@ -98,7 +98,7 @@ class IdentificationPhoto extends Component {
     this.setState({ images: this.filter(id) });
     const { images } = this.state;
     const newData = {
-      identification: images
+      identification: images,
     };
 
     this.props.updatePostImage(newData, this.state.id, this.state.profileID);
@@ -163,5 +163,5 @@ const mapDispatchToProps = { updatePostImage };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(IdentificationPhoto);

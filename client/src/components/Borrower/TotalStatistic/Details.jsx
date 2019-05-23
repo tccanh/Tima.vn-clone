@@ -6,7 +6,6 @@ import { formatDate } from '../../../utils/formatTime';
 
 function Details(props) {
   const { post } = props;
-  console.log(post);
 
   return (
     <div className="modal-dialog modal-lg" role="document">
@@ -14,6 +13,38 @@ function Details(props) {
         id="divResultDetailsLoan"
         className="modal-content of-hidden rounded-10 border-0"
       >
+        {post.purchaser && (
+          <div>
+            <h4 className="modal-body bg-gray-lighter fs-base">
+              (<span style={{ color: 'red' }}>*</span>) Thông tin bên người cho
+              vay
+            </h4>
+            <div className="modal-body">
+              <div className="row gutter-2">
+                <div className="col-md-6 mb-3">
+                  <div className="row">
+                    <div className="col-5">Họ và tên</div>
+                    <div className="col-7">
+                      <strong className="text-warning">
+                        {post && post.purchaser.fullname}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 mb-3">
+                  <div className="row">
+                    <div className="col-5">Số điện thoại</div>
+                    <div className="col-7">
+                      <strong className="text-warning">
+                        {post && post.purchaser.phone}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div>
           <h4 className="modal-body bg-gray-lighter fs-base">
             1. Thông tin đơn vay

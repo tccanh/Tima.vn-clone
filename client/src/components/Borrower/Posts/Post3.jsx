@@ -10,7 +10,7 @@ import { FormBorrow } from '../../../utils/getPackage';
 export class Post3 extends Component {
   static propTypes = {
     updatePost: PropTypes.func.isRequired,
-    getCurrentProfile: PropTypes.func.isRequired
+    getCurrentProfile: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ export class Post3 extends Component {
       originalDocs: '',
       borrowing: '',
 
-      errors: {}
+      errors: {},
     };
   }
 
@@ -34,20 +34,20 @@ export class Post3 extends Component {
       this.setState({
         data: Lists.map(val => ({
           keyProp: val,
-          valueProp: ''
-        }))
+          valueProp: '',
+        })),
       });
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
-      // console.log(nextProps.errors);
+      // //console.log(nextProps.errors);
       this.setState({ errors: nextProps.errors });
     }
     if (nextProps.profile.profile && nextProps.profile.profile) {
       const { profile } = nextProps.profile;
-      // console.log(profile);
+      // //console.log(profile);
       this.setState({
-        profileID: profile._id
+        profileID: profile._id,
       });
     }
   }
@@ -58,23 +58,23 @@ export class Post3 extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
 
     const postData = {
       property1: [...this.state.data],
       residence: this.state.residence,
       originalDocs: this.state.originalDocs,
-      borrowing: this.state.borrowing
+      borrowing: this.state.borrowing,
     };
 
-    console.log(this.props.match.params.id);
+    //console.log(this.props.match.params.id);
 
     this.props.updatePost(
       postData,
       this.props.match.params.id,
       this.state.profileID,
       3,
-      this.props.history
+      this.props.history,
     );
   }
   render() {
@@ -84,7 +84,7 @@ export class Post3 extends Component {
       borrowing,
       errors,
       Lists,
-      data
+      data,
     } = this.state;
     return (
       <div className="w-xl-85 mx-auto">
@@ -156,8 +156,8 @@ export class Post3 extends Component {
                         return this.setState(pre => ({
                           data: [
                             ...pre.data.filter(a => a.keyProp !== val),
-                            { keyProp: name, valueProp: value }
-                          ]
+                            { keyProp: name, valueProp: value },
+                          ],
                         }));
                       }}
                     />
@@ -269,12 +269,12 @@ export class Post3 extends Component {
 const mapStateToProps = state => ({
   errors: state.errors,
   post: state.post,
-  profile: state.profile
+  profile: state.profile,
 });
 
 const mapDispatchToProps = { updatePost, getCurrentProfile };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Post3);

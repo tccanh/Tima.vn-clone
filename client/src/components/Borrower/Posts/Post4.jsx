@@ -10,7 +10,7 @@ export class Post4 extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     updatePost: PropTypes.func.isRequired,
-    getCurrentProfile: PropTypes.func.isRequired
+    getCurrentProfile: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ export class Post4 extends Component {
       relName: '',
       whatRels: '',
       relPhone: '',
-      errors: {}
+      errors: {},
     };
   }
 
@@ -29,13 +29,13 @@ export class Post4 extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
-      // console.log(nextProps.errors);
+      // //console.log(nextProps.errors);
       this.setState({ errors: nextProps.errors });
     }
 
     if (nextProps.profile.profile && nextProps.profile.profile) {
       const { profile } = nextProps.profile;
-      // console.log(profile);
+      // //console.log(profile);
       this.setState({
         profileID: profile._id,
         relName:
@@ -49,7 +49,7 @@ export class Post4 extends Component {
         relPhone:
           profile.relatives &&
           profile.relatives.relPhone &&
-          profile.relatives.relPhone
+          profile.relatives.relPhone,
       });
     }
   }
@@ -62,17 +62,17 @@ export class Post4 extends Component {
     const postData = {
       relName: this.state.relName,
       whatRels: this.state.whatRels,
-      relPhone: this.state.relPhone
+      relPhone: this.state.relPhone,
     };
-    console.log(postData);
-    console.log(this.props.match.params.id);
+    //console.log(postData);
+    //console.log(this.props.match.params.id);
 
     this.props.updatePost(
       postData,
       this.props.match.params.id,
       this.state.profileID,
       4,
-      this.props.history
+      this.props.history,
     ); //chưa update server
   }
   render() {
@@ -206,12 +206,12 @@ export class Post4 extends Component {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  errors: state.errors
+  errors: state.errors,
 });
 
 const mapDispatchToProps = { getCurrentProfile, updatePost };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Post4);

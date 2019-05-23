@@ -11,7 +11,7 @@ class Register extends Component {
   static propTypes = {
     registerUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
   };
   constructor(props) {
     super(props);
@@ -24,7 +24,7 @@ class Register extends Component {
       province: 'HANOI',
       district: 'QUANBADINH',
       typeOfAcc: 'borrow',
-      errors: {}
+      errors: {},
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -52,7 +52,7 @@ class Register extends Component {
       password,
       province,
       district,
-      typeOfAcc
+      typeOfAcc,
     } = this.state;
     const newUser = {
       fullname,
@@ -61,9 +61,9 @@ class Register extends Component {
       password,
       province,
       district,
-      typeOfAcc
+      typeOfAcc,
     };
-    console.log(newUser);
+    //console.log(newUser);
 
     this.props.registerUser(newUser, this.props.history);
   }
@@ -77,7 +77,7 @@ class Register extends Component {
       province,
       district,
       typeOfAcc,
-      errors
+      errors,
     } = this.state;
     return (
       <div className="tm-reg">
@@ -87,7 +87,7 @@ class Register extends Component {
               className="tm-reg__banner w-100"
               style={{
                 backgroundImage:
-                  'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557046972/statics/bg-login_ayzs2e.jpg)'
+                  'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557046972/statics/bg-login_ayzs2e.jpg)',
               }}
             />
           </div>
@@ -298,14 +298,14 @@ class Register extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth, // lấy auth của thằng authReducer trong /reducers/index
-  errors: state.errors
+  errors: state.errors,
 });
 
 const mapDispatchToProps = {
-  registerUser
+  registerUser,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Register);

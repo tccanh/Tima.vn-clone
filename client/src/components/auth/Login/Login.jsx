@@ -9,7 +9,7 @@ class Login extends Component {
   static propTypes = {
     loginUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
   };
   constructor(props) {
     super(props);
@@ -17,7 +17,7 @@ class Login extends Component {
     this.state = {
       phone: '',
       password: '',
-      errors: {}
+      errors: {},
     };
   }
   componentWillReceiveProps(nextPops) {
@@ -40,9 +40,9 @@ class Login extends Component {
 
     const userData = {
       phone: this.state.phone,
-      password: this.state.password
+      password: this.state.password,
     };
-    console.log(userData);
+    //console.log(userData);
 
     this.props.loginUser(userData);
   }
@@ -61,7 +61,7 @@ class Login extends Component {
               className="tm-reg__banner w-100"
               style={{
                 backgroundImage:
-                  'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557046972/statics/bg-login_ayzs2e.jpg)'
+                  'url(https://res.cloudinary.com/dz1gprgpn/image/upload/v1557046972/statics/bg-login_ayzs2e.jpg)',
               }}
             />
           </div>
@@ -159,12 +159,12 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 const mapDispatchToProps = { loginUser };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Login);
